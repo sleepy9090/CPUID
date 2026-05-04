@@ -6,8 +6,9 @@
 
 using namespace std;
 
-unsigned int extractBits(unsigned int num, unsigned int pos,
-	unsigned int k)
+unsigned int extractBits(unsigned int num,
+	                     unsigned int pos,
+	                     unsigned int k)
 {
 	// Right shift 'num' by 'pos' bits
 	unsigned int shifted = num >> pos;
@@ -34,6 +35,27 @@ int main(int argc, char* argv[]) {
 	cout << "CPU vendor = " << vendor << endl;
 	cout << endl;
 
+	/*
+	switch (cpuID.EAX())
+	{
+		case 0x01:
+		    cout << "Later Intel 486 and Pentium. Extended: Not Implemented" << endl;
+		    break;
+		case 0x02:
+			cout << "Pentium Pro, Pentium II and Celeron. Extended: Not Implemented" << endl;
+			break;
+		case 0x03:
+			cout << "Pentium III. Extended: Not Implemented" << endl;
+			break;
+		case 0x04:
+			cout << "Pentium 4. Extended: Not Implemented" << endl;
+			break;
+	}
+	*/
+
+
+
+
 	CPUID cpuID1(0x1);
 	// Example number from which bits are to be extracted
 	//unsigned int num = cpuID1.EAX();
@@ -43,10 +65,13 @@ int main(int argc, char* argv[]) {
 	//unsigned int k = 4;
 	//unsigned int steppingId = extractBits(cpuID1.EAX(), 0, 4);
 
+	bitset<32> edxBits = bitset<32>(cpuID1.EDX());
+	bitset<32> ecxBits = bitset<32>(cpuID1.ECX());
+
 	//cout << "EAX=1: Feature Bits: EDX = " << std::hex << "0x" << cpuID1.EDX() << endl;
-	cout << "EAX=1: Feature Bits: EDX = " << bitset<32>(cpuID1.EDX()) << endl;
+	cout << "EAX=1: Feature Bits: EDX = " << edxBits << endl;
 	//cout << "EAX=1: Feature Bits: ECX = " << std::hex << "0x" << cpuID1.ECX() << endl;
-	cout << "EAX=1: Feature Bits: ECX = " << bitset<32>(cpuID1.ECX()) << endl;
+	cout << "EAX=1: Feature Bits: ECX = " << ecxBits << endl;
 	//cout << "EAX=1: Additional Information: EBX = " << std::hex << "0x" << cpuID1.EBX() << endl;
 	cout << "EAX=1: Additional Information: EBX = " << bitset<32>(cpuID1.EBX()) << endl;
 	//cout << "EAX=1: Processor Family IDs: EAX = " << std::hex << "0x" << cpuID1.EAX() << endl;
@@ -74,6 +99,29 @@ int main(int argc, char* argv[]) {
 	cout << "EAX=1: Reserved: EAX Bits 28:31 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 28, 4) << endl;
 
 	cout << endl;
+	cout << "EAX=1: EDX feature bits" << endl;
+	//cout << "EDX bit 0 = " << std::hex << "0x" << edxBits[0] << endl;
+	(edxBits[0]) ? cout << "EDX bit 0: " << edxBits[0] << ": (Onboard x87 FPU) is supported" << endl : cout << "EDX bit 0: " << edxBits[0] << ": (Onboard x87 FPU) is not supported" << endl;
+	
+	cout << "EDX bit 1 = " << std::hex << "0x" << edxBits[1] << endl;
+
+	cout << "EDX bit 31 = " << std::hex << "0x" << edxBits[31] << endl;
+
+	cout << endl;
+	cout << "EAX=1: ECX feature bits" << endl;
+	cout << "ECX bit 0 = " << std::hex << "0x" << ecxBits[0] << endl;
+	cout << "ECX bit 1 = " << std::hex << "0x" << ecxBits[1] << endl;
+
+	cout << "ECX bit 31 = " << std::hex << "0x" << ecxBits[31] << endl;
+
+	cout << endl;
+
+
+
+
+
+
+
 
 	CPUID cpuID16(0x16);
 
