@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="CPUID/CPUID.vcxproj" Id="84ddb6c3-aefd-4dbd-b107-6c4483628aa3" />
+</Solution>
