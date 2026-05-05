@@ -65,8 +65,11 @@ int main(int argc, char* argv[]) {
 	//unsigned int k = 4;
 	//unsigned int steppingId = extractBits(cpuID1.EAX(), 0, 4);
 
-	bitset<32> edxBits = bitset<32>(cpuID1.EDX());
+
+	bitset<32> ebxBits = bitset<32>(cpuID1.EBX());
 	bitset<32> ecxBits = bitset<32>(cpuID1.ECX());
+	bitset<32> edxBits = bitset<32>(cpuID1.EDX());
+	
 
 	//cout << "EAX=1: Feature Bits: EDX = " << std::hex << "0x" << cpuID1.EDX() << endl;
 	cout << "EAX=1: Feature Bits: EDX = " << edxBits << endl;
@@ -99,22 +102,94 @@ int main(int argc, char* argv[]) {
 	cout << "EAX=1: Reserved: EAX Bits 28:31 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 28, 4) << endl;
 
 	cout << endl;
+
+
+
+	cout << "EAX=1: EBX Additional Information" << endl;
+	cout << "EBX bits 7:0 Brand Index = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 0, 8) << endl;
+	cout << "EBX bits 15:8 CLFLUSH line size (Value * 8 = cache line size in bytes) = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 8, 8) << endl;
+	cout << "EBX bits 23:16 Maximum number of addressable IDs for logical processors in this physical package = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 16, 8) << endl;
+	cout << "EBX bits 31:24 Local APIC ID: The initial APIC-ID is used to identify the executing logical processor = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 24, 8) << endl;
+	cout << endl;
+
+
+
+	cout << "EAX=1: ECX feature bits" << endl;
+	(ecxBits[0]) ? cout << "ECX bit 0: " << ecxBits[0] << ": (SSE3) is supported" << endl : cout << "ECX bit 0: " << ecxBits[0] << ": (SSE3) is not supported" << endl;
+	(ecxBits[1]) ? cout << "ECX bit 1: " << ecxBits[1] << ": (PCLMULQDQ) is supported" << endl : cout << "ECX bit 1: " << ecxBits[1] << ": (PCLMULQDQ) is not supported" << endl;
+	(ecxBits[2]) ? cout << "ECX bit 2: " << ecxBits[2] << ": (DTES64) is supported" << endl : cout << "ECX bit 2: " << ecxBits[2] << ": (DTES64) is not supported" << endl;
+	(ecxBits[3]) ? cout << "ECX bit 3: " << ecxBits[3] << ": (MONITOR) is supported" << endl : cout << "ECX bit 3: " << ecxBits[3] << ": (MONITOR) is not supported" << endl;
+	(ecxBits[4]) ? cout << "ECX bit 4: " << ecxBits[4] << ": (DS-CPL) is supported" << endl : cout << "ECX bit 4: " << ecxBits[4] << ": (DS-CPL) is not supported" << endl;
+	(ecxBits[5]) ? cout << "ECX bit 5: " << ecxBits[5] << ": (VMX) is supported" << endl : cout << "ECX bit 5: " << ecxBits[5] << ": (VMX) is not supported" << endl;
+	(ecxBits[6]) ? cout << "ECX bit 6: " << ecxBits[6] << ": (SMX) is supported" << endl : cout << "ECX bit 6: " << ecxBits[6] << ": (SMX) is not supported" << endl;
+	(ecxBits[7]) ? cout << "ECX bit 7: " << ecxBits[7] << ": (EST) is supported" << endl : cout << "ECX bit 7: " << ecxBits[7] << ": (EST) is not supported" << endl;
+	(ecxBits[8]) ? cout << "ECX bit 8: " << ecxBits[8] << ": (TM2) is supported" << endl : cout << "ECX bit 8: " << ecxBits[8] << ": (TM2) is not supported" << endl;
+	(ecxBits[9]) ? cout << "ECX bit 9: " << ecxBits[9] << ": (SSSE3) is supported" << endl : cout << "ECX bit 9: " << ecxBits[9] << ": (SSSE3) is not supported" << endl;
+	(ecxBits[10]) ? cout << "ECX bit 10: " << ecxBits[10] << ": (CNXT-ID) is supported" << endl : cout << "ECX bit 10: " << ecxBits[10] << ": (CNXT-ID) is not supported" << endl;
+	(ecxBits[11]) ? cout << "ECX bit 11: " << ecxBits[11] << ": (SDBG) is supported" << endl : cout << "ECX bit 11: " << ecxBits[11] << ": (SDBG) is not supported" << endl;
+	(ecxBits[12]) ? cout << "ECX bit 12: " << ecxBits[12] << ": (FMA) is supported" << endl : cout << "ECX bit 12: " << ecxBits[12] << ": (FMA) is not supported" << endl;
+	(ecxBits[13]) ? cout << "ECX bit 13: " << ecxBits[13] << ": (CMPXCHG16B) is supported" << endl : cout << "ECX bit 13: " << ecxBits[13] << ": (CMPXCHG16B) is not supported" << endl;
+	(ecxBits[14]) ? cout << "ECX bit 14: " << ecxBits[14] << ": (xTPR Update Control) is supported" << endl : cout << "ECX bit 14: " << ecxBits[14] << ": (xTPR Update Control) is not supported" << endl;
+	(ecxBits[15]) ? cout << "ECX bit 15: " << ecxBits[15] << ": (PDCM) is supported" << endl : cout << "ECX bit 15: " << ecxBits[15] << ": (PDCM) is not supported" << endl;
+	(ecxBits[16]) ? cout << "ECX bit 16: " << ecxBits[16] << ": Reserved" << endl : cout << "ECX bit 16: " << ecxBits[16] << ": Reserved" << endl;
+	(ecxBits[17]) ? cout << "ECX bit 17: " << ecxBits[17] << ": (PCID) is supported" << endl : cout << "ECX bit 17: " << ecxBits[17] << ": (PCID) is not supported" << endl;
+	(ecxBits[18]) ? cout << "ECX bit 18: " << ecxBits[18] << ": (DCA) is supported" << endl : cout << "ECX bit 18: " << ecxBits[18] << ": (DCA) is not supported" << endl;
+	(ecxBits[19]) ? cout << "ECX bit 19: " << ecxBits[19] << ": (SSE4.1) is supported" << endl : cout << "ECX bit 19: " << ecxBits[19] << ": (SSE4.1) is not supported" << endl;
+	(ecxBits[20]) ? cout << "ECX bit 20: " << ecxBits[20] << ": (SSE4.2) is supported" << endl : cout << "ECX bit 20: " << ecxBits[20] << ": (SSE4.2) is not supported" << endl;
+	(ecxBits[21]) ? cout << "ECX bit 21: " << ecxBits[21] << ": (X2APIC) is supported" << endl : cout << "ECX bit 21: " << ecxBits[21] << ": (X2APIC) is not supported" << endl;
+	(ecxBits[22]) ? cout << "ECX bit 22: " << ecxBits[22] << ": (MOVBE) is supported" << endl : cout << "ECX bit 22: " << ecxBits[22] << ": (MOVBE) is not supported" << endl;
+	(ecxBits[23]) ? cout << "ECX bit 23: " << ecxBits[23] << ": (POPCNT) is supported" << endl : cout << "ECX bit 23: " << ecxBits[23] << ": (POPCNT) is not supported" << endl;
+	(ecxBits[24]) ? cout << "ECX bit 24: " << ecxBits[24] << ": (TSC-Deadline) is supported" << endl : cout << "ECX bit 24: " << ecxBits[24] << ": (TSC-Deadline) is not supported" << endl;
+	(ecxBits[25]) ? cout << "ECX bit 25: " << ecxBits[25] << ": (AES-NI) is supported" << endl : cout << "ECX bit 25: " << ecxBits[25] << ": (AES-NI) is not supported" << endl;
+	(ecxBits[26]) ? cout << "ECX bit 26: " << ecxBits[26] << ": (XSAVE) is supported" << endl : cout << "ECX bit 26: " << ecxBits[26] << ": (XSAVE) is not supported" << endl;
+	(ecxBits[27]) ? cout << "ECX bit 27: " << ecxBits[27] << ": (OSXSAVE) is supported" << endl : cout << "ECX bit 27: " << ecxBits[27] << ": (OSXSAVE) is not supported" << endl;
+	(ecxBits[28]) ? cout << "ECX bit 28: " << ecxBits[28] << ": (AVX) is supported" << endl : cout << "ECX bit 28: " << ecxBits[28] << ": (AVX) is not supported" << endl;
+	(ecxBits[29]) ? cout << "ECX bit 29: " << ecxBits[29] << ": (F16C) is supported" << endl : cout << "ECX bit 29: " << ecxBits[29] << ": (F16C) is not supported" << endl;
+	(ecxBits[30]) ? cout << "ECX bit 30: " << ecxBits[30] << ": (RDRAND) is supported" << endl : cout << "ECX bit 30: " << ecxBits[30] << ": (RDRAND) is not supported" << endl;
+	(ecxBits[31]) ? cout << "ECX bit 31: " << ecxBits[31] << ": (Hypervisor) is supported" << endl : cout << "ECX bit 31: " << ecxBits[31] << ": (Hypervisor) is not supported" << endl;
+	cout << endl;
+
+
+
 	cout << "EAX=1: EDX feature bits" << endl;
 	//cout << "EDX bit 0 = " << std::hex << "0x" << edxBits[0] << endl;
-	(edxBits[0]) ? cout << "EDX bit 0: " << edxBits[0] << ": (Onboard x87 FPU) is supported" << endl : cout << "EDX bit 0: " << edxBits[0] << ": (Onboard x87 FPU) is not supported" << endl;
+	(edxBits[0]) ? cout << "EDX bit 0: " << edxBits[0] << ": (FPU) is supported" << endl : cout << "EDX bit 0: " << edxBits[0] << ": (FPU) is not supported" << endl;
+	(edxBits[1]) ? cout << "EDX bit 1: " << edxBits[1] << ": (VME) is supported" << endl : cout << "EDX bit 1: " << edxBits[1] << ": (VME) is not supported" << endl;
+	(edxBits[2]) ? cout << "EDX bit 2: " << edxBits[2] << ": (DE) is supported" << endl : cout << "EDX bit 2: " << edxBits[2] << ": (DE) is not supported" << endl;
+	(edxBits[3]) ? cout << "EDX bit 3: " << edxBits[3] << ": (PSE) is supported" << endl : cout << "EDX bit 3: " << edxBits[3] << ": (PSE) is not supported" << endl;
+	(edxBits[4]) ? cout << "EDX bit 4: " << edxBits[4] << ": (TSC) is supported" << endl : cout << "EDX bit 4: " << edxBits[4] << ": (TSC) is not supported" << endl;
+	(edxBits[5]) ? cout << "EDX bit 5: " << edxBits[5] << ": (MSR) is supported" << endl : cout << "EDX bit 5: " << edxBits[5] << ": (MSR) is not supported" << endl;
+	(edxBits[6]) ? cout << "EDX bit 6: " << edxBits[6] << ": (PAE) is supported" << endl : cout << "EDX bit 6: " << edxBits[6] << ": (PAE) is not supported" << endl;
+	(edxBits[7]) ? cout << "EDX bit 7: " << edxBits[7] << ": (MCE) is supported" << endl : cout << "EDX bit 7: " << edxBits[7] << ": (MCE) is not supported" << endl;
+	(edxBits[8]) ? cout << "EDX bit 8: " << edxBits[8] << ": (CX8) is supported" << endl : cout << "EDX bit 8: " << edxBits[8] << ": (CX8) is not supported" << endl;
+	(edxBits[9]) ? cout << "EDX bit 9: " << edxBits[9] << ": (APIC) is supported" << endl : cout << "EDX bit 9: " << edxBits[9] << ": (APIC) is not supported" << endl;
+	(edxBits[10]) ? cout << "EDX bit 10: " << edxBits[10] << ": Reserved" << endl : cout << "EDX bit 10: " << edxBits[10] << ": Reserved" << endl;
+	(edxBits[11]) ? cout << "EDX bit 11: " << edxBits[11] << ": (SEP) is supported" << endl : cout << "EDX bit 11: " << edxBits[11] << ": (SEP) is not supported" << endl;
+	(edxBits[12]) ? cout << "EDX bit 12: " << edxBits[12] << ": (MTRR) is supported" << endl : cout << "EDX bit 12: " << edxBits[12] << ": (MTRR) is not supported" << endl;
+	(edxBits[13]) ? cout << "EDX bit 13: " << edxBits[13] << ": (PGE) is supported" << endl : cout << "EDX bit 13: " << edxBits[13] << ": (PGE) is not supported" << endl;
+	(edxBits[14]) ? cout << "EDX bit 14: " << edxBits[14] << ": (MCA) is supported" << endl : cout << "EDX bit 14: " << edxBits[14] << ": (MCA) is not supported" << endl;
+	(edxBits[15]) ? cout << "EDX bit 15: " << edxBits[15] << ": (CMOV) is supported" << endl : cout << "EDX bit 15: " << edxBits[15] << ": (CMOV) is not supported" << endl;
+	(edxBits[15]) ? cout << "EDX bit 15: " << edxBits[15] << ": (CMOV) is supported" << endl : cout << "EDX bit 15: " << edxBits[15] << ": (CMOV) is not supported" << endl;
+	(edxBits[16]) ? cout << "EDX bit 16: " << edxBits[16] << ": (PAT) is supported" << endl : cout << "EDX bit 16: " << edxBits[16] << ": (PAT) is not supported" << endl;
+	(edxBits[17]) ? cout << "EDX bit 17: " << edxBits[17] << ": (PSE-36) is supported" << endl : cout << "EDX bit 17: " << edxBits[17] << ": (PSE-36) is not supported" << endl;
+	(edxBits[18]) ? cout << "EDX bit 18: " << edxBits[18] << ": (PSN) is supported" << endl : cout << "EDX bit 18: " << edxBits[18] << ": (PSN) is not supported" << endl;
+	(edxBits[19]) ? cout << "EDX bit 19: " << edxBits[19] << ": (CLFSH) is supported" << endl : cout << "EDX bit 19: " << edxBits[19] << ": (CLFSH) is not supported" << endl;
+	(edxBits[20]) ? cout << "EDX bit 20: " << edxBits[20] << ": (NX) is supported" << endl : cout << "EDX bit 20: " << edxBits[20] << ": (NX) is not supported" << endl;
+	(edxBits[21]) ? cout << "EDX bit 21: " << edxBits[21] << ": (DS) is supported" << endl : cout << "EDX bit 21: " << edxBits[21] << ": (DS) is not supported" << endl;
+	(edxBits[22]) ? cout << "EDX bit 22: " << edxBits[22] << ": (ACPI) is supported" << endl : cout << "EDX bit 22: " << edxBits[22] << ": (ACPI) is not supported" << endl;
+	(edxBits[23]) ? cout << "EDX bit 23: " << edxBits[23] << ": (MMX) is supported" << endl : cout << "EDX bit 23: " << edxBits[23] << ": (MMX) is not supported" << endl;
+	(edxBits[24]) ? cout << "EDX bit 24: " << edxBits[24] << ": (FXSR) is supported" << endl : cout << "EDX bit 24: " << edxBits[24] << ": (FXSR) is not supported" << endl;
+	(edxBits[25]) ? cout << "EDX bit 25: " << edxBits[25] << ": (SSE) is supported" << endl : cout << "EDX bit 25: " << edxBits[25] << ": (SSE) is not supported" << endl;
+	(edxBits[26]) ? cout << "EDX bit 26: " << edxBits[26] << ": (SSE2) is supported" << endl : cout << "EDX bit 26: " << edxBits[26] << ": (SSE2) is not supported" << endl;
+	(edxBits[27]) ? cout << "EDX bit 27: " << edxBits[27] << ": (SS) is supported" << endl : cout << "EDX bit 27: " << edxBits[27] << ": (SS) is not supported" << endl;
+	(edxBits[28]) ? cout << "EDX bit 28: " << edxBits[28] << ": (HTT) is supported" << endl : cout << "EDX bit 28: " << edxBits[28] << ": (HTT) is not supported" << endl;
+	(edxBits[29]) ? cout << "EDX bit 29: " << edxBits[29] << ": (TM) is supported" << endl : cout << "EDX bit 29: " << edxBits[29] << ": (TM) is not supported" << endl;
+	(edxBits[30]) ? cout << "EDX bit 30: " << edxBits[30] << ": (IA64) is supported" << endl : cout << "EDX bit 30: " << edxBits[30] << ": (IA64) is not supported" << endl;
+	(edxBits[31]) ? cout << "EDX bit 31: " << edxBits[31] << ": (PBE) is supported" << endl : cout << "EDX bit 31: " << edxBits[31] << ": (PBE) is not supported" << endl;
+	cout << endl;
+
+	cout << endl;
 	
-	cout << "EDX bit 1 = " << std::hex << "0x" << edxBits[1] << endl;
-
-	cout << "EDX bit 31 = " << std::hex << "0x" << edxBits[31] << endl;
-
-	cout << endl;
-	cout << "EAX=1: ECX feature bits" << endl;
-	cout << "ECX bit 0 = " << std::hex << "0x" << ecxBits[0] << endl;
-	cout << "ECX bit 1 = " << std::hex << "0x" << ecxBits[1] << endl;
-
-	cout << "ECX bit 31 = " << std::hex << "0x" << ecxBits[31] << endl;
-
-	cout << endl;
 
 
 
