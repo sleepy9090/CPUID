@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
 	//unsigned int k = 4;
 	//unsigned int steppingId = extractBits(cpuID1.EAX(), 0, 4);
 
-
+	bitset<32> eaxBits = bitset<32>(cpuID1.EAX());
 	bitset<32> ebxBits = bitset<32>(cpuID1.EBX());
 	bitset<32> ecxBits = bitset<32>(cpuID1.ECX());
 	bitset<32> edxBits = bitset<32>(cpuID1.EDX());
@@ -190,21 +190,90 @@ int main(int argc, char* argv[]) {
 	cout << endl;
 	
 
+	// EAX=2: Cache and TLB Descriptor Information
+	CPUID cpuID2(0x2);
+	eaxBits = bitset<32>(cpuID2.EAX());
+	ebxBits = bitset<32>(cpuID2.EBX());
+	ecxBits = bitset<32>(cpuID2.ECX());
+	edxBits = bitset<32>(cpuID2.EDX());
 
 
+	cout << "EAX=0x2: Cache and TLB Descriptor Information = " << std::hex << "0x" << cpuID2.EAX() << endl;
+	cout << "EAX=0x2: Cache and TLB Descriptor Information = " << std::hex << "0x" << cpuID2.EBX() << endl;
+	cout << "EAX=0x2: Cache and TLB Descriptor Information = " << std::hex << "0x" << cpuID2.ECX() << endl;
+	cout << "EAX=0x2: Cache and TLB Descriptor Information = " << std::hex << "0x" << cpuID2.EDX() << endl;
+	cout << endl;
 
+	// EAX = 15h and EAX = 16h: CPU, TSC, Bus and Core Crystal Clock Frequencies
+	CPUID cpuID15(0x15);
+	eaxBits = bitset<32>(cpuID15.EAX());
+	ebxBits = bitset<32>(cpuID15.EBX());
+	ecxBits = bitset<32>(cpuID15.ECX());
+	edxBits = bitset<32>(cpuID15.EDX());
 
+	cout << "EAX=0x15: TSC and Core Crystal frequency information :" << endl;
+	if (eaxBits[31]) // Check if EAX bit 31 is set
+	{
+		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator = " << std::hex << "0x" << cpuID15.EAX() << endl;
+		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator = " << eaxBits << endl;
+	}
+	else
+	{
+		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency is not enumerated" << endl;
+	}
+	
+	if (ebxBits[31]) // Check if EBX bit 31 is set
+	{
+		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator = " << std::hex << "0x" << cpuID15.EBX() << endl;
+		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator = " << ebxBits << endl;
+	}
+	else
+	{
+		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency is not enumerated" << endl;
+	}
 
+	if (ecxBits[31]) // Check if ECX bit 31 is set
+	{
+		 cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz = " << std::hex << "0x" << cpuID15.ECX() << endl;
+		 cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz = " << ecxBits << endl;
+	}
+	else
+	{
+		cout << "EAX=0x15: Core Crystal Clock frequency is not enumerated" << endl;
+	}
 
+	if (edxBits[31]) // Check if EDX bit 31 is set
+	{
+		cout << "EAX=0x15: TSC frequency, in units of Hz = " << std::hex << "0x" << cpuID15.EDX() << endl;
+		cout << "EAX=0x15: TSC frequency, in units of Hz = " << edxBits << endl;
+	}
+	else
+	{
+		cout << "EAX=0x15: TSC frequency is not enumerated" << endl;
+	}
+	
+	cout << endl;
 
 	CPUID cpuID16(0x16);
+	eaxBits = bitset<32>(cpuID16.EAX());
+	ebxBits = bitset<32>(cpuID16.EBX());
+	ecxBits = bitset<32>(cpuID16.ECX());
+	edxBits = bitset<32>(cpuID16.EDX());
 
-	cout << "EAX=0x16: Processor and Bus specification frequencies:";
+	cout << "EAX=0x16: Processor and Bus specification frequencies:" << endl;
+	cout << "EAX=0x16: Processor Base Frequency (in MHz): EAX Bits 15:0 = " << std::hex << "0x" << extractBits(cpuID16.EAX(), 15, 0) << endl;
+	cout << "EAX=0x16: Processor Base Frequency (in MHz): EAX Bits 15:0 = " << eaxBits << endl;
+	cout << "EAX=0x16: Processor Maximum Frequency (in MHz): EBX Bits 15:0 = " << std::hex << "0x" << extractBits(cpuID16.EBX(), 15, 0) << endl;
+	cout << "EAX=0x16: Processor Maximum Frequency (in MHz): EBX Bits 15:0 = " << ebxBits << endl;
+	cout << "EAX=0x16: Bus/Reference frequency (in MHz): ECX Bits 15:0 = " << std::hex << "0x" << extractBits(cpuID16.ECX(), 15, 0) << endl;
+	cout << "EAX=0x16: Bus/Reference frequency (in MHz): ECX Bits 15:0 = " << ecxBits << endl;
 	cout << "EAX=0x16: Reserved: EDX = " << std::hex << "0x" << cpuID16.EDX() << endl;
-	cout << "EAX=0x16: Processor Base Frequency (in MHz): EAX Bits 15:0 = " << std::hex << "0x" << cpuID16.EAX() << endl;
-	cout << "EAX=0x16: Processor Maximum Frequency (in MHz: EBX Bits 15:0 = " << std::hex << "0x" << cpuID16.EBX() << endl;
-	cout << "EAX=0x16: Bus/Reference frequency (in MHz: ECX Bits 15:0 = " << std::hex << "0x" << cpuID16.ECX() << endl;
+	cout << "EAX=0x16: Reserved: EDX = " << edxBits << endl;
 	cout << endl;
+
+
+
+
 
 	return 0;
 }
