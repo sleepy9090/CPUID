@@ -1,10 +1,69 @@
 #include "CPUID.h"
 
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <bitset>
 
 using namespace std;
+
+string getCacheDescriptor(unsigned int descriptor)
+{
+	string description;
+
+	switch (descriptor)
+	{
+		case 0x00:
+			description = "Null descriptor. No information.";
+			break;
+		case 0x01:
+			description = "Instruction TLB: 4 KByte pages, 4-way set associative, 32 entries";
+			break;
+		case 0x02:
+			description = "Instruction TLB: 2 MByte pages, fully associative, 2 entries";
+			break;
+		case 0x03:
+			description = "Data TLB: 4 KByte pages, 4-way set associative, 64 entries";
+			break;
+		case 0x04:
+			description = "Data TLB: 4 MByte pages, 4-way set associative, 8 entries";
+			break;
+		case 0x05:
+			description = "Data TLB: 4 MByte pages, fully associative, 32 entries";
+			break;
+		case 0x06:
+			description = "Level-1 instruction cache: 8 KBytes, 4-way set associative, 32 byte line size";
+			break;
+		case 0x08:
+			description = "Level-1 instruction cache: 16 KBytes, 4-way set associative, 32 byte line size";
+			break;
+		case 0x09:
+			description = "Level-1 instruction cache: 32 KBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x0A:
+			description = "Level-1 data cache: 8 KBytes, 2-way set associative, 32 byte line size";
+			break;
+		case 0x0B:
+			description = "Instruction TLB: 4 MByte pages, fully associative, 4 entries";
+			break;
+		case 0x0C:
+			description = "Level-1 data cache: 16 KBytes, 4-way set associative, 32 byte line size";
+			break;
+		case 0x0D:
+			description = "Level-1 data cache: 16 KBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x0E:
+			description = "Level-1 data cache: 24 KBytes, 6-way set associative, 64 byte line size";
+			break;
+		case 0x0F:
+			description = "Reserved";
+			break;
+			// TODO: Add more cases for other cache descriptors
+		default:
+			return "Unknown descriptor";
+	}
+	return description;
+}
 
 unsigned int extractBits(unsigned int num,
 	                     unsigned int pos,
@@ -197,11 +256,110 @@ int main(int argc, char* argv[]) {
 	ecxBits = bitset<32>(cpuID2.ECX());
 	edxBits = bitset<32>(cpuID2.EDX());
 
+	if (eaxBits[31])
+	{
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX) = Invalid Descriptors / No valid information." << endl;
+	}
+	else
+	{
+		//cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX) = " << std::hex << "0x" << cpuID2.EAX() << endl;
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX) = " << eaxBits << endl;
 
-	cout << "EAX=0x2: Cache and TLB Descriptor Information = " << std::hex << "0x" << cpuID2.EAX() << endl;
-	cout << "EAX=0x2: Cache and TLB Descriptor Information = " << std::hex << "0x" << cpuID2.EBX() << endl;
-	cout << "EAX=0x2: Cache and TLB Descriptor Information = " << std::hex << "0x" << cpuID2.ECX() << endl;
-	cout << "EAX=0x2: Cache and TLB Descriptor Information = " << std::hex << "0x" << cpuID2.EDX() << endl;
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << eaxBits[7] << eaxBits[6] << eaxBits[5] << eaxBits[4] << eaxBits[3] << eaxBits[2] << eaxBits[1] << eaxBits[0] << endl;
+		int descriptorEAX0 = extractBits(cpuID2.EAX(), 0, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << std::hex << "0x" << descriptorEAX0 << endl;
+		//cout << std::setfill('0') << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << std::hex << "0x" << std::setw(2) << descriptorEAX0 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 1) = " << eaxBits[15] << eaxBits[14] << eaxBits[13] << eaxBits[12] << eaxBits[11] << eaxBits[10] << eaxBits[9] << eaxBits[8] << endl;
+		int descriptorEAX1 = extractBits(cpuID2.EAX(), 8, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 1) = " << std::hex << "0x" << descriptorEAX1 << endl;
+		
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 2) = " << eaxBits[23] << eaxBits[22] << eaxBits[21] << eaxBits[20] << eaxBits[19] << eaxBits[18] << eaxBits[17] << eaxBits[16] << endl;
+		int descriptorEAX2 = extractBits(cpuID2.EAX(), 16, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 2) = " << std::hex << "0x" << descriptorEAX2 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 3) = " << eaxBits[31] << eaxBits[30] << eaxBits[29] << eaxBits[28] << eaxBits[27] << eaxBits[26] << eaxBits[25] << eaxBits[24] << endl;
+		int descriptorEAX3 = extractBits(cpuID2.EAX(), 24, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 3) = " << std::hex << "0x" << descriptorEAX3 << endl;
+	}
+	
+	if (ebxBits[31])
+	{
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX) = Invalid Descriptors / No valid information." << endl;
+	}
+	else
+	{
+		//cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX) = " << std::hex << "0x" << cpuID2.EBX() << endl;
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX) = " << ebxBits << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 0) = " << ebxBits[7] << ebxBits[6] << ebxBits[5] << ebxBits[4] << ebxBits[3] << ebxBits[2] << ebxBits[1] << ebxBits[0] << endl;
+		int descriptorEBX0 = extractBits(cpuID2.EBX(), 0, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 0) = " << std::hex << "0x" << descriptorEBX0 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 1) = " << ebxBits[15] << ebxBits[14] << ebxBits[13] << ebxBits[12] << ebxBits[11] << ebxBits[10] << ebxBits[9] << ebxBits[8] << endl;
+		int descriptorEBX1 = extractBits(cpuID2.EBX(), 8, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 1) = " << std::hex << "0x" << descriptorEBX1 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 2) = " << ebxBits[23] << ebxBits[22] << ebxBits[21] << ebxBits[20] << ebxBits[19] << ebxBits[18] << ebxBits[17] << ebxBits[16] << endl;
+		int descriptorEBX2 = extractBits(cpuID2.EBX(), 16, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 2) = " << std::hex << "0x" << descriptorEBX2 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 3) = " << ebxBits[31] << ebxBits[30] << ebxBits[29] << ebxBits[28] << ebxBits[27] << ebxBits[26] << ebxBits[25] << ebxBits[24] << endl;
+		int descriptorEBX3 = extractBits(cpuID2.EBX(), 24, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 3) = " << std::hex << "0x" << descriptorEBX3 << endl;
+	}
+
+	if (ecxBits[31])
+	{
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX) = Invalid Descriptors / No valid information." << endl;
+	}
+	else
+	{
+		//cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX) = " << std::hex << "0x" << cpuID2.ECX() << endl;
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX) = " << ecxBits << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 0) = " << ecxBits[7] << ecxBits[6] << ecxBits[5] << ecxBits[4] << ecxBits[3] << ecxBits[2] << ecxBits[1] << ecxBits[0] << endl;
+		int descriptorECX0 = extractBits(cpuID2.ECX(), 0, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 0) = " << std::hex << "0x" << descriptorECX0 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 1) = " << ecxBits[15] << ecxBits[14] << ecxBits[13] << ecxBits[12] << ecxBits[11] << ecxBits[10] << ecxBits[9] << ecxBits[8] << endl;
+		int descriptorECX1 = extractBits(cpuID2.ECX(), 8, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 1) = " << std::hex << "0x" << descriptorECX1 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 2) = " << ecxBits[23] << ecxBits[22] << ecxBits[21] << ecxBits[20] << ecxBits[19] << ecxBits[18] << ecxBits[17] << ecxBits[16] << endl;
+		int descriptorECX2 = extractBits(cpuID2.ECX(), 16, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 2) = " << std::hex << "0x" << descriptorECX2 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 3) = " << ecxBits[31] << ecxBits[30] << ecxBits[29] << ecxBits[28] << ecxBits[27] << ecxBits[26] << ecxBits[25] << ecxBits[24] << endl;
+		int descriptorECX3 = extractBits(cpuID2.ECX(), 24, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 3) = " << std::hex << "0x" << descriptorECX3 << endl;
+	}
+
+	if (edxBits[31])
+	{
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX) = Invalid Descriptors / No valid information." << endl;
+	}
+	else
+	{
+		//cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX) = " << std::hex << "0x" << cpuID2.EDX() << endl;
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX) = " << edxBits << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 0) = " << edxBits[7] << edxBits[6] << edxBits[5] << edxBits[4] << edxBits[3] << edxBits[2] << edxBits[1] << edxBits[0] << endl;
+		int descriptorEDX0 = extractBits(cpuID2.EDX(), 0, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 0) = " << std::hex << "0x" << descriptorEDX0 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 1) = " << edxBits[15] << edxBits[14] << edxBits[13] << edxBits[12] << edxBits[11] << edxBits[10] << edxBits[9] << edxBits[8] << endl;
+		int descriptorEDX1 = extractBits(cpuID2.EDX(), 8, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 1) = " << std::hex << "0x" << descriptorEDX1 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 2) = " << edxBits[23] << edxBits[22] << edxBits[21] << edxBits[20] << edxBits[19] << edxBits[18] << edxBits[17] << edxBits[16] << endl;
+		int descriptorEDX2 = extractBits(cpuID2.EDX(), 16, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 2) = " << std::hex << "0x" << descriptorEDX2 << endl;
+
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 3) = " << edxBits[31] << edxBits[30] << edxBits[29] << edxBits[28] << edxBits[27] << edxBits[26] << edxBits[25] << edxBits[24] << endl;
+		int descriptorEDX3 = extractBits(cpuID2.EDX(), 24, 8);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 3) = " << std::hex << "0x" << descriptorEDX3 << endl;
+	}
 	cout << endl;
 
 	// EAX = 15h and EAX = 16h: CPU, TSC, Bus and Core Crystal Clock Frequencies
@@ -212,46 +370,14 @@ int main(int argc, char* argv[]) {
 	edxBits = bitset<32>(cpuID15.EDX());
 
 	cout << "EAX=0x15: TSC and Core Crystal frequency information :" << endl;
-	if (eaxBits[31]) // Check if EAX bit 31 is set
-	{
-		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator = " << std::hex << "0x" << cpuID15.EAX() << endl;
-		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator = " << eaxBits << endl;
-	}
-	else
-	{
-		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency is not enumerated" << endl;
-	}
-	
-	if (ebxBits[31]) // Check if EBX bit 31 is set
-	{
-		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator = " << std::hex << "0x" << cpuID15.EBX() << endl;
-		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator = " << ebxBits << endl;
-	}
-	else
-	{
-		cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency is not enumerated" << endl;
-	}
-
-	if (ecxBits[31]) // Check if ECX bit 31 is set
-	{
-		 cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz = " << std::hex << "0x" << cpuID15.ECX() << endl;
-		 cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz = " << ecxBits << endl;
-	}
-	else
-	{
-		cout << "EAX=0x15: Core Crystal Clock frequency is not enumerated" << endl;
-	}
-
-	if (edxBits[31]) // Check if EDX bit 31 is set
-	{
-		cout << "EAX=0x15: TSC frequency, in units of Hz = " << std::hex << "0x" << cpuID15.EDX() << endl;
-		cout << "EAX=0x15: TSC frequency, in units of Hz = " << edxBits << endl;
-	}
-	else
-	{
-		cout << "EAX=0x15: TSC frequency is not enumerated" << endl;
-	}
-	
+	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator (EAX) = " << std::hex << "0x" << cpuID15.EAX() << endl;
+	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator (EAX) = " << eaxBits << endl;
+	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator (EBX) = " << std::hex << "0x" << cpuID15.EBX() << endl;
+	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator (EBX) = " << ebxBits << endl;
+	cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz (ECX) = " << std::hex << "0x" << cpuID15.ECX() << endl;
+	cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz (ECX) = " << ecxBits << endl;
+	cout << "EAX=0x15: TSC frequency, in units of Hz (EDX) = " << std::hex << "0x" << cpuID15.EDX() << endl;
+	cout << "EAX=0x15: TSC frequency, in units of Hz (EDX) = " << edxBits << endl;
 	cout << endl;
 
 	CPUID cpuID16(0x16);
