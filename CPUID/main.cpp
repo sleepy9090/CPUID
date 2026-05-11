@@ -14,7 +14,7 @@ string getCacheDescriptor(unsigned int descriptor)
 	switch (descriptor)
 	{
 		case 0x00:
-			description = "Null descriptor. No information.";
+			description = "Other information: null descriptor";
 			break;
 		case 0x01:
 			description = "Instruction TLB: 4 KByte pages, 4-way set associative, 32 entries";
@@ -58,10 +58,116 @@ string getCacheDescriptor(unsigned int descriptor)
 		case 0x0F:
 			description = "Reserved";
 			break;
-			// TODO: Add more cases for other cache descriptors
+		case 0x11:
+			description = "Level-1 data cache: 16 KBytes, 4-way set associative, 32 byte line size";
+			break;
+		case 0x12:
+		case 0x13:
+		case 0x14:
+			description = "Reserved";
+			break;
+		case 0x15:
+			description = "Level-1 instruction cache: 16 KBytes, 2-way set associative, 32 byte line size";
+			break;
+		case 0x16:
+		case 0x17:
+		case 0x18:
+		case 0x19:
+			description = "Reserved";
+			break;
+		case 0x1A:
+			description = "Level-2 cache: 96 KBytes, 6-way set associative, 64 byte line size";
+			break;
+		case 0x1B:
+		case 0x1C:
+			description = "Reserved";
+			break;
+		case 0x1D:
+			description = "Level-2 cache: 128 KBytes, 2-way set associative, 64 byte line size";
+			break;
+		case 0x1E:
+		case 0x1F:
+		case 0x20:
+			description = "Reserved";
+			break;
+		case 0x21:
+			description = "Level-2 cache: 256 KBytes, 8-way set associative, 64 byte line size";
+			break;
+		case 0x22:
+			description = "Level-3 cache: 512 KBytes, 4-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x23:
+			description = "Level-3 cache: 1 MByte, 8-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x24:
+			description = "Level-2 cache: 1 MByte, 16-way set associative, 64 byte line size";
+			break;
+		case 0x25:
+			description = "Level-3 cache: 2 MBytes, 8-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x26:
+		case 0x27:
+		case 0x28:
+			description = "(128-byte prefetch), Unused in any known CPU.";
+			break;
+		case 0x29:
+			description = "Level-3 cache: 4 MBytes, 8-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x2A:
+		case 0x2B:
+			description = "Reserved";
+			break;
+		case 0x2C:
+			description = "Level-1 data cache: 32 KBytes, 8-way set associative, 64 byte line size";
+			break;
+		case 0x2D:
+		case 0x2E:
+		case 0x2F:
+			description = "Reserved";
+			break;
+		case 0x30:
+			description = "Level-1 instruction cache: 32 KBytes, 8-way set associative, 64 byte line size";
+			break;
+		case 0x31:
+		case 0x32:
+		case 0x33:
+		case 0x34:
+		case 0x35:
+		case 0x36:
+		case 0x37:
+		case 0x38:
+			description = "Reserved";
+			break;
+		case 0x39:
+			description = "Level-2 cache: 128 KBytes, 4-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x3A:
+			description = "Level-2 cache: 192 KBytes, 6-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x3B:
+			description = "Level-2 cache: 128 KBytes, 2-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x3C:
+			description = "Level-2 cache: 256 KBytes, 4-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x3D:
+			description = "Level-2 cache: 384 KBytes, 6-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x3E:
+			description = "Level-2 cache: 512 KBytes, 4-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x3F:
+			description = "Level-2 cache: 256 KBytes, 2-way set associative, 64 byte line size";
+			break;
+		case 0x40:
+			description = "Other information: no L3 cache present";
+			break;
 		default:
-			return "Unknown descriptor";
+			description = "Unknown descriptor";
+			break;
 	}
+
+	// TODO: Add more cases for other cache descriptors
 	return description;
 }
 
