@@ -162,6 +162,231 @@ string getCacheDescriptor(unsigned int descriptor)
 		case 0x40:
 			description = "Other information: no L3 cache present";
 			break;
+		case 0x41:
+			description = "Level-2 cache: 128 KBytes, 4-way set associative, 32 byte line size";
+			break;
+		case 0x42:
+			description = "Level-2 cache: 256 KBytes, 4-way set associative, 32 byte line size";
+			break;
+		case 0x43:
+			description = "Level-2 cache: 512 KBytes, 4-way set associative, 32 byte line size";
+			break;
+		case 0x44:
+			description = "Level-2 cache: 1 MByte, 4-way set associative, 32 byte line size";
+			break;
+		case 0x45:
+			description = "Level-2 cache: 2 MBytes, 4-way set associative, 32 byte line size";
+			break;
+		case 0x46:
+			description = "Level-3 cache: 4 MBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x47:
+			description = "Level-3 cache: 8 MBytes, 8-way set associative, 64 byte line size";
+			break;
+		case 0x48:
+			description = "Level-2 cache: 3 MBytes, 12-way set associative, 64 byte line size";
+			break;
+		case 0x49:
+			description = "Level-2/Level-3 cache: 4 MBytes, 16-way set associative, 64 byte line size";
+			break;
+		case 0x4A:
+			description = "Level-3 cache: 6 MBytes, 12-way set associative, 64 byte line size";
+			break;
+		case 0x4B:
+			description = "Level-3 cache: 8 MBytes, 16-way set associative, 64 byte line size";
+			break;
+		case 0x4C:
+			description = "Level-3 cache: 12 MBytes, 12-way set associative, 64 byte line size";
+			break;
+		case 0x4D:
+			description = "Level-3 cache: 16 MBytes, 16-way set associative, 64 byte line size";
+			break;
+		case 0x4E:
+			description = "Level-2 cache: 6 MBytes, 24-way set associative, 64 byte line size";
+			break;
+		case 0x4F:
+			description = "Instruction TLB: 4 KByte pages, 32 entries";
+			break;
+		case 0x50:
+			description = "Instruction TLB: 4 KByte/2 MByte/4 MByte pages, fully associative, 64 entries";
+			break;
+		case 0x51:
+			description = "Instruction TLB: 4 KByte/2 MByte/4 MByte pages, fully associative, 128 entries";
+			break;
+		case 0x52:
+			description = "Instruction TLB: 4 KByte/2 MByte/4 MByte pages, fully associative, 256 entries";
+			break;
+		case 0x53:
+		case 0x54:
+			description = "Reserved";
+			break;
+		case 0x55:
+			description = "Instruction TLB: 2 MByte/4 MByte pages, fully associative, 7 entries";
+			break;
+		case 0x56:
+			description = "Data TLB: 4 MByte pages, 4-way set associative, 16 entries";
+			break;
+		case 0x57:
+			description = "Data TLB: 4 KByte pages, 4-way set associative, 16 entries";
+			break;
+		case 0x58:
+			description = "Reserved";
+			break;
+		case 0x59:
+			description = "Data TLB: 4 KByte pages, fully associative, 16 entries";
+			break;
+		case 0x5A:
+			description = "Data TLB: 2 MByte/4 MByte pages, 4-way set associative, 32 entries";
+			break;
+		case 0x5B:
+			description = "Data TLB: 4 KByte/4 MByte pages, fully associative, 64 entries";
+			break;
+		case 0x5C:
+			description = "Data TLB: 4 KByte/4 MByte pages, fully associative, 128 entries";
+			break;
+		case 0x5D:
+			description = "Data TLB: 4 KByte/4 MByte pages, fully associative, 256 entries";
+			break;
+		case 0x5E:
+		case 0x5F:
+			description = "Reserved";
+			break;
+		case 0x60:
+			description = "Level-1 data cache: 16 KBytes, 8-way set associative, 64 byte line size";
+			break;
+		case 0x61:
+			description = "Instruction TLB: 4 KByte pages, fully associative, 48 entries";
+			break;
+		case 0x62:
+			description = "Reserved";
+			break;
+		case 0x63:
+			description = "2 Data TLBs: 2 MByte/4 MByte pages, 4-way set associative, 4 entries and 1 GByte pages, fully associative, 32 entries";
+			break;
+		case 0x64:
+			description = "Data TLB: 4 KByte pages, 4-way set associative, 512 entries";
+			break;
+		case 0x65:
+			description = "Reserved";
+			break;
+		case 0x66:
+			description = "Level-1 data cache: 8 KBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x67:
+			description = "Level-1 data cache: 16 KBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x68:
+			description = "Level-1 data cache: 32 KBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x69:
+			description = "Reserved";
+			break;
+		case 0x6A:
+			description = "Data TLB: 4 KByte pages, 8-way set associative, 64 entries";
+			break;
+		case 0x6B:
+			description = "Data TLB: 4 KByte pages, 8-way set associative, 256 entries";
+			break;
+		case 0x6C:
+			description = "Data TLB: 2 MByte/4 MByte pages, 8-way set associative, 128 entries";
+			break;
+		case 0x6D:
+			description = "Data TLB: 1 GByte pages, fully associative, 16 entries";
+			break;
+		case 0x6E:
+		case 0x6F:
+			description = "Reserved";
+			break;
+		case 0x70:
+			description = "Trace cache: 12 K-μop, 8-way set associative";
+			break;
+		case 0x71:
+			description = "Trace cache: 16 K-μop, 8-way set associative";
+			break;
+		case 0x72:
+			description = "Trace cache: 32 K-μop, 8-way set associative";
+			break;
+		case 0x73:
+			description = "Trace cache: 64 K-μop, 8-way set associative";
+			break;
+		case 0x74:
+		case 0x75:
+			description = "Reserved";
+			break;
+		case 0x76:
+			description = "Instruction TLB: 2 MByte/4 MByte pages, fully associative, 8 entries";
+			break;
+		case 0x77:
+			description = "Level-1 instruction cache: 16 KBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x78:
+			description = "Level-2 cache: 1 MByte, 4-way set associative, 64 byte line size";
+			break;
+		case 0x79:
+			description = "Level-2 cache: 128 KBytes, 8-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x7A:
+			description = "Level-2 cache: 256 KBytes, 8-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x7B:
+			description = "Level-2 cache: 512 KBytes, 8-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x7C:
+			description = "Level-2 cache: 1 MByte, 8-way set associative, 64 byte line size, cache uses sectors of 2 cache-lines each";
+			break;
+		case 0x7D:
+			description = "Level-2 cache: 2 MBytes, 8-way set associative, 64 byte line size";
+			break;
+		case 0x7E:
+			description = "Level-2 cache: 256 KBytes, 8-way set associative, 128 byte line size";
+			break;
+		case 0x7F:
+			description = "Level-2 cache: 512 KBytes, 2-way set associative, 64 byte line size";
+			break;
+		case 0x80:
+			description = "Level-2 cache: 512 KBytes, 8-way set associative, 64 byte line size";
+			break;
+		case 0x81:
+			description = "Level-2 cache: 128 KBytes, 8-way set associative, 32 byte line size";
+			break;
+		case 0x82:
+			description = "Level-2 cache: 256 KBytes, 8-way set associative, 32 byte line size";
+			break;
+		case 0x83:
+			description = "Level-2 cache: 512 KBytes, 8-way set associative, 32 byte line size";
+			break;
+		case 0x84:
+			description = "Level-2 cache: 1 MByte, 8-way set associative, 32 byte line size";
+			break;
+		case 0x85:
+			description = "Level-2 cache: 2 MBytes, 8-way set associative, 32 byte line size";
+			break;
+		case 0x86:
+			description = "Level-2 cache: 512 KBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x87:
+			description = "Level-2 cache: 1 MByte, 8-way set associative, 64 byte line size";
+			break;
+		case 0x88:
+			description = "Level-3 cache: 2 MBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x89:
+			description = "Level-3 cache: 4 MBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x8A:
+			description = "Level-3 cache: 8 MBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0x8B:
+		case 0x8C:
+			description = "Reserved";
+			break;
+		case 0x8D:
+			description = "Level-3 cache: 3 MBytes, 12-way set associative, 128 byte line size";
+			break;
+		case 0x8E:
+		case 0x8F:
+			description = "Reserved";
+			break;
 		default:
 			description = "Unknown descriptor";
 			break;
