@@ -7,7 +7,7 @@
 
 using namespace std;
 
-string getCacheDescriptor(unsigned int descriptor)
+string getCacheAndTableDescriptor(unsigned int descriptor)
 {
 	string description;
 
@@ -387,6 +387,220 @@ string getCacheDescriptor(unsigned int descriptor)
 		case 0x8F:
 			description = "Reserved";
 			break;
+		case 0x90:
+			description = "Instruction TLB: 4 KByte - 256 MByte pages, fully associative, 64 entries";
+			break;
+		case 0x91:
+		case 0x92:
+		case 0x93:
+		case 0x94:
+		case 0x95:
+			description = "Reserved";
+			break;
+		case 0x96:
+			description = "Data TLB: 4 KByte - 256 MByte pages, fully associative, 32 entries";
+			break;
+		case 0x97:
+		case 0x98:
+		case 0x99:
+		case 0x9A:
+			description = "Reserved";
+			break;
+		case 0x9B:
+			description = "Data TLB: 4 KByte - 256 MByte pages, fully associative, 96 entries";
+			break;
+		case 0x9C:
+		case 0x9D:
+		case 0x9E:
+		case 0x9F:
+			description = "Reserved";
+			break;
+		case 0xA0:
+			description = "Data TLB: 4 KByte pages, fully associative, 32 entries";
+			break;
+		case 0xA1:
+		case 0xA2:
+		case 0xA3:
+		case 0xA4:
+		case 0xA5:
+		case 0xA6:
+		case 0xA7:
+		case 0xA8:
+		case 0xA9:
+		case 0xAA:
+		case 0xAB:
+		case 0xAC:
+		case 0xAD:
+		case 0xAE:
+		case 0xAF:
+			description = "Reserved";
+			break;
+		case 0xB0:
+			description = "Instruction TLB: 4 KByte pages, 4-way set associative, 128 entries";
+			break;
+		case 0xB1:
+			description = "Instruction TLB: 2 MByte / 4 MByte pages, 4-way set associative, 8 entries";
+			break;
+		case 0xB2:
+			description = "Instruction TLB: 4 MByte pages, 4-way set associative, 64 entries";
+			break;
+		case 0xB3:
+			description = "Data TLB: 4 KByte pages, 4-way set associative, 128 entries";
+			break;
+		case 0xB4:
+			description = "Data TLB: 4 KByte pages, 4-way set associative, 256 entries";
+			break;
+		case 0xB5:
+			description = "Instruction TLB: 4 KByte pages, 8-way set associative, 64 entries";
+			break;
+		case 0xB6:
+			description = "Instruction TLB: 4 KByte pages, 8-way set associative, 128 entries";
+			break;
+		case 0xB7:
+		case 0xB8:
+		case 0xB9:
+			description = "Reserved";
+			break;
+		case 0xBA:
+			description = "Data TLB: 4 KByte pages, 4-way set associative, 64 entries";
+			break;
+		case 0xBB:
+		case 0xBC:
+		case 0xBD:
+		case 0xBE:
+		case 0xBF:
+			description = "Reserved";
+			break;
+		case 0xC0:
+			description = "Data TLB: 4 KByte / 4 MByte pages, 4-way set associative, 8 entries";
+			break;
+		case 0xC1:
+			description = "Level-2 shared TLB: 4 KByte / 2 MByte pages, 8-way set associative, 1024 entries";
+			break;
+		case 0xC2:
+			description = "Data TLB: 2 MByte / 4 MByte pages, 4-way set associative, 16 entries";
+			break;
+		case 0xC3:
+			description = "Two Level-2 shared TLBs: 4 KByte / 2 MByte pages, 6-way set associative, 1536 entries and 1 GByte pages, 4-way set associative, 16 entries";
+			break;
+		case 0xC4:
+			description = "Data TLB: 2 MByte / 4 MByte pages, 4-way set associative, 32 entries";
+			break;
+		case 0xC5:
+		case 0xC6:
+		case 0xC7:
+		case 0xC8:
+		case 0xC9:
+			description = "Reserved";
+			break;
+		case 0xCA:
+			description = "Level-2 shared TLB: 4 KByte pages, 4-way set associative, 512 entries";
+			break;
+		case 0xCB:
+		case 0xCC:
+		case 0xCD:
+		case 0xCE:
+		case 0xCF:
+			description = "Reserved";
+			break;
+		case 0xD0:
+			description = "Level-3 cache: 512 KBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0xD1:
+			description = "Level-3 cache: 1 MByte, 4-way set associative, 64 byte line size";
+			break;
+		case 0xD2:
+			description = "Level-3 cache: 2 MBytes, 4-way set associative, 64 byte line size";
+			break;
+		case 0xD3:
+		case 0xD4:
+		case 0xD5:
+			description = "Reserved";
+			break;
+		case 0xD6:
+			description = "Level-3 cache: 1 MByte, 8-way set associative, 64 byte line size";
+			break;
+		case 0xD7:
+			description = "Level-3 cache: 2 MBytes, 8-way set associative, 64 byte line size";
+			break;
+		case 0xD8:
+			description = "Level-3 cache: 4 MBytes, 8-way set associative, 64 byte line size";
+			break;
+		case 0xD9:
+		case 0xDA:
+		case 0xDB:
+			description = "Reserved";
+			break;
+		case 0xDC:
+			description = "Level-3 cache: 1.5 MBytes, 12-way set associative, 64 byte line size";
+			break;
+		case 0xDD:
+			description = "Level-3 cache: 3 MBytes, 12-way set associative, 64 byte line size";
+			break;
+		case 0xDE:
+			description = "Level-3 cache: 6 MBytes, 12-way set associative, 64 byte line size";
+			break;
+		case 0xDF:
+		case 0xE0:
+		case 0xE1:
+			description = "Reserved";
+			break;
+		case 0xE2:
+			description = "Level-3 cache: 2 MBytes, 16-way set associative, 64 byte line size";
+			break;
+		case 0xE3:
+			description = "Level-3 cache: 4 MBytes, 16-way set associative, 64 byte line size";
+			break;
+		case 0xE4:
+			description = "Level-3 cache: 8 MBytes, 16-way set associative, 64 byte line size";
+			break;
+		case 0xE5:
+		case 0xE6:
+		case 0xE7:
+		case 0xE8:
+		case 0xE9:
+			description = "Reserved";
+			break;
+		case 0xEA:
+			description = "Level-3 cache: 12 MBytes, 24-way set associative, 64 byte line size";
+			break;
+		case 0xEB:
+			description = "Level-3 cache: 18 MBytes, 24-way set associative, 64 byte line size";
+			break;
+		case 0xEC:
+			description = "Level-3 cache: 24 MBytes, 24-way set associative, 64 byte line size";
+			break;
+		case 0xED:
+		case 0xEE:
+		case 0xEF:
+			description = "Reserved";
+			break;
+		case 0xF0:
+			description = "Other information: 64-byte prefetch";
+			break;
+		case 0xF1:
+			description = "Other information: 128-byte prefetch";
+			break;
+		case 0xF2:
+		case 0xF3:
+		case 0xF4:
+		case 0xF5:
+		case 0xF6:
+		case 0xF7:
+		case 0xF8:
+		case 0xF9:
+		case 0xFA:
+		case 0xFB:
+		case 0xFC:
+		case 0xFD:
+			description = "Reserved";
+			break;
+		case 0xFE:
+			description = "Other information: Leaf 2 has no TLB info, use leaf 18h";
+			break;
+		case 0xFF:
+			description = "Other information: Leaf 2 has no cache info, use leaf 4";
+			break;
 		default:
 			description = "Unknown descriptor";
 			break;
@@ -462,40 +676,40 @@ int main(int argc, char* argv[]) {
 	
 
 	//cout << "EAX=1: Feature Bits: EDX = " << std::hex << "0x" << cpuID1.EDX() << endl;
-	cout << "EAX=1: Feature Bits: EDX = " << edxBits << endl;
+	cout << "EAX=0x1: Feature Bits: EDX = " << edxBits << endl;
 	//cout << "EAX=1: Feature Bits: ECX = " << std::hex << "0x" << cpuID1.ECX() << endl;
-	cout << "EAX=1: Feature Bits: ECX = " << ecxBits << endl;
+	cout << "EAX=0x1: Feature Bits: ECX = " << ecxBits << endl;
 	//cout << "EAX=1: Additional Information: EBX = " << std::hex << "0x" << cpuID1.EBX() << endl;
-	cout << "EAX=1: Additional Information: EBX = " << bitset<32>(cpuID1.EBX()) << endl;
+	cout << "EAX=0x1: Additional Information: EBX = " << bitset<32>(cpuID1.EBX()) << endl;
 	//cout << "EAX=1: Processor Family IDs: EAX = " << std::hex << "0x" << cpuID1.EAX() << endl;
-	cout << "EAX=1: Processor Family IDs: EAX = " << bitset<32>(cpuID1.EAX()) << endl;
-	cout << "EAX=1: Stepping ID: EAX Bits 3:0 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 0, 4) << endl;
+	cout << "EAX=0x1: Processor Family IDs: EAX = " << bitset<32>(cpuID1.EAX()) << endl;
+	cout << "EAX=0x1: Stepping ID: EAX Bits 3:0 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 0, 4) << endl;
 
 	unsigned int modelId = extractBits(cpuID1.EAX(), 4, 4);
 	unsigned int familyId = extractBits(cpuID1.EAX(), 8, 4);
 	unsigned int extendedModelId = extractBits(cpuID1.EAX(), 16, 4);
 
-	cout << "EAX=1: Family ID: EAX Bits 8:11 = " << std::hex << "0x" << familyId << endl;
-	cout << "EAX=1: Model: EAX Bits 4:7 = " << std::hex << "0x" << modelId << endl;
+	cout << "EAX=0x1: Family ID: EAX Bits 8:11 = " << std::hex << "0x" << familyId << endl;
+	cout << "EAX=0x1: Model: EAX Bits 4:7 = " << std::hex << "0x" << modelId << endl;
 	if (familyId == 0x6 || familyId == 0xF)
 	{
 		unsigned int extendedModelIdLeftShifted = extendedModelId << 4;
 		unsigned int processorModel = modelId + extendedModelIdLeftShifted;
 		cout << "Extended Model ID left-shifted by 4 bits: " << std::hex << "0x" << extendedModelIdLeftShifted << endl;
-		cout << "EAX=1: Actual Model: Model (EAX Bits 4:7) + (Extended Model Id (EAX Bits 16:19) << 4)  = " << std::hex << "0x" << processorModel << endl;
+		cout << "EAX=0x1: Actual Model: Model (EAX Bits 4:7) + (Extended Model Id (EAX Bits 16:19) << 4)  = " << std::hex << "0x" << processorModel << endl;
 	}
 
-	cout << "EAX=1: Processor Type: EAX Bits 12:13 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 12, 2) << endl;
-	cout << "EAX=1: Reserved: EAX Bits 14:15 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 14, 2) << endl;
-	cout << "EAX=1: Extended Model ID: EAX Bits 16:19 = " << std::hex << "0x" << extendedModelId << endl;
-	cout << "EAX=1: Extended Family ID: EAX Bits 20:27 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 20, 8) << endl;
-	cout << "EAX=1: Reserved: EAX Bits 28:31 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 28, 4) << endl;
+	cout << "EAX=0x1: Processor Type: EAX Bits 12:13 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 12, 2) << endl;
+	cout << "EAX=0x1: Reserved: EAX Bits 14:15 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 14, 2) << endl;
+	cout << "EAX=0x1: Extended Model ID: EAX Bits 16:19 = " << std::hex << "0x" << extendedModelId << endl;
+	cout << "EAX=0x1: Extended Family ID: EAX Bits 20:27 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 20, 8) << endl;
+	cout << "EAX=0x1: Reserved: EAX Bits 28:31 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 28, 4) << endl;
 
 	cout << endl;
 
 
 
-	cout << "EAX=1: EBX Additional Information" << endl;
+	cout << "EAX=0x1: EBX Additional Information" << endl;
 	cout << "EBX bits 7:0 Brand Index = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 0, 8) << endl;
 	cout << "EBX bits 15:8 CLFLUSH line size (Value * 8 = cache line size in bytes) = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 8, 8) << endl;
 	cout << "EBX bits 23:16 Maximum number of addressable IDs for logical processors in this physical package = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 16, 8) << endl;
@@ -504,7 +718,7 @@ int main(int argc, char* argv[]) {
 
 
 
-	cout << "EAX=1: ECX feature bits" << endl;
+	cout << "EAX=0x1: ECX feature bits" << endl;
 	(ecxBits[0]) ? cout << "ECX bit 0: " << ecxBits[0] << ": SSE3 (Prescott New Instructions - PNI) - (SSE3) is supported" << endl : cout << "ECX bit 0: " << ecxBits[0] << ": SSE3 (Prescott New Instructions - PNI) - (SSE3) is not supported" << endl;
 	(ecxBits[1]) ? cout << "ECX bit 1: " << ecxBits[1] << ": PCLMULQDQ (carry-less multiply) instruction - (PCLMULQDQ) is supported" << endl : cout << "ECX bit 1: " << ecxBits[1] << ": PCLMULQDQ (carry-less multiply) instruction - (PCLMULQDQ) is not supported" << endl;
 	(ecxBits[2]) ? cout << "ECX bit 2: " << ecxBits[2] << ": 64-bit debug store (edx bit 21) - (DTES64) is supported" << endl : cout << "ECX bit 2: " << ecxBits[2] << ": 64-bit debug store (edx bit 21) - (DTES64) is not supported" << endl;
@@ -541,7 +755,7 @@ int main(int argc, char* argv[]) {
 
 
 
-	cout << "EAX=1: EDX feature bits" << endl;
+	cout << "EAX=0x1: EDX feature bits" << endl;
 	//cout << "EDX bit 0 = " << std::hex << "0x" << edxBits[0] << endl;
 	(edxBits[0]) ? cout << "EDX bit 0: " << edxBits[0] << ": Onboard x87 FPU - (FPU) is supported" << endl : cout << "EDX bit 0: " << edxBits[0] << ": Onboard x87 FPU - (FPU) is not supported" << endl;
 	(edxBits[1]) ? cout << "EDX bit 1: " << edxBits[1] << ": Virtual 8086 mode extensions (such as VIF, VIP, PVI) - (VME) is supported" << endl : cout << "EDX bit 1: " << edxBits[1] << ": Virtual 8086 mode extensions (such as VIF, VIP, PVI) - (VME) is not supported" << endl;
@@ -580,7 +794,7 @@ int main(int argc, char* argv[]) {
 	cout << endl;
 	
 
-	// EAX=2: Cache and TLB Descriptor Information
+	// EAX=0x2: Cache and TLB Descriptor Information
 	CPUID cpuID2(0x2);
 	eaxBits = bitset<32>(cpuID2.EAX());
 	ebxBits = bitset<32>(cpuID2.EBX());
@@ -599,19 +813,26 @@ int main(int argc, char* argv[]) {
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << eaxBits[7] << eaxBits[6] << eaxBits[5] << eaxBits[4] << eaxBits[3] << eaxBits[2] << eaxBits[1] << eaxBits[0] << endl;
 		int descriptorEAX0 = extractBits(cpuID2.EAX(), 0, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << std::hex << "0x" << descriptorEAX0 << endl;
-		//cout << std::setfill('0') << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << std::hex << "0x" << std::setw(2) << descriptorEAX0 << endl;
+		string descriptorEAX0String = getCacheAndTableDescriptor(descriptorEAX0);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << descriptorEAX0String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 1) = " << eaxBits[15] << eaxBits[14] << eaxBits[13] << eaxBits[12] << eaxBits[11] << eaxBits[10] << eaxBits[9] << eaxBits[8] << endl;
 		int descriptorEAX1 = extractBits(cpuID2.EAX(), 8, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 1) = " << std::hex << "0x" << descriptorEAX1 << endl;
+		string descriptorEAX1String = getCacheAndTableDescriptor(descriptorEAX1);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 1) = " << descriptorEAX1String << endl;
 		
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 2) = " << eaxBits[23] << eaxBits[22] << eaxBits[21] << eaxBits[20] << eaxBits[19] << eaxBits[18] << eaxBits[17] << eaxBits[16] << endl;
 		int descriptorEAX2 = extractBits(cpuID2.EAX(), 16, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 2) = " << std::hex << "0x" << descriptorEAX2 << endl;
+		string descriptorEAX2String = getCacheAndTableDescriptor(descriptorEAX2);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 2) = " << descriptorEAX2String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 3) = " << eaxBits[31] << eaxBits[30] << eaxBits[29] << eaxBits[28] << eaxBits[27] << eaxBits[26] << eaxBits[25] << eaxBits[24] << endl;
 		int descriptorEAX3 = extractBits(cpuID2.EAX(), 24, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 3) = " << std::hex << "0x" << descriptorEAX3 << endl;
+		string descriptorEAX3String = getCacheAndTableDescriptor(descriptorEAX3);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 3) = " << descriptorEAX3String << endl;
 	}
 	
 	if (ebxBits[31])
@@ -626,18 +847,26 @@ int main(int argc, char* argv[]) {
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 0) = " << ebxBits[7] << ebxBits[6] << ebxBits[5] << ebxBits[4] << ebxBits[3] << ebxBits[2] << ebxBits[1] << ebxBits[0] << endl;
 		int descriptorEBX0 = extractBits(cpuID2.EBX(), 0, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 0) = " << std::hex << "0x" << descriptorEBX0 << endl;
+		string descriptorEBX0String = getCacheAndTableDescriptor(descriptorEBX0);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 0) = " << descriptorEBX0String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 1) = " << ebxBits[15] << ebxBits[14] << ebxBits[13] << ebxBits[12] << ebxBits[11] << ebxBits[10] << ebxBits[9] << ebxBits[8] << endl;
 		int descriptorEBX1 = extractBits(cpuID2.EBX(), 8, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 1) = " << std::hex << "0x" << descriptorEBX1 << endl;
+		string descriptorEBX1String = getCacheAndTableDescriptor(descriptorEBX1);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 1) = " << descriptorEBX1String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 2) = " << ebxBits[23] << ebxBits[22] << ebxBits[21] << ebxBits[20] << ebxBits[19] << ebxBits[18] << ebxBits[17] << ebxBits[16] << endl;
 		int descriptorEBX2 = extractBits(cpuID2.EBX(), 16, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 2) = " << std::hex << "0x" << descriptorEBX2 << endl;
+		string descriptorEBX2String = getCacheAndTableDescriptor(descriptorEBX2);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 2) = " << descriptorEBX2String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 3) = " << ebxBits[31] << ebxBits[30] << ebxBits[29] << ebxBits[28] << ebxBits[27] << ebxBits[26] << ebxBits[25] << ebxBits[24] << endl;
 		int descriptorEBX3 = extractBits(cpuID2.EBX(), 24, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 3) = " << std::hex << "0x" << descriptorEBX3 << endl;
+		string descriptorEBX3String = getCacheAndTableDescriptor(descriptorEBX3);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 3) = " << descriptorEBX3String << endl;
 	}
 
 	if (ecxBits[31])
@@ -652,18 +881,26 @@ int main(int argc, char* argv[]) {
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 0) = " << ecxBits[7] << ecxBits[6] << ecxBits[5] << ecxBits[4] << ecxBits[3] << ecxBits[2] << ecxBits[1] << ecxBits[0] << endl;
 		int descriptorECX0 = extractBits(cpuID2.ECX(), 0, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 0) = " << std::hex << "0x" << descriptorECX0 << endl;
+		string descriptorECX0String = getCacheAndTableDescriptor(descriptorECX0);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 0) = " << descriptorECX0String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 1) = " << ecxBits[15] << ecxBits[14] << ecxBits[13] << ecxBits[12] << ecxBits[11] << ecxBits[10] << ecxBits[9] << ecxBits[8] << endl;
 		int descriptorECX1 = extractBits(cpuID2.ECX(), 8, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 1) = " << std::hex << "0x" << descriptorECX1 << endl;
+		string descriptorECX1String = getCacheAndTableDescriptor(descriptorECX1);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 1) = " << descriptorECX1String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 2) = " << ecxBits[23] << ecxBits[22] << ecxBits[21] << ecxBits[20] << ecxBits[19] << ecxBits[18] << ecxBits[17] << ecxBits[16] << endl;
 		int descriptorECX2 = extractBits(cpuID2.ECX(), 16, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 2) = " << std::hex << "0x" << descriptorECX2 << endl;
+		string descriptorECX2String = getCacheAndTableDescriptor(descriptorECX2);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 2) = " << descriptorECX2String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 3) = " << ecxBits[31] << ecxBits[30] << ecxBits[29] << ecxBits[28] << ecxBits[27] << ecxBits[26] << ecxBits[25] << ecxBits[24] << endl;
 		int descriptorECX3 = extractBits(cpuID2.ECX(), 24, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 3) = " << std::hex << "0x" << descriptorECX3 << endl;
+		string descriptorECX3String = getCacheAndTableDescriptor(descriptorECX3);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 3) = " << descriptorECX3String << endl;
 	}
 
 	if (edxBits[31])
@@ -678,18 +915,26 @@ int main(int argc, char* argv[]) {
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 0) = " << edxBits[7] << edxBits[6] << edxBits[5] << edxBits[4] << edxBits[3] << edxBits[2] << edxBits[1] << edxBits[0] << endl;
 		int descriptorEDX0 = extractBits(cpuID2.EDX(), 0, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 0) = " << std::hex << "0x" << descriptorEDX0 << endl;
+		string descriptorEDX0String = getCacheAndTableDescriptor(descriptorEDX0);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 0) = " << descriptorEDX0String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 1) = " << edxBits[15] << edxBits[14] << edxBits[13] << edxBits[12] << edxBits[11] << edxBits[10] << edxBits[9] << edxBits[8] << endl;
 		int descriptorEDX1 = extractBits(cpuID2.EDX(), 8, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 1) = " << std::hex << "0x" << descriptorEDX1 << endl;
+		string descriptorEDX1String = getCacheAndTableDescriptor(descriptorEDX1);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 1) = " << descriptorEDX1String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 2) = " << edxBits[23] << edxBits[22] << edxBits[21] << edxBits[20] << edxBits[19] << edxBits[18] << edxBits[17] << edxBits[16] << endl;
 		int descriptorEDX2 = extractBits(cpuID2.EDX(), 16, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 2) = " << std::hex << "0x" << descriptorEDX2 << endl;
+		string descriptorEDX2String = getCacheAndTableDescriptor(descriptorEDX2);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 2) = " << descriptorEDX2String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 3) = " << edxBits[31] << edxBits[30] << edxBits[29] << edxBits[28] << edxBits[27] << edxBits[26] << edxBits[25] << edxBits[24] << endl;
 		int descriptorEDX3 = extractBits(cpuID2.EDX(), 24, 8);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 3) = " << std::hex << "0x" << descriptorEDX3 << endl;
+		string descriptorEDX3String = getCacheAndTableDescriptor(descriptorEDX3);
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 3) = " << descriptorEDX3String << endl;
 	}
 	cout << endl;
 
