@@ -261,7 +261,7 @@ string getCacheAndTableDescriptor(unsigned int descriptor)
 			description = "Reserved";
 			break;
 		case 0x63:
-			description = "2 Data TLBs: 2 MByte/4 MByte pages, 4-way set associative, 4 entries and 1 GByte pages, fully associative, 32 entries";
+			description = "2 Data TLBs: Table 1: 2 MByte/4 MByte pages, 4-way set associative, 4 entries and Table 2: 1 GByte pages, fully associative, 32 entries";
 			break;
 		case 0x64:
 			description = "Data TLB: 4 KByte pages, 4-way set associative, 512 entries";
@@ -481,7 +481,7 @@ string getCacheAndTableDescriptor(unsigned int descriptor)
 			description = "Data TLB: 2 MByte / 4 MByte pages, 4-way set associative, 16 entries";
 			break;
 		case 0xC3:
-			description = "Two Level-2 shared TLBs: 4 KByte / 2 MByte pages, 6-way set associative, 1536 entries and 1 GByte pages, 4-way set associative, 16 entries";
+			description = "Two Level-2 shared TLBs: Table 1: 4 KByte / 2 MByte pages, 6-way set associative, 1536 entries and Table 2: 1 GByte pages, 4-way set associative, 16 entries";
 			break;
 		case 0xC4:
 			description = "Data TLB: 2 MByte / 4 MByte pages, 4-way set associative, 32 entries";
@@ -606,7 +606,6 @@ string getCacheAndTableDescriptor(unsigned int descriptor)
 			break;
 	}
 
-	// TODO: Add more cases for other cache descriptors
 	return description;
 }
 
@@ -639,26 +638,6 @@ int main(int argc, char* argv[]) {
 	cout << "CPU vendor = " << vendor << endl;
 	cout << endl;
 
-	/*
-	switch (cpuID.EAX())
-	{
-		case 0x01:
-		    cout << "Later Intel 486 and Pentium. Extended: Not Implemented" << endl;
-		    break;
-		case 0x02:
-			cout << "Pentium Pro, Pentium II and Celeron. Extended: Not Implemented" << endl;
-			break;
-		case 0x03:
-			cout << "Pentium III. Extended: Not Implemented" << endl;
-			break;
-		case 0x04:
-			cout << "Pentium 4. Extended: Not Implemented" << endl;
-			break;
-	}
-	*/
-
-
-
 
 	CPUID cpuID1(0x1);
 	// Example number from which bits are to be extracted
@@ -674,15 +653,11 @@ int main(int argc, char* argv[]) {
 	bitset<32> ecxBits = bitset<32>(cpuID1.ECX());
 	bitset<32> edxBits = bitset<32>(cpuID1.EDX());
 	
+	cout << "EAX=0x1: Processor Version Information [EAX] = " << eaxBits << endl;
+	cout << "EAX=0x1: Additional Information [EBX] = " << ebxBits << endl;
+	cout << "EAX=0x1: Feature Bits [ECX] = " << ecxBits << endl;
+	cout << "EAX=0x1: Feature Bits [EDX] = " << edxBits << endl;
 
-	//cout << "EAX=1: Feature Bits: EDX = " << std::hex << "0x" << cpuID1.EDX() << endl;
-	cout << "EAX=0x1: Feature Bits: EDX = " << edxBits << endl;
-	//cout << "EAX=1: Feature Bits: ECX = " << std::hex << "0x" << cpuID1.ECX() << endl;
-	cout << "EAX=0x1: Feature Bits: ECX = " << ecxBits << endl;
-	//cout << "EAX=1: Additional Information: EBX = " << std::hex << "0x" << cpuID1.EBX() << endl;
-	cout << "EAX=0x1: Additional Information: EBX = " << bitset<32>(cpuID1.EBX()) << endl;
-	//cout << "EAX=1: Processor Family IDs: EAX = " << std::hex << "0x" << cpuID1.EAX() << endl;
-	cout << "EAX=0x1: Processor Family IDs: EAX = " << bitset<32>(cpuID1.EAX()) << endl;
 	cout << "EAX=0x1: Stepping ID: EAX Bits 3:0 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 0, 4) << endl;
 
 	unsigned int modelId = extractBits(cpuID1.EAX(), 4, 4);
@@ -704,12 +679,11 @@ int main(int argc, char* argv[]) {
 	cout << "EAX=0x1: Extended Model ID: EAX Bits 16:19 = " << std::hex << "0x" << extendedModelId << endl;
 	cout << "EAX=0x1: Extended Family ID: EAX Bits 20:27 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 20, 8) << endl;
 	cout << "EAX=0x1: Reserved: EAX Bits 28:31 = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 28, 4) << endl;
-
 	cout << endl;
 
 
 
-	cout << "EAX=0x1: EBX Additional Information" << endl;
+	cout << "EAX=0x1: [EBX Additional Information]" << endl;
 	cout << "EBX bits 7:0 Brand Index = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 0, 8) << endl;
 	cout << "EBX bits 15:8 CLFLUSH line size (Value * 8 = cache line size in bytes) = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 8, 8) << endl;
 	cout << "EBX bits 23:16 Maximum number of addressable IDs for logical processors in this physical package = " << std::hex << "0x" << extractBits(cpuID1.EAX(), 16, 8) << endl;
@@ -718,79 +692,75 @@ int main(int argc, char* argv[]) {
 
 
 
-	cout << "EAX=0x1: ECX feature bits" << endl;
-	(ecxBits[0]) ? cout << "ECX bit 0: " << ecxBits[0] << ": SSE3 (Prescott New Instructions - PNI) - (SSE3) is supported" << endl : cout << "ECX bit 0: " << ecxBits[0] << ": SSE3 (Prescott New Instructions - PNI) - (SSE3) is not supported" << endl;
-	(ecxBits[1]) ? cout << "ECX bit 1: " << ecxBits[1] << ": PCLMULQDQ (carry-less multiply) instruction - (PCLMULQDQ) is supported" << endl : cout << "ECX bit 1: " << ecxBits[1] << ": PCLMULQDQ (carry-less multiply) instruction - (PCLMULQDQ) is not supported" << endl;
-	(ecxBits[2]) ? cout << "ECX bit 2: " << ecxBits[2] << ": 64-bit debug store (edx bit 21) - (DTES64) is supported" << endl : cout << "ECX bit 2: " << ecxBits[2] << ": 64-bit debug store (edx bit 21) - (DTES64) is not supported" << endl;
-	(ecxBits[3]) ? cout << "ECX bit 3: " << ecxBits[3] << ": MONITOR and MWAIT instructions (PNI) - (MONITOR) is supported" << endl : cout << "ECX bit 3: " << ecxBits[3] << ": MONITOR and MWAIT instructions (PNI) - (MONITOR) is not supported" << endl;
-	(ecxBits[4]) ? cout << "ECX bit 4: " << ecxBits[4] << ": CPL qualified debug store - (DS-CPL) is supported" << endl : cout << "ECX bit 4: " << ecxBits[4] << ": CPL qualified debug store - (DS-CPL) is not supported" << endl;
-	(ecxBits[5]) ? cout << "ECX bit 5: " << ecxBits[5] << ": Virtual Machine eXtensions - (VMX) is supported" << endl : cout << "ECX bit 5: " << ecxBits[5] << ": Virtual Machine eXtensions - (VMX) is not supported" << endl;
-	(ecxBits[6]) ? cout << "ECX bit 6: " << ecxBits[6] << ": Safer Mode Extensions (LaGrande) (GETSEC instruction) - (SMX) is supported" << endl : cout << "ECX bit 6: " << ecxBits[6] << ": Safer Mode Extensions (LaGrande) (GETSEC instruction) - (SMX) is not supported" << endl;
-	(ecxBits[7]) ? cout << "ECX bit 7: " << ecxBits[7] << ": Enhanced SpeedStep - (EST) is supported" << endl : cout << "ECX bit 7: " << ecxBits[7] << ": Enhanced SpeedStep - (EST) is not supported" << endl;
-	(ecxBits[8]) ? cout << "ECX bit 8: " << ecxBits[8] << ": Thermal Monitor 2 - (TM2) is supported" << endl : cout << "ECX bit 8: " << ecxBits[8] << ": Thermal Monitor 2 - (TM2) is not supported" << endl;
-	(ecxBits[9]) ? cout << "ECX bit 9: " << ecxBits[9] << ": Supplemental SSE3 instructions - (SSSE3) is supported" << endl : cout << "ECX bit 9: " << ecxBits[9] << ": Supplemental SSE3 instructions - (SSSE3) is not supported" << endl;
-	(ecxBits[10]) ? cout << "ECX bit 10: " << ecxBits[10] << ": L1 Context ID - (CNXT-ID) is supported" << endl : cout << "ECX bit 10: " << ecxBits[10] << ": L1 Context ID - (CNXT-ID) is not supported" << endl;
-	(ecxBits[11]) ? cout << "ECX bit 11: " << ecxBits[11] << ": Silicon Debug interface - (SDBG) is supported" << endl : cout << "ECX bit 11: " << ecxBits[11] << ": Silicon Debug interface - (SDBG) is not supported" << endl;
-	(ecxBits[12]) ? cout << "ECX bit 12: " << ecxBits[12] << ": Fused multiply-add (FMA3) - (FMA) is supported" << endl : cout << "ECX bit 12: " << ecxBits[12] << ": Fused multiply-add (FMA3) - (FMA) is not supported" << endl;
-	(ecxBits[13]) ? cout << "ECX bit 13: " << ecxBits[13] << ": CMPXCHG16B instruction - (CMPXCHG16B) is supported" << endl : cout << "ECX bit 13: " << ecxBits[13] << ": CMPXCHG16B instruction - (CMPXCHG16B) is not supported" << endl;
-	(ecxBits[14]) ? cout << "ECX bit 14: " << ecxBits[14] << ": Can disable sending task priority messages - (xTPR Update Control) is supported" << endl : cout << "ECX bit 14: " << ecxBits[14] << ": Can disable sending task priority messages - (xTPR Update Control) is not supported" << endl;
-	(ecxBits[15]) ? cout << "ECX bit 15: " << ecxBits[15] << ": Perfmon & debug capability - (PDCM) is supported" << endl : cout << "ECX bit 15: " << ecxBits[15] << ": Perfmon & debug capability - (PDCM) is not supported" << endl;
-	(ecxBits[16]) ? cout << "ECX bit 16: " << ecxBits[16] << ": Reserved" << endl : cout << "ECX bit 16: " << ecxBits[16] << ": Reserved" << endl;
-	(ecxBits[17]) ? cout << "ECX bit 17: " << ecxBits[17] << ": Process context identifiers (CR4 bit 17) - (PCID) is supported" << endl : cout << "ECX bit 17: " << ecxBits[17] << ": Process context identifiers (CR4 bit 17) - (PCID) is not supported" << endl;
-	(ecxBits[18]) ? cout << "ECX bit 18: " << ecxBits[18] << ": Direct cache access for DMA writes - (DCA) is supported" << endl : cout << "ECX bit 18: " << ecxBits[18] << ": Direct cache access for DMA writes - (DCA) is not supported" << endl;
-	(ecxBits[19]) ? cout << "ECX bit 19: " << ecxBits[19] << ": SSE4.1 instructions - (SSE4.1) is supported" << endl : cout << "ECX bit 19: " << ecxBits[19] << ": SSE4.1 instructions - (SSE4.1) is not supported" << endl;
-	(ecxBits[20]) ? cout << "ECX bit 20: " << ecxBits[20] << ": SSE4.2 instructions - (SSE4.2) is supported" << endl : cout << "ECX bit 20: " << ecxBits[20] << ": SSE4.2 instructions - (SSE4.2) is not supported" << endl;
-	(ecxBits[21]) ? cout << "ECX bit 21: " << ecxBits[21] << ": x2APIC (enhanced APIC) - (X2APIC) is supported" << endl : cout << "ECX bit 21: " << ecxBits[21] << ": x2APIC (enhanced APIC) - (X2APIC) is not supported" << endl;
-	(ecxBits[22]) ? cout << "ECX bit 22: " << ecxBits[22] << ": MOVBE instruction (big-endian) - (MOVBE) is supported" << endl : cout << "ECX bit 22: " << ecxBits[22] << ": MOVBE instruction (big-endian) - (MOVBE) is not supported" << endl;
-	(ecxBits[23]) ? cout << "ECX bit 23: " << ecxBits[23] << ": POPCNT instruction - (POPCNT) is supported" << endl : cout << "ECX bit 23: " << ecxBits[23] << ": POPCNT instruction - (POPCNT) is not supported" << endl;
-	(ecxBits[24]) ? cout << "ECX bit 24: " << ecxBits[24] << ": APIC implements one-shot operation using a TSC deadline value - (TSC-Deadline) is supported" << endl : cout << "ECX bit 24: " << ecxBits[24] << ": APIC implements one-shot operation using a TSC deadline value - (TSC-Deadline) is not supported" << endl;
-	(ecxBits[25]) ? cout << "ECX bit 25: " << ecxBits[25] << ": AES instruction set - (AES-NI) is supported" << endl : cout << "ECX bit 25: " << ecxBits[25] << ": AES instruction set - (AES-NI) is not supported" << endl;
-	(ecxBits[26]) ? cout << "ECX bit 26: " << ecxBits[26] << ": Extensible processor state save/restore: XSAVE, XRSTOR, XSETBV, XGETBV instructions - (XSAVE) is supported" << endl : cout << "ECX bit 26: " << ecxBits[26] << ": Extensible processor state save/restore: XSAVE, XRSTOR, XSETBV, XGETBV instructions - (XSAVE) is not supported" << endl;
-	(ecxBits[27]) ? cout << "ECX bit 27: " << ecxBits[27] << ": XSAVE enabled by OS - (OSXSAVE) is supported" << endl : cout << "ECX bit 27: " << ecxBits[27] << ": XSAVE enabled by OS - (OSXSAVE) is not supported" << endl;
-	(ecxBits[28]) ? cout << "ECX bit 28: " << ecxBits[28] << ": Advanced Vector Extensions (256-bit SIMD) - (AVX) is supported" << endl : cout << "ECX bit 28: " << ecxBits[28] << ": Advanced Vector Extensions (256-bit SIMD) - (AVX) is not supported" << endl;
-	(ecxBits[29]) ? cout << "ECX bit 29: " << ecxBits[29] << ": Floating-point conversion instructions to/from FP16 format - (F16C) is supported" << endl : cout << "ECX bit 29: " << ecxBits[29] << ": Floating-point conversion instructions to/from FP16 format - (F16C) is not supported" << endl;
-	(ecxBits[30]) ? cout << "ECX bit 30: " << ecxBits[30] << ": RDRAND (on-chip random number generator) feature - (RDRAND) is supported" << endl : cout << "ECX bit 30: " << ecxBits[30] << ": RDRAND (on-chip random number generator) feature - (RDRAND) is not supported" << endl;
-	(ecxBits[31]) ? cout << "ECX bit 31: " << ecxBits[31] << ": Hypervisor present (always zero on physical CPUs) - (Hypervisor) is supported" << endl : cout << "ECX bit 31: " << ecxBits[31] << ": Hypervisor present (always zero on physical CPUs) - (Hypervisor) is not supported" << endl;
+	cout << "EAX=0x1: [ECX feature bits]" << endl;
+	(ecxBits[0]) ? cout << "ECX bit 0: " << ecxBits[0] << ": [SUPPORTED] SSE3 (Prescott New Instructions - PNI) - (SSE3)" << endl : cout << "ECX bit 0: " << ecxBits[0] << ": [UNSUPPORTED] SSE3 (Prescott New Instructions - PNI) - (SSE3)" << endl;
+	(ecxBits[1]) ? cout << "ECX bit 1: " << ecxBits[1] << ": [SUPPORTED] PCLMULQDQ (carry-less multiply) instruction - (PCLMULQDQ)" << endl : cout << "ECX bit 1: " << ecxBits[1] << ": [UNSUPPORTED] PCLMULQDQ (carry-less multiply) instruction - (PCLMULQDQ)" << endl;
+	(ecxBits[2]) ? cout << "ECX bit 2: " << ecxBits[2] << ": [SUPPORTED] 64-bit debug store (edx bit 21) - (DTES64)" << endl : cout << "ECX bit 2: " << ecxBits[2] << ": [UNSUPPORTED] 64-bit debug store (edx bit 21) - (DTES64)" << endl;
+	(ecxBits[3]) ? cout << "ECX bit 3: " << ecxBits[3] << ": [SUPPORTED] MONITOR and MWAIT instructions (PNI) - (MONITOR)" << endl : cout << "ECX bit 3: " << ecxBits[3] << ": [UNSUPPORTED] MONITOR and MWAIT instructions (PNI) - (MONITOR)" << endl;
+	(ecxBits[4]) ? cout << "ECX bit 4: " << ecxBits[4] << ": [SUPPORTED] CPL qualified debug store - (DS-CPL)" << endl : cout << "ECX bit 4: " << ecxBits[4] << ": [UNSUPPORTED] CPL qualified debug store - (DS-CPL)" << endl;
+	(ecxBits[5]) ? cout << "ECX bit 5: " << ecxBits[5] << ": [SUPPORTED] Virtual Machine eXtensions - (VMX)" << endl : cout << "ECX bit 5: " << ecxBits[5] << ": [UNSUPPORTED] Virtual Machine eXtensions - (VMX)" << endl;
+	(ecxBits[6]) ? cout << "ECX bit 6: " << ecxBits[6] << ": [SUPPORTED] Safer Mode Extensions (LaGrande) (GETSEC instruction) - (SMX)" << endl : cout << "ECX bit 6: " << ecxBits[6] << ": [UNSUPPORTED] Safer Mode Extensions (LaGrande) (GETSEC instruction) - (SMX)" << endl;
+	(ecxBits[7]) ? cout << "ECX bit 7: " << ecxBits[7] << ": [SUPPORTED] Enhanced SpeedStep - (EST)" << endl : cout << "ECX bit 7: " << ecxBits[7] << ": [UNSUPPORTED] Enhanced SpeedStep - (EST)" << endl;
+	(ecxBits[8]) ? cout << "ECX bit 8: " << ecxBits[8] << ": [SUPPORTED] Thermal Monitor 2 - (TM2)" << endl : cout << "ECX bit 8: " << ecxBits[8] << ": [UNSUPPORTED] Thermal Monitor 2 - (TM2)" << endl;
+	(ecxBits[9]) ? cout << "ECX bit 9: " << ecxBits[9] << ": [SUPPORTED] Supplemental SSE3 instructions - (SSSE3)" << endl : cout << "ECX bit 9: " << ecxBits[9] << ": [UNSUPPORTED] Supplemental SSE3 instructions - (SSSE3)" << endl;
+	(ecxBits[10]) ? cout << "ECX bit 10: " << ecxBits[10] << ": [SUPPORTED] L1 Context ID - (CNXT-ID)" << endl : cout << "ECX bit 10: " << ecxBits[10] << ": [UNSUPPORTED] L1 Context ID - (CNXT-ID)" << endl;
+	(ecxBits[11]) ? cout << "ECX bit 11: " << ecxBits[11] << ": [SUPPORTED] Silicon Debug interface - (SDBG)" << endl : cout << "ECX bit 11: " << ecxBits[11] << ": [UNSUPPORTED] Silicon Debug interface - (SDBG)" << endl;
+	(ecxBits[12]) ? cout << "ECX bit 12: " << ecxBits[12] << ": [SUPPORTED] Fused multiply-add (FMA3) - (FMA)" << endl : cout << "ECX bit 12: " << ecxBits[12] << ": [UNSUPPORTED] Fused multiply-add (FMA3) - (FMA)" << endl;
+	(ecxBits[13]) ? cout << "ECX bit 13: " << ecxBits[13] << ": [SUPPORTED] CMPXCHG16B instruction - (CMPXCHG16B)" << endl : cout << "ECX bit 13: " << ecxBits[13] << ": [UNSUPPORTED] CMPXCHG16B instruction - (CMPXCHG16B)" << endl;
+	(ecxBits[14]) ? cout << "ECX bit 14: " << ecxBits[14] << ": [SUPPORTED] Can disable sending task priority messages - (xTPR Update Control)" << endl : cout << "ECX bit 14: " << ecxBits[14] << ": [UNSUPPORTED] Can disable sending task priority messages - (xTPR Update Control)" << endl;
+	(ecxBits[15]) ? cout << "ECX bit 15: " << ecxBits[15] << ": [SUPPORTED] Perfmon & debug capability - (PDCM)" << endl : cout << "ECX bit 15: " << ecxBits[15] << ": [UNSUPPORTED] Perfmon & debug capability - (PDCM)" << endl;
+	(ecxBits[16]) ? cout << "ECX bit 16: " << ecxBits[16] << ": [SUPPORTED] Reserved" << endl : cout << "ECX bit 16: " << ecxBits[16] << ": [UNSUPPORTED] Reserved" << endl;
+	(ecxBits[17]) ? cout << "ECX bit 17: " << ecxBits[17] << ": [SUPPORTED] Process context identifiers (CR4 bit 17) - (PCID)" << endl : cout << "ECX bit 17: " << ecxBits[17] << ": [UNSUPPORTED] Process context identifiers (CR4 bit 17) - (PCID)" << endl;
+	(ecxBits[18]) ? cout << "ECX bit 18: " << ecxBits[18] << ": [SUPPORTED] Direct cache access for DMA writes - (DCA)" << endl : cout << "ECX bit 18: " << ecxBits[18] << ": [UNSUPPORTED] Direct cache access for DMA writes - (DCA)" << endl;
+	(ecxBits[19]) ? cout << "ECX bit 19: " << ecxBits[19] << ": [SUPPORTED] SSE4.1 instructions - (SSE4.1)" << endl : cout << "ECX bit 19: " << ecxBits[19] << ": [UNSUPPORTED] SSE4.1 instructions - (SSE4.1)" << endl;
+	(ecxBits[20]) ? cout << "ECX bit 20: " << ecxBits[20] << ": [SUPPORTED] SSE4.2 instructions - (SSE4.2)" << endl : cout << "ECX bit 20: " << ecxBits[20] << ": [UNSUPPORTED] SSE4.2 instructions - (SSE4.2)" << endl;
+	(ecxBits[21]) ? cout << "ECX bit 21: " << ecxBits[21] << ": [SUPPORTED] x2APIC (enhanced APIC) - (X2APIC)" << endl : cout << "ECX bit 21: " << ecxBits[21] << ": [UNSUPPORTED] x2APIC (enhanced APIC) - (X2APIC)" << endl;
+	(ecxBits[22]) ? cout << "ECX bit 22: " << ecxBits[22] << ": [SUPPORTED] MOVBE instruction (big-endian) - (MOVBE)" << endl : cout << "ECX bit 22: " << ecxBits[22] << ": [UNSUPPORTED] MOVBE instruction (big-endian) - (MOVBE)" << endl;
+	(ecxBits[23]) ? cout << "ECX bit 23: " << ecxBits[23] << ": [SUPPORTED] POPCNT instruction - (POPCNT)" << endl : cout << "ECX bit 23: " << ecxBits[23] << ": [UNSUPPORTED] POPCNT instruction - (POPCNT)" << endl;
+	(ecxBits[24]) ? cout << "ECX bit 24: " << ecxBits[24] << ": [SUPPORTED] APIC implements one-shot operation using a TSC deadline value - (TSC-Deadline)" << endl : cout << "ECX bit 24: " << ecxBits[24] << ": [UNSUPPORTED] APIC implements one-shot operation using a TSC deadline value - (TSC-Deadline)" << endl;
+	(ecxBits[25]) ? cout << "ECX bit 25: " << ecxBits[25] << ": [SUPPORTED] AES instruction set - (AES-NI)" << endl : cout << "ECX bit 25: " << ecxBits[25] << ": [UNSUPPORTED] AES instruction set - (AES-NI)" << endl;
+	(ecxBits[26]) ? cout << "ECX bit 26: " << ecxBits[26] << ": [SUPPORTED] Extensible processor state save/restore: XSAVE, XRSTOR, XSETBV, XGETBV instructions - (XSAVE)" << endl : cout << "ECX bit 26: " << ecxBits[26] << ": [UNSUPPORTED] Extensible processor state save/restore: XSAVE, XRSTOR, XSETBV, XGETBV instructions - (XSAVE)" << endl;
+	(ecxBits[27]) ? cout << "ECX bit 27: " << ecxBits[27] << ": [SUPPORTED] XSAVE enabled by OS - (OSXSAVE)" << endl : cout << "ECX bit 27: " << ecxBits[27] << ": [UNSUPPORTED] XSAVE enabled by OS - (OSXSAVE)" << endl;
+	(ecxBits[28]) ? cout << "ECX bit 28: " << ecxBits[28] << ": [SUPPORTED] Advanced Vector Extensions (256-bit SIMD) - (AVX)" << endl : cout << "ECX bit 28: " << ecxBits[28] << ": [UNSUPPORTED] Advanced Vector Extensions (256-bit SIMD) - (AVX)" << endl;
+	(ecxBits[29]) ? cout << "ECX bit 29: " << ecxBits[29] << ": [SUPPORTED] Floating-point conversion instructions to/from FP16 format - (F16C)" << endl : cout << "ECX bit 29: " << ecxBits[29] << ": [UNSUPPORTED] Floating-point conversion instructions to/from FP16 format - (F16C)" << endl;
+	(ecxBits[30]) ? cout << "ECX bit 30: " << ecxBits[30] << ": [SUPPORTED] RDRAND (on-chip random number generator) feature - (RDRAND)" << endl : cout << "ECX bit 30: " << ecxBits[30] << ": [UNSUPPORTED] RDRAND (on-chip random number generator) feature - (RDRAND)" << endl;
+	(ecxBits[31]) ? cout << "ECX bit 31: " << ecxBits[31] << ": [SUPPORTED] Hypervisor present (always zero on physical CPUs) - (Hypervisor)" << endl : cout << "ECX bit 31: " << ecxBits[31] << ": [UNSUPPORTED] Hypervisor present (always zero on physical CPUs) - (Hypervisor)" << endl;
 	cout << endl;
 
-
-
-	cout << "EAX=0x1: EDX feature bits" << endl;
+	cout << "EAX=0x1: [EDX feature bits]" << endl;
 	//cout << "EDX bit 0 = " << std::hex << "0x" << edxBits[0] << endl;
-	(edxBits[0]) ? cout << "EDX bit 0: " << edxBits[0] << ": Onboard x87 FPU - (FPU) is supported" << endl : cout << "EDX bit 0: " << edxBits[0] << ": Onboard x87 FPU - (FPU) is not supported" << endl;
-	(edxBits[1]) ? cout << "EDX bit 1: " << edxBits[1] << ": Virtual 8086 mode extensions (such as VIF, VIP, PVI) - (VME) is supported" << endl : cout << "EDX bit 1: " << edxBits[1] << ": Virtual 8086 mode extensions (such as VIF, VIP, PVI) - (VME) is not supported" << endl;
-	(edxBits[2]) ? cout << "EDX bit 2: " << edxBits[2] << ": Debugging extensions (CR4 bit 3) - (DE) is supported" << endl : cout << "EDX bit 2: " << edxBits[2] << ": Debugging extensions (CR4 bit 3) - (DE) is not supported" << endl;
-	(edxBits[3]) ? cout << "EDX bit 3: " << edxBits[3] << ": Page Size Extension (4 MB pages) - (PSE) is supported" << endl : cout << "EDX bit 3: " << edxBits[3] << ": Page Size Extension (4 MB pages) - (PSE) is not supported" << endl;
-	(edxBits[4]) ? cout << "EDX bit 4: " << edxBits[4] << ": Time Stamp Counter and RDTSC instruction - (TSC) is supported" << endl : cout << "EDX bit 4: " << edxBits[4] << ": Time Stamp Counter and RDTSC instruction - (TSC) is not supported" << endl;
-	(edxBits[5]) ? cout << "EDX bit 5: " << edxBits[5] << ": Model-specific registers and RDMSR/WRMSR instructions  - (MSR) is supported" << endl : cout << "EDX bit 5: " << edxBits[5] << ": Model-specific registers and RDMSR/WRMSR instructions  - (MSR) is not supported" << endl;
-	(edxBits[6]) ? cout << "EDX bit 6: " << edxBits[6] << ": Physical Address Extension - (PAE) is supported" << endl : cout << "EDX bit 6: " << edxBits[6] << ": Physical Address Extension - (PAE) is not supported" << endl;
-	(edxBits[7]) ? cout << "EDX bit 7: " << edxBits[7] << ": Machine Check Exception - (MCE) is supported" << endl : cout << "EDX bit 7: " << edxBits[7] << ": Machine Check Exception - (MCE) is not supported" << endl;
-	(edxBits[8]) ? cout << "EDX bit 8: " << edxBits[8] << ": CMPXCHG8B (compare-and-swap) instruction  - (CX8) is supported" << endl : cout << "EDX bit 8: " << edxBits[8] << ": CMPXCHG8B (compare-and-swap) instruction  - (CX8) is not supported" << endl;
-	(edxBits[9]) ? cout << "EDX bit 9: " << edxBits[9] << ": Onboard Advanced Programmable Interrupt Controller - (APIC) is supported" << endl : cout << "EDX bit 9: " << edxBits[9] << ": Onboard Advanced Programmable Interrupt Controller - (APIC) is not supported" << endl;
-	(edxBits[10]) ? cout << "EDX bit 10: " << edxBits[10] << ": Reserved" << endl : cout << "EDX bit 10: " << edxBits[10] << ": Reserved" << endl;
-	(edxBits[11]) ? cout << "EDX bit 11: " << edxBits[11] << ": SYSENTER and SYSEXIT fast system call instructions  - (SEP) is supported" << endl : cout << "EDX bit 11: " << edxBits[11] << ": SYSENTER and SYSEXIT fast system call instructions  - (SEP) is not supported" << endl;
-	(edxBits[12]) ? cout << "EDX bit 12: " << edxBits[12] << ": Memory Type Range Registers - (MTRR) is supported" << endl : cout << "EDX bit 12: " << edxBits[12] << ": Memory Type Range Registers - (MTRR) is not supported" << endl;
-	(edxBits[13]) ? cout << "EDX bit 13: " << edxBits[13] << ": Page Global Enable bit in CR4 - (PGE) is supported" << endl : cout << "EDX bit 13: " << edxBits[13] << ": Page Global Enable bit in CR4 - (PGE) is not supported" << endl;
-	(edxBits[14]) ? cout << "EDX bit 14: " << edxBits[14] << ": Machine Check Architecture - (MCA) is supported" << endl : cout << "EDX bit 14: " << edxBits[14] << ": Machine Check Architecture - (MCA) is not supported" << endl;
-	(edxBits[15]) ? cout << "EDX bit 15: " << edxBits[15] << ": Conditional move: CMOV, FCMOV and FCOMI instructions - (CMOV) is supported" << endl : cout << "EDX bit 15: " << edxBits[15] << ": Conditional move: CMOV, FCMOV and FCOMI instructions - (CMOV) is not supported" << endl;
-	(edxBits[16]) ? cout << "EDX bit 16: " << edxBits[16] << ": Page Attribute Table - (PAT) is supported" << endl : cout << "EDX bit 16: " << edxBits[16] << ": Page Attribute Table - (PAT) is not supported" << endl;
-	(edxBits[17]) ? cout << "EDX bit 17: " << edxBits[17] << ": 36-bit Page Size Extension - (PSE-36) is supported" << endl : cout << "EDX bit 17: " << edxBits[17] << ": 36-bit Page Size Extension - (PSE-36) is not supported" << endl;
-	(edxBits[18]) ? cout << "EDX bit 18: " << edxBits[18] << ": Processor Serial Number supported and enable - (PSN) is supported" << endl : cout << "EDX bit 18: " << edxBits[18] << ": Processor Serial Number supported and enable - (PSN) is not supported" << endl;
-	(edxBits[19]) ? cout << "EDX bit 19: " << edxBits[19] << ": CLFLUSH cache line flush instruction (SSE2)  - (CLFSH) is supported" << endl : cout << "EDX bit 19: " << edxBits[19] << ": CLFLUSH cache line flush instruction (SSE2)  - (CLFSH) is not supported" << endl;
-	(edxBits[20]) ? cout << "EDX bit 20: " << edxBits[20] << ": No-execute (NX) bit (Itanium only, reserved on other CPUs - (NX) is supported" << endl : cout << "EDX bit 20: " << edxBits[20] << ": No-execute (NX) bit (Itanium only, reserved on other CPUs - (NX) is not supported" << endl;
-	(edxBits[21]) ? cout << "EDX bit 21: " << edxBits[21] << ": Debug store: save trace of executed jumps - (DS) is supported" << endl : cout << "EDX bit 21: " << edxBits[21] << ": Debug store: save trace of executed jumps - (DS) is not supported" << endl;
-	(edxBits[22]) ? cout << "EDX bit 22: " << edxBits[22] << ": Onboard thermal control MSRs for ACPI - (ACPI) is supported" << endl : cout << "EDX bit 22: " << edxBits[22] << ": Onboard thermal control MSRs for ACPI - (ACPI) is not supported" << endl;
-	(edxBits[23]) ? cout << "EDX bit 23: " << edxBits[23] << ": MMX instructions (64-bit SIMD) - (MMX) is supported" << endl : cout << "EDX bit 23: " << edxBits[23] << ": MMX instructions (64-bit SIMD) - (MMX) is not supported" << endl;
-	(edxBits[24]) ? cout << "EDX bit 24: " << edxBits[24] << ": FXSAVE, FXRSTOR instructions, CR4 bit 9 - (FXSR) is supported" << endl : cout << "EDX bit 24: " << edxBits[24] << ": FXSAVE, FXRSTOR instructions, CR4 bit 9 - (FXSR) is not supported" << endl;
-	(edxBits[25]) ? cout << "EDX bit 25: " << edxBits[25] << ": Streaming SIMD Extensions (SSE) / Katmai New Instructions 128-bit SIMD - (SSE) is supported" << endl : cout << "EDX bit 25: " << edxBits[25] << ": Streaming SIMD Extensions (SSE) / Katmai New Instructions 128-bit SIMD - (SSE) is not supported" << endl;
-	(edxBits[26]) ? cout << "EDX bit 26: " << edxBits[26] << ": SSE2 instructions - (SSE2) is supported" << endl : cout << "EDX bit 26: " << edxBits[26] << ": SSE2 instructions - (SSE2) is not supported" << endl;
-	(edxBits[27]) ? cout << "EDX bit 27: " << edxBits[27] << ": CPU cache implements self-snoop - (SS) is supported" << endl : cout << "EDX bit 27: " << edxBits[27] << ": CPU cache implements self-snoop - (SS) is not supported" << endl;
-	(edxBits[28]) ? cout << "EDX bit 28: " << edxBits[28] << ": Max APIC IDs reserved field is Valid - (HTT) is supported" << endl : cout << "EDX bit 28: " << edxBits[28] << ": Max APIC IDs reserved field is Valid - (HTT) is not supported" << endl;
-	(edxBits[29]) ? cout << "EDX bit 29: " << edxBits[29] << ": Thermal monitor automatically limits temperature - (TM) is supported" << endl : cout << "EDX bit 29: " << edxBits[29] << ": Thermal monitor automatically limits temperature - (TM) is not supported" << endl;
-	(edxBits[30]) ? cout << "EDX bit 30: " << edxBits[30] << ": IA64 processor emulating x86 - (IA64) is supported" << endl : cout << "EDX bit 30: " << edxBits[30] << ": IA64 processor emulating x86 - (IA64) is not supported" << endl;
-	(edxBits[31]) ? cout << "EDX bit 31: " << edxBits[31] << ": Pending Break Enable (PBE# pin) wakeup capability - (PBE) is supported" << endl : cout << "EDX bit 31: " << edxBits[31] << ": Pending Break Enable (PBE# pin) wakeup capability - (PBE) is not supported" << endl;
-	cout << endl;
-
+	(edxBits[0]) ? cout << "EDX bit 0: " << edxBits[0] << ": [SUPPORTED] Onboard x87 FPU - (FPU)" << endl : cout << "EDX bit 0: " << edxBits[0] << ": [UNSUPPORTED] Onboard x87 FPU - (FPU)" << endl;
+	(edxBits[1]) ? cout << "EDX bit 1: " << edxBits[1] << ": [SUPPORTED] Virtual 8086 mode extensions (such as VIF, VIP, PVI) - (VME)" << endl : cout << "EDX bit 1: " << edxBits[1] << ": [UNSUPPORTED] Virtual 8086 mode extensions (such as VIF, VIP, PVI) - (VME)" << endl;
+	(edxBits[2]) ? cout << "EDX bit 2: " << edxBits[2] << ": [SUPPORTED] Debugging extensions (CR4 bit 3) - (DE)" << endl : cout << "EDX bit 2: " << edxBits[2] << ": [UNSUPPORTED] Debugging extensions (CR4 bit 3) - (DE)" << endl;
+	(edxBits[3]) ? cout << "EDX bit 3: " << edxBits[3] << ": [SUPPORTED] Page Size Extension (4 MB pages) - (PSE)" << endl : cout << "EDX bit 3: " << edxBits[3] << ": [UNSUPPORTED] Page Size Extension (4 MB pages) - (PSE)" << endl;
+	(edxBits[4]) ? cout << "EDX bit 4: " << edxBits[4] << ": [SUPPORTED] Time Stamp Counter and RDTSC instruction - (TSC)" << endl : cout << "EDX bit 4: " << edxBits[4] << ": [UNSUPPORTED] Time Stamp Counter and RDTSC instruction - (TSC)" << endl;
+	(edxBits[5]) ? cout << "EDX bit 5: " << edxBits[5] << ": [SUPPORTED] Model-specific registers and RDMSR/WRMSR instructions  - (MSR)" << endl : cout << "EDX bit 5: " << edxBits[5] << ": [UNSUPPORTED] Model-specific registers and RDMSR/WRMSR instructions  - (MSR)" << endl;
+	(edxBits[6]) ? cout << "EDX bit 6: " << edxBits[6] << ": [SUPPORTED] Physical Address Extension - (PAE)" << endl : cout << "EDX bit 6: " << edxBits[6] << ": [UNSUPPORTED] Physical Address Extension - (PAE)" << endl;
+	(edxBits[7]) ? cout << "EDX bit 7: " << edxBits[7] << ": [SUPPORTED] Machine Check Exception - (MCE)" << endl : cout << "EDX bit 7: " << edxBits[7] << ": [UNSUPPORTED] Machine Check Exception - (MCE)" << endl;
+	(edxBits[8]) ? cout << "EDX bit 8: " << edxBits[8] << ": [SUPPORTED] CMPXCHG8B (compare-and-swap) instruction  - (CX8)" << endl : cout << "EDX bit 8: " << edxBits[8] << ": [UNSUPPORTED] CMPXCHG8B (compare-and-swap) instruction  - (CX8)" << endl;
+	(edxBits[9]) ? cout << "EDX bit 9: " << edxBits[9] << ": [SUPPORTED] Onboard Advanced Programmable Interrupt Controller - (APIC)" << endl : cout << "EDX bit 9: " << edxBits[9] << ": [UNSUPPORTED] Onboard Advanced Programmable Interrupt Controller - (APIC)" << endl;
+	(edxBits[10]) ? cout << "EDX bit 10: " << edxBits[10] << ": [SUPPORTED] Reserved" << endl : cout << "EDX bit 10: " << edxBits[10] << ": [UNSUPPORTED] Reserved" << endl;
+	(edxBits[11]) ? cout << "EDX bit 11: " << edxBits[11] << ": [SUPPORTED] SYSENTER and SYSEXIT fast system call instructions  - (SEP)" << endl : cout << "EDX bit 11: " << edxBits[11] << ": [UNSUPPORTED] SYSENTER and SYSEXIT fast system call instructions  - (SEP)" << endl;
+	(edxBits[12]) ? cout << "EDX bit 12: " << edxBits[12] << ": [SUPPORTED] Memory Type Range Registers - (MTRR)" << endl : cout << "EDX bit 12: " << edxBits[12] << ": [UNSUPPORTED] Memory Type Range Registers - (MTRR)" << endl;
+	(edxBits[13]) ? cout << "EDX bit 13: " << edxBits[13] << ": [SUPPORTED] Page Global Enable bit in CR4 - (PGE)" << endl : cout << "EDX bit 13: " << edxBits[13] << ": [UNSUPPORTED] Page Global Enable bit in CR4 - (PGE)" << endl;
+	(edxBits[14]) ? cout << "EDX bit 14: " << edxBits[14] << ": [SUPPORTED] Machine Check Architecture - (MCA)" << endl : cout << "EDX bit 14: " << edxBits[14] << ": [UNSUPPORTED] Machine Check Architecture - (MCA)" << endl;
+	(edxBits[15]) ? cout << "EDX bit 15: " << edxBits[15] << ": [SUPPORTED] Conditional move: CMOV, FCMOV and FCOMI instructions - (CMOV)" << endl : cout << "EDX bit 15: " << edxBits[15] << ": [UNSUPPORTED] Conditional move: CMOV, FCMOV and FCOMI instructions - (CMOV)" << endl;
+	(edxBits[16]) ? cout << "EDX bit 16: " << edxBits[16] << ": [SUPPORTED] Page Attribute Table - (PAT)" << endl : cout << "EDX bit 16: " << edxBits[16] << ": [UNSUPPORTED] Page Attribute Table - (PAT)" << endl;
+	(edxBits[17]) ? cout << "EDX bit 17: " << edxBits[17] << ": [SUPPORTED] 36-bit Page Size Extension - (PSE-36)" << endl : cout << "EDX bit 17: " << edxBits[17] << ": [UNSUPPORTED] 36-bit Page Size Extension - (PSE-36)" << endl;
+	(edxBits[18]) ? cout << "EDX bit 18: " << edxBits[18] << ": [SUPPORTED] Processor Serial Number supported and enable - (PSN)" << endl : cout << "EDX bit 18: " << edxBits[18] << ": [UNSUPPORTED] Processor Serial Number supported and enable - (PSN)" << endl;
+	(edxBits[19]) ? cout << "EDX bit 19: " << edxBits[19] << ": [SUPPORTED] CLFLUSH cache line flush instruction (SSE2)  - (CLFSH)" << endl : cout << "EDX bit 19: " << edxBits[19] << ": [UNSUPPORTED] CLFLUSH cache line flush instruction (SSE2)  - (CLFSH)" << endl;
+	(edxBits[20]) ? cout << "EDX bit 20: " << edxBits[20] << ": [SUPPORTED] No-execute (NX) bit (Itanium only, reserved on other CPUs - (NX)" << endl : cout << "EDX bit 20: " << edxBits[20] << ": [UNSUPPORTED] No-execute (NX) bit (Itanium only, reserved on other CPUs - (NX)" << endl;
+	(edxBits[21]) ? cout << "EDX bit 21: " << edxBits[21] << ": [SUPPORTED] Debug store: save trace of executed jumps - (DS)" << endl : cout << "EDX bit 21: " << edxBits[21] << ": [UNSUPPORTED] Debug store: save trace of executed jumps - (DS)" << endl;
+	(edxBits[22]) ? cout << "EDX bit 22: " << edxBits[22] << ": [SUPPORTED] Onboard thermal control MSRs for ACPI - (ACPI)" << endl : cout << "EDX bit 22: " << edxBits[22] << ": [UNSUPPORTED] Onboard thermal control MSRs for ACPI - (ACPI)" << endl;
+	(edxBits[23]) ? cout << "EDX bit 23: " << edxBits[23] << ": [SUPPORTED] MMX instructions (64-bit SIMD) - (MMX)" << endl : cout << "EDX bit 23: " << edxBits[23] << ": [UNSUPPORTED] MMX instructions (64-bit SIMD) - (MMX)" << endl;
+	(edxBits[24]) ? cout << "EDX bit 24: " << edxBits[24] << ": [SUPPORTED] FXSAVE, FXRSTOR instructions, CR4 bit 9 - (FXSR)" << endl : cout << "EDX bit 24: " << edxBits[24] << ": [UNSUPPORTED] FXSAVE, FXRSTOR instructions, CR4 bit 9 - (FXSR)" << endl;
+	(edxBits[25]) ? cout << "EDX bit 25: " << edxBits[25] << ": [SUPPORTED] Streaming SIMD Extensions (SSE) / Katmai New Instructions 128-bit SIMD - (SSE)" << endl : cout << "EDX bit 25: " << edxBits[25] << ": [UNSUPPORTED] Streaming SIMD Extensions (SSE) / Katmai New Instructions 128-bit SIMD - (SSE)" << endl;
+	(edxBits[26]) ? cout << "EDX bit 26: " << edxBits[26] << ": [SUPPORTED] SSE2 instructions - (SSE2)" << endl : cout << "EDX bit 26: " << edxBits[26] << ": [UNSUPPORTED] SSE2 instructions - (SSE2)" << endl;
+	(edxBits[27]) ? cout << "EDX bit 27: " << edxBits[27] << ": [SUPPORTED] CPU cache implements self-snoop - (SS)" << endl : cout << "EDX bit 27: " << edxBits[27] << ": [UNSUPPORTED] CPU cache implements self-snoop - (SS)" << endl;
+	(edxBits[28]) ? cout << "EDX bit 28: " << edxBits[28] << ": [SUPPORTED] Max APIC IDs reserved field is Valid - (HTT)" << endl : cout << "EDX bit 28: " << edxBits[28] << ": [UNSUPPORTED] Max APIC IDs reserved field is Valid - (HTT)" << endl;
+	(edxBits[29]) ? cout << "EDX bit 29: " << edxBits[29] << ": [SUPPORTED] Thermal monitor automatically limits temperature - (TM)" << endl : cout << "EDX bit 29: " << edxBits[29] << ": [UNSUPPORTED] Thermal monitor automatically limits temperature - (TM)" << endl;
+	(edxBits[30]) ? cout << "EDX bit 30: " << edxBits[30] << ": [SUPPORTED] IA64 processor emulating x86 - (IA64)" << endl : cout << "EDX bit 30: " << edxBits[30] << ": [UNSUPPORTED] IA64 processor emulating x86 - (IA64)" << endl;
+	(edxBits[31]) ? cout << "EDX bit 31: " << edxBits[31] << ": [SUPPORTED] Pending Break Enable (PBE# pin) wakeup capability - (PBE)" << endl : cout << "EDX bit 31: " << edxBits[31] << ": [UNSUPPORTED] Pending Break Enable (PBE# pin) wakeup capability - (PBE)" << endl;
 	cout << endl;
 	
 
@@ -803,18 +773,18 @@ int main(int argc, char* argv[]) {
 
 	if (eaxBits[31])
 	{
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX) = Invalid Descriptors / No valid information." << endl;
+		cout << "EAX=0x2: [Cache and TLB Descriptor Information (EAX) = Invalid Descriptors / No valid information.]" << endl;
 	}
 	else
 	{
 		//cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX) = " << std::hex << "0x" << cpuID2.EAX() << endl;
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX) = " << eaxBits << endl;
+		cout << "EAX=0x2: [Cache and TLB Descriptor Information (EAX)] = " << eaxBits << endl;
 
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << eaxBits[7] << eaxBits[6] << eaxBits[5] << eaxBits[4] << eaxBits[3] << eaxBits[2] << eaxBits[1] << eaxBits[0] << endl;
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) - Number of times to query CPUID with 0x2 (should be 1) = " << eaxBits[7] << eaxBits[6] << eaxBits[5] << eaxBits[4] << eaxBits[3] << eaxBits[2] << eaxBits[1] << eaxBits[0] << endl;
 		int descriptorEAX0 = extractBits(cpuID2.EAX(), 0, 8);
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << std::hex << "0x" << descriptorEAX0 << endl;
-		string descriptorEAX0String = getCacheAndTableDescriptor(descriptorEAX0);
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << descriptorEAX0String << endl;
+		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) - Number of times to query CPUID with 0x2 (should be 1) = " << std::hex << "0x" << descriptorEAX0 << endl;
+		//string descriptorEAX0String = getCacheAndTableDescriptor(descriptorEAX0);
+		//cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 0) = " << descriptorEAX0String << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 1) = " << eaxBits[15] << eaxBits[14] << eaxBits[13] << eaxBits[12] << eaxBits[11] << eaxBits[10] << eaxBits[9] << eaxBits[8] << endl;
 		int descriptorEAX1 = extractBits(cpuID2.EAX(), 8, 8);
@@ -834,15 +804,16 @@ int main(int argc, char* argv[]) {
 		string descriptorEAX3String = getCacheAndTableDescriptor(descriptorEAX3);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EAX byte 3) = " << descriptorEAX3String << endl;
 	}
+	cout << endl;
 	
 	if (ebxBits[31])
 	{
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX) = Invalid Descriptors / No valid information." << endl;
+		cout << "EAX=0x2: [Cache and TLB Descriptor Information (EBX) = Invalid Descriptors / No valid information.]" << endl;
 	}
 	else
 	{
 		//cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX) = " << std::hex << "0x" << cpuID2.EBX() << endl;
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX) = " << ebxBits << endl;
+		cout << "EAX=0x2: [Cache and TLB Descriptor Information (EBX)] = " << ebxBits << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 0) = " << ebxBits[7] << ebxBits[6] << ebxBits[5] << ebxBits[4] << ebxBits[3] << ebxBits[2] << ebxBits[1] << ebxBits[0] << endl;
 		int descriptorEBX0 = extractBits(cpuID2.EBX(), 0, 8);
@@ -868,15 +839,16 @@ int main(int argc, char* argv[]) {
 		string descriptorEBX3String = getCacheAndTableDescriptor(descriptorEBX3);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EBX byte 3) = " << descriptorEBX3String << endl;
 	}
+	cout << endl;
 
 	if (ecxBits[31])
 	{
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX) = Invalid Descriptors / No valid information." << endl;
+		cout << "EAX=0x2: [Cache and TLB Descriptor Information (ECX) = Invalid Descriptors / No valid information.]" << endl;
 	}
 	else
 	{
 		//cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX) = " << std::hex << "0x" << cpuID2.ECX() << endl;
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX) = " << ecxBits << endl;
+		cout << "EAX=0x2: [Cache and TLB Descriptor Information (ECX)] = " << ecxBits << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 0) = " << ecxBits[7] << ecxBits[6] << ecxBits[5] << ecxBits[4] << ecxBits[3] << ecxBits[2] << ecxBits[1] << ecxBits[0] << endl;
 		int descriptorECX0 = extractBits(cpuID2.ECX(), 0, 8);
@@ -902,15 +874,16 @@ int main(int argc, char* argv[]) {
 		string descriptorECX3String = getCacheAndTableDescriptor(descriptorECX3);
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (ECX byte 3) = " << descriptorECX3String << endl;
 	}
+	cout << endl;
 
 	if (edxBits[31])
 	{
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX) = Invalid Descriptors / No valid information." << endl;
+		cout << "EAX=0x2: [Cache and TLB Descriptor Information (EDX) = Invalid Descriptors / No valid information.]" << endl;
 	}
 	else
 	{
 		//cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX) = " << std::hex << "0x" << cpuID2.EDX() << endl;
-		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX) = " << edxBits << endl;
+		cout << "EAX=0x2: [Cache and TLB Descriptor Information (EDX)] = " << edxBits << endl;
 
 		cout << "EAX=0x2: Cache and TLB Descriptor Information (EDX byte 0) = " << edxBits[7] << edxBits[6] << edxBits[5] << edxBits[4] << edxBits[3] << edxBits[2] << edxBits[1] << edxBits[0] << endl;
 		int descriptorEDX0 = extractBits(cpuID2.EDX(), 0, 8);
@@ -938,6 +911,138 @@ int main(int argc, char* argv[]) {
 	}
 	cout << endl;
 
+	// EAX=0x3: Processor Serial Number
+	CPUID cpuID3(0x3);
+	eaxBits = bitset<32>(cpuID2.EAX());
+	ebxBits = bitset<32>(cpuID2.EBX());
+	ecxBits = bitset<32>(cpuID2.ECX());
+	edxBits = bitset<32>(cpuID2.EDX());
+
+	cout << "EAX=0x3: Processor Serial Number (PSN) Information:" << endl;
+	cout << "EAX=0x3: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0x3: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0x3: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0x3: [EDX] = " << edxBits << endl;
+	cout << endl;
+
+	// EAX=4 and EAX=8000'001Dh: Cache Hierarchy and Topology
+	CPUID cpuID4(0x4); // Intel
+	eaxBits = bitset<32>(cpuID4.EAX());
+	ebxBits = bitset<32>(cpuID4.EBX());
+	ecxBits = bitset<32>(cpuID4.ECX());
+	edxBits = bitset<32>(cpuID4.EDX());
+	cout << "EAX=0x4: Cache Hierarchy and Topology Information (Intel):" << endl;
+	cout << "EAX=0x4: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0x4: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0x4: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0x4: [EDX] = " << edxBits << endl;
+	cout << endl;
+
+	CPUID cpuID8000001D(0x8000001D); // AMD
+	eaxBits = bitset<32>(cpuID8000001D.EAX());
+	ebxBits = bitset<32>(cpuID8000001D.EBX());
+	ecxBits = bitset<32>(cpuID8000001D.ECX());
+	edxBits = bitset<32>(cpuID8000001D.EDX());
+	cout << "EAX=0x8000001D: Cache Hierarchy and Topology Information (AMD):" << endl;
+	cout << "EAX=0x8000001D: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0x8000001D: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0x8000001D: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0x8000001D: [EDX] = " << edxBits << endl;
+	cout << endl;
+
+	// EAX=4 and EAX=Bh: Intel Thread/Core and Cache Topology
+	CPUID cpuIDB(0xB); // Intel
+	eaxBits = bitset<32>(cpuIDB.EAX());
+	ebxBits = bitset<32>(cpuIDB.EBX());
+	ecxBits = bitset<32>(cpuIDB.ECX());
+	edxBits = bitset<32>(cpuIDB.EDX());
+	cout << "EAX=0xB: Intel Thread/Core and Cache Topology:" << endl;
+	cout << "EAX=0xB: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0xB: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0xB: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0xB: [EDX] = " << edxBits << endl;
+	cout << endl;
+
+	// EAX=5: MONITOR/MWAIT Features
+	CPUID cpuID5(0x5);
+	eaxBits = bitset<32>(cpuID5.EAX());
+	ebxBits = bitset<32>(cpuID5.EBX());
+	ecxBits = bitset<32>(cpuID5.ECX());
+	edxBits = bitset<32>(cpuID5.EDX());
+	cout << "EAX=0x5: MONITOR/MWAIT Features:" << endl;
+	cout << "EAX=0x5: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0x5: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0x5: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0x5: [EDX] = " << edxBits << endl;
+	cout << endl;
+
+	// EAX=6: Thermal and Power Management
+	CPUID cpuID6(0x6);
+	eaxBits = bitset<32>(cpuID6.EAX());
+	ebxBits = bitset<32>(cpuID6.EBX());
+	ecxBits = bitset<32>(cpuID6.ECX());
+	edxBits = bitset<32>(cpuID6.EDX());
+	cout << "EAX=0x6: Thermal and Power Management:" << endl;
+	cout << "EAX=0x6: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0x6: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0x6: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0x6: [EDX] = " << edxBits << endl;
+	cout << endl;
+
+	// EAX=7, ECX=0: Extended Features
+	// EAX=7, ECX=1: Extended Features
+	// EAX=7, ECX=2: Extended Features
+	CPUID cpuID7(0x7);
+	eaxBits = bitset<32>(cpuID7.EAX());
+	ebxBits = bitset<32>(cpuID7.EBX());
+	ecxBits = bitset<32>(cpuID7.ECX());
+	edxBits = bitset<32>(cpuID7.EDX());
+	cout << "EAX=0x7: Extended Features:" << endl;
+	cout << "EAX=0x7: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0x7: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0x7: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0x7: [EDX] = " << edxBits << endl;
+	cout << endl;
+
+	// EAX=0Dh: XSAVE Features and State Components
+	CPUID cpuIDD(0xD);
+	eaxBits = bitset<32>(cpuIDD.EAX());
+	ebxBits = bitset<32>(cpuIDD.EBX());
+	ecxBits = bitset<32>(cpuIDD.ECX());
+	edxBits = bitset<32>(cpuIDD.EDX());
+	cout << "EAX=0xD: XSAVE Features and State Components:" << endl;
+	cout << "EAX=0xD: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0xD: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0xD: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0xD: [EDX] = " << edxBits << endl;
+	cout << endl;
+
+	// EAX=12h: SGX Capabilities
+	CPUID cpuID12(0x12);
+	eaxBits = bitset<32>(cpuID12.EAX());
+	ebxBits = bitset<32>(cpuID12.EBX());
+	ecxBits = bitset<32>(cpuID12.ECX());
+	edxBits = bitset<32>(cpuID12.EDX());
+	cout << "EAX=0x12: SGX Capabilities:" << endl;
+	cout << "EAX=0x12: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0x12: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0x12: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0x12: [EDX] = " << edxBits << endl;
+	cout << endl;
+
+	// EAX=14h: Processor Trace
+	CPUID cpuID14(0x14);
+	eaxBits = bitset<32>(cpuID14.EAX());
+	ebxBits = bitset<32>(cpuID14.EBX());
+	ecxBits = bitset<32>(cpuID14.ECX());
+	edxBits = bitset<32>(cpuID14.EDX());
+	cout << "EAX=0x14: Processor Trace:" << endl;
+	cout << "EAX=0x14: [EAX] = " << eaxBits << endl;
+	cout << "EAX=0x14: [EBX] = " << ebxBits << endl;
+	cout << "EAX=0x14: [ECX] = " << ecxBits << endl;
+	cout << "EAX=0x14: [EDX] = " << edxBits << endl;
+	cout << endl;
+
 	// EAX = 15h and EAX = 16h: CPU, TSC, Bus and Core Crystal Clock Frequencies
 	CPUID cpuID15(0x15);
 	eaxBits = bitset<32>(cpuID15.EAX());
@@ -946,13 +1051,13 @@ int main(int argc, char* argv[]) {
 	edxBits = bitset<32>(cpuID15.EDX());
 
 	cout << "EAX=0x15: TSC and Core Crystal frequency information :" << endl;
-	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator (EAX) = " << std::hex << "0x" << cpuID15.EAX() << endl;
+	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator (EAX) = " << std::hex << "0x" << eaxBits << endl;
 	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator (EAX) = " << eaxBits << endl;
-	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator (EBX) = " << std::hex << "0x" << cpuID15.EBX() << endl;
+	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator (EBX) = " << std::hex << "0x" << ebxBits << endl;
 	cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator (EBX) = " << ebxBits << endl;
-	cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz (ECX) = " << std::hex << "0x" << cpuID15.ECX() << endl;
+	cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz (ECX) = " << std::hex << "0x" << ecxBits << endl;
 	cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz (ECX) = " << ecxBits << endl;
-	cout << "EAX=0x15: TSC frequency, in units of Hz (EDX) = " << std::hex << "0x" << cpuID15.EDX() << endl;
+	cout << "EAX=0x15: TSC frequency, in units of Hz (EDX) = " << std::hex << "0x" << edxBits << endl;
 	cout << "EAX=0x15: TSC frequency, in units of Hz (EDX) = " << edxBits << endl;
 	cout << endl;
 
@@ -972,6 +1077,43 @@ int main(int argc, char* argv[]) {
 	cout << "EAX=0x16: Reserved: EDX = " << std::hex << "0x" << cpuID16.EDX() << endl;
 	cout << "EAX=0x16: Reserved: EDX = " << edxBits << endl;
 	cout << endl;
+
+
+
+
+
+
+
+	// EAX=17h: SoC Vendor Attribute Enumeration
+	// EAX=18h: TLB Hierarchy and Topology
+	// EAX=19h: Intel Key Locker Features
+	// EAX=1Dh: Intel AMX Tile Information
+	// EAX=1Eh: Intel AMX Tile Multiplier (TMUL) Information
+	// EAX=21h: Reserved for TDX enumeration
+	// EAX=24h, ECX=0: AVX10 Converged Vector ISA
+	// EAX=24h, ECX=1: Discrete AVX10 Features
+	// EAX=2000'0000h: Highest Xeon Phi Function Implemented
+	// EAX=2000'0001h: Xeon Phi Feature Bits
+	// EAX=4000'0000h-4FFFF'FFFh: Reserved for Hypervisors
+	// EAX=8000'0000h: Highest Extended Function Implemented
+	// EAX=8000'0001h: Extended Processor Info and Feature Bits
+	// EAX=8000'0002h,8000'0003h,8000'0004h: Processor Brand String
+	// EAX=8000'0005h: L1 Cache and TLB Identifiers
+	// EAX=8000'0006h: Extended L2 Cache Features
+	// EAX=8000'0007h: Processor Power Management Information and RAS Capabilities
+	// EAX=8000'0008h: Virtual and Physical Address Sizes
+	// EAX=8000'000Ah: SVM features
+	// EAX=8000'001Fh: Encrypted Memory Capabilities
+	// EAX=8000'0021h: Extended Feature Identification
+	// EAX=8000'0025h: Encrypted Memory Capabilities 2
+	// EAX=8C86'0000h: Hygon Extended Feature Flags
+	// EAX=8FFF'FFFEh and EAX=8FFF'FFFFh: AMD Easter Eggs
+	// EAX=C000'0000h: Highest Centaur Extended Function
+	// EAX=C000'0001h: Centaur Feature Information
+	// EAX=C000'0002h: Centaur Extended CPUID Performance Data
+	// EAX=C000'0006h, ECX=0: Zhaoxin Feature Information
+
+
 
 
 
