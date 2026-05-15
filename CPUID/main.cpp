@@ -4,8 +4,25 @@
 #include <iostream>
 #include <string>
 #include <bitset>
+#include <sstream>
 
 using namespace std;
+
+// pad a number with zeros to make it 8 characters long
+string ZeroPadNumber(int num) {
+	std::stringstream ss;
+	ss << num; // Convert integer to string
+	std::string paddedString;
+	ss >> paddedString; // Get the string from stringstream
+
+	// Append zeros to the left
+	int str_length = paddedString.length();
+	for (int i = 0; i < 8 - str_length; i++)
+	{
+		paddedString = "0" + paddedString; // Prepend zeros
+	}
+	return paddedString;
+}
 
 string getCacheAndTableDescriptor(unsigned int descriptor)
 {
@@ -652,6 +669,8 @@ int main(int argc, char* argv[]) {
 	bitset<32> ebxBits = bitset<32>(cpuID1.EBX());
 	bitset<32> ecxBits = bitset<32>(cpuID1.ECX());
 	bitset<32> edxBits = bitset<32>(cpuID1.EDX());
+
+	bitset<32> eaxBits1 = eaxBits;
 	
 	cout << "EAX=0x1: Processor Version Information [EAX] = " << eaxBits << endl;
 	cout << "EAX=0x1: Additional Information [EBX] = " << ebxBits << endl;
@@ -913,16 +932,18 @@ int main(int argc, char* argv[]) {
 
 	// EAX=0x3: Processor Serial Number
 	CPUID cpuID3(0x3);
-	eaxBits = bitset<32>(cpuID2.EAX());
-	ebxBits = bitset<32>(cpuID2.EBX());
-	ecxBits = bitset<32>(cpuID2.ECX());
-	edxBits = bitset<32>(cpuID2.EDX());
+	eaxBits = bitset<32>(cpuID3.EAX());
+	ebxBits = bitset<32>(cpuID3.EBX());
+	ecxBits = bitset<32>(cpuID3.ECX());
+	edxBits = bitset<32>(cpuID3.EDX());
 
 	cout << "EAX=0x3: Processor Serial Number (PSN) Information:" << endl;
 	cout << "EAX=0x3: [EAX] = " << eaxBits << endl;
 	cout << "EAX=0x3: [EBX] = " << ebxBits << endl;
 	cout << "EAX=0x3: [ECX] = " << ecxBits << endl;
 	cout << "EAX=0x3: [EDX] = " << edxBits << endl;
+	cout << "EAX=0x3: PSN [EAX=0x1:EDX:ECX] (Pentium 3 CPUs - 96-bit) = " << std::hex << ZeroPadNumber(eaxBits1.to_ulong()) << ":" << std::hex << ZeroPadNumber(edxBits.to_ulong()) << ":" << std::hex << ZeroPadNumber(ecxBits.to_ulong()) << endl;
+	cout << "EAX=0x3: PSN [EAX:EBX:ECX:EDX] (Transmeta Crusoe and Efficeon CPUs - 128-bit) = " << std::hex << ZeroPadNumber(eaxBits.to_ulong()) << ":" << std::hex << ZeroPadNumber(ebxBits.to_ulong()) << ":" << std::hex << ZeroPadNumber(ecxBits.to_ulong()) << ":" << std::hex << ZeroPadNumber(edxBits.to_ulong()) << endl;
 	cout << endl;
 
 	// EAX=4 and EAX=8000'001Dh: Cache Hierarchy and Topology
