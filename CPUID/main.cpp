@@ -5,6 +5,7 @@
 #include <string>
 #include <bitset>
 #include <sstream>
+#include <intrin.h>
 
 using namespace std;
 
@@ -947,6 +948,34 @@ int main(int argc, char* argv[]) {
 	cout << endl;
 
 	// EAX=4 and EAX=8000'001Dh: Cache Hierarchy and Topology
+	
+	int cpuInfo[4];
+	
+	//change to iterate until a sub-leaf not describing any caches (EAX[4:0]=0) is found
+	eaxBits = -1; // Initialize to a non-zero value to enter the loop
+	int i = 0;
+	while (eaxBits != 0)
+	{
+		__cpuidex(cpuInfo, 0x4, i); // Get the number of cache levels
+		//__cpuid(cpuInfo, i);
+		cout << "EAX=0x4: Cache Hierarchy and Topology Information (Intel):" << endl;
+		eaxBits = bitset<32>(cpuInfo[0]);
+		ebxBits = bitset<32>(cpuInfo[1]);
+		ecxBits = bitset<32>(cpuInfo[2]);
+		edxBits = bitset<32>(cpuInfo[3]);
+		cout << "EAX=0x4: [EAX] = " << eaxBits << endl;
+		cout << "EAX=0x4: [EBX] = " << ebxBits << endl;
+		cout << "EAX=0x4: [ECX] = " << ecxBits << endl;
+		cout << "EAX=0x4: [EDX] = " << edxBits << endl;
+		//cout << "EAX: " << std::hex << cpuInfo[0] << endl;
+		//cout << "EBX: " << std::hex << cpuInfo[1] << endl;
+		//cout << "ECX: " << std::hex << cpuInfo[2] << endl;
+		//cout << "EDX: " << std::hex << cpuInfo[3] << endl;
+		cout << "i: " << std::dec << i << endl;
+		cout << endl;
+		i++;
+	}
+	/*
 	CPUID cpuID4(0x4); // Intel
 	eaxBits = bitset<32>(cpuID4.EAX());
 	ebxBits = bitset<32>(cpuID4.EBX());
@@ -958,6 +987,7 @@ int main(int argc, char* argv[]) {
 	cout << "EAX=0x4: [ECX] = " << ecxBits << endl;
 	cout << "EAX=0x4: [EDX] = " << edxBits << endl;
 	cout << endl;
+	*/
 
 	CPUID cpuID8000001D(0x8000001D); // AMD
 	eaxBits = bitset<32>(cpuID8000001D.EAX());
