@@ -741,7 +741,19 @@ unsigned int extractBits(unsigned int num,
 
 int main(int argc, char* argv[]) {
 	int cpuInfo[4];
+
+	// EAX=0: Highest Function Parameter and Manufacturer ID
 	__cpuidex(cpuInfo, 0x0, 0); // Get CPU vendor
+	bitset<32> eaxBits = bitset<32>(cpuInfo[0]);
+	bitset<32> ebxBits = bitset<32>(cpuInfo[1]);
+	bitset<32> ecxBits = bitset<32>(cpuInfo[2]);
+	bitset<32> edxBits = bitset<32>(cpuInfo[3]);
+	std::cout << "EAX=0x0: [EAX=0: Highest Function Parameter and Manufacturer ID] = " << eaxBits << endl;
+	std::cout << "EAX=0x0: [EAX] = " << eaxBits << endl;
+	std::cout << "EAX=0x0: [EBX] = " << ebxBits << endl;
+	std::cout << "EAX=0x0: [ECX] = " << ecxBits << endl;
+	std::cout << "EAX=0x0: [EDX] = " << edxBits << endl;
+	std::cout << endl;
 
 	string vendor;
 	vendor += string((const char*)&cpuInfo[1], 4);
@@ -759,12 +771,18 @@ int main(int argc, char* argv[]) {
 	std::cout << "CPU vendor = " << vendor << endl;
 	std::cout << endl;
 
-
+	// EAX=1: Processor Info and Feature Bits
 	__cpuidex(cpuInfo, 0x1, 0);
-	bitset<32> eaxBits = bitset<32>(cpuInfo[0]);
-	bitset<32> ebxBits = bitset<32>(cpuInfo[1]);
-	bitset<32> ecxBits = bitset<32>(cpuInfo[2]);
-	bitset<32> edxBits = bitset<32>(cpuInfo[3]);
+	eaxBits = bitset<32>(cpuInfo[0]);
+	ebxBits = bitset<32>(cpuInfo[1]);
+	ecxBits = bitset<32>(cpuInfo[2]);
+	edxBits = bitset<32>(cpuInfo[3]);
+	std::cout << "EAX=0x1: [EAX=1: Processor Info and Feature Bits] = " << eaxBits << endl;
+	std::cout << "EAX=0x1: [EAX] = " << eaxBits << endl;
+	std::cout << "EAX=0x1: [EBX] = " << ebxBits << endl;
+	std::cout << "EAX=0x1: [ECX] = " << ecxBits << endl;
+	std::cout << "EAX=0x1: [EDX] = " << edxBits << endl;
+	std::cout << endl;
 
 	bitset<32> eaxBits1 = eaxBits;
 	
@@ -885,6 +903,13 @@ int main(int argc, char* argv[]) {
 	ebxBits = bitset<32>(cpuInfo[1]);
 	ecxBits = bitset<32>(cpuInfo[2]);
 	edxBits = bitset<32>(cpuInfo[3]);
+	std::cout << "EAX=0x2: [Cache and TLB Descriptor Information] = " << eaxBits << endl;
+	std::cout << "EAX=0x2: [EAX] = " << eaxBits << endl;
+	std::cout << "EAX=0x2: [EBX] = " << ebxBits << endl;
+	std::cout << "EAX=0x2: [ECX] = " << ecxBits << endl;
+	std::cout << "EAX=0x2: [EDX] = " << edxBits << endl;
+	std::cout << endl;
+
 	if (eaxBits[31])
 	{
 		std::cout << "EAX=0x2: [Cache and TLB Descriptor Information (EAX) = Invalid Descriptors / No valid information.]" << endl;
@@ -1037,6 +1062,8 @@ int main(int argc, char* argv[]) {
 	std::cout << "EAX=0x3: [EBX] = " << ebxBits << endl;
 	std::cout << "EAX=0x3: [ECX] = " << ecxBits << endl;
 	std::cout << "EAX=0x3: [EDX] = " << edxBits << endl;
+	std::cout << endl;
+
 	std::cout << "EAX=0x3: PSN [EAX=0x1:EDX:ECX] (Pentium 3 CPUs - 96-bit) = " << std::hex << ZeroPadNumber(eaxBits1.to_ulong(), 8) << ":" << std::hex << ZeroPadNumber(edxBits.to_ulong(), 8) << ":" << std::hex << ZeroPadNumber(ecxBits.to_ulong(), 8) << endl;
 	std::cout << "EAX=0x3: PSN [EAX:EBX:ECX:EDX] (Transmeta Crusoe and Efficeon CPUs - 128-bit) = " << std::hex << ZeroPadNumber(eaxBits.to_ulong(), 8) << ":" << std::hex << ZeroPadNumber(ebxBits.to_ulong(), 8) << ":" << std::hex << ZeroPadNumber(ecxBits.to_ulong(), 8) << ":" << std::hex << ZeroPadNumber(edxBits.to_ulong(), 8) << endl;
 	std::cout << endl;
@@ -1261,6 +1288,8 @@ int main(int argc, char* argv[]) {
 	std::cout << "EAX=0x4: [EBX] = " << ebxBits << endl;
 	std::cout << "EAX=0x4: [ECX] = " << ecxBits << endl;
 	std::cout << "EAX=0x4: [EDX] = " << edxBits << endl;
+	std::cout << endl;
+
 	std::cout << "EAX: " << std::hex << "0x" << ZeroPadNumber(eaxBits.to_ulong(), 8) << endl;
 	std::cout << "EBX: " << std::hex << "0x" << ZeroPadNumber(ebxBits.to_ulong(), 8) << endl;
 	std::cout << "ECX: " << std::hex << "0x" << ZeroPadNumber(ecxBits.to_ulong(), 8) << endl;
@@ -1277,6 +1306,8 @@ int main(int argc, char* argv[]) {
 	std::cout << "EAX=0xB: [EBX] = " << ebxBits << endl;
 	std::cout << "EAX=0xB: [ECX] = " << ecxBits << endl;
 	std::cout << "EAX=0xB: [EDX] = " << edxBits << endl;
+	std::cout << endl;
+
 	std::cout << "EAX: " << std::hex << "0x" << ZeroPadNumber(eaxBits.to_ulong(), 8) << endl;
 	std::cout << "EBX: " << std::hex << "0x" << ZeroPadNumber(ebxBits.to_ulong(), 8) << endl;
 	std::cout << "ECX: " << std::hex << "0x" << ZeroPadNumber(ecxBits.to_ulong(), 8) << endl;
@@ -1294,6 +1325,7 @@ int main(int argc, char* argv[]) {
 	std::cout << "EAX=0x5: [EBX] = " << ebxBits << endl;
 	std::cout << "EAX=0x5: [ECX] = " << ecxBits << endl;
 	std::cout << "EAX=0x5: [EDX] = " << edxBits << endl;
+	std::cout << endl;
 
 	std::cout << "EAX=0x5: Smallest monitor-line size in bytes: EAX Bits 0:15 = " << std::hex << "0x" << extractBits(cpuInfo[0], 0, 16) << endl;
 	std::cout << "EAX=0x5: Reserved: EAX Bits 16:31 = " << std::hex << "0x" << extractBits(cpuInfo[0], 16, 16) << endl;
@@ -1329,6 +1361,7 @@ int main(int argc, char* argv[]) {
 	std::cout << "EAX=0x6: [EBX] = " << ebxBits << endl;
 	std::cout << "EAX=0x6: [ECX] = " << ecxBits << endl;
 	std::cout << "EAX=0x6: [EDX] = " << edxBits << endl;
+	std::cout << endl;
 
 	std::cout << "EAX=0x6: [Thermal/power management feature bits in EAX]" << endl;
 	(eaxBits[0]) ? std::cout << "EAX bit 0: " << eaxBits[0] << ": [SUPPORTED] Digital Thermal Sensor capability - (DTS)" << endl : std::cout << "EAX bit 0: " << eaxBits[0] << ": [UNSUPPORTED] Digital Thermal Sensor capability - (DTS)" << endl;
@@ -1364,6 +1397,7 @@ int main(int argc, char* argv[]) {
 	(eaxBits[30]) ? std::cout << "EAX bit 30: " << eaxBits[30] << ": [SUPPORTED] Reserved" << endl : std::cout << "EAX bit 30: " << eaxBits[30] << ": [UNSUPPORTED] Reserved" << endl;
 	(eaxBits[31]) ? std::cout << "EAX bit 31 " << eaxBits[31] << ": [SUPPORTED] Reserved" << endl : std::cout << "EAX bit 31: " << eaxBits[31] << ": [UNSUPPORTED] Reserved" << endl;
 
+	std::cout << endl;
 	std::cout << "EAX=0x6: [Thermal / power management feature fields in EBX, ECX and EDX]" << endl;
 	std::cout << "EAX=0x6: Number of Interrupt Thresholds in Digital Thermal Sensor: EBX Bits 3:0 = " << std::hex << "0x" << extractBits(cpuInfo[1], 0, 4) << endl;
 	std::cout << "EAX=0x6: Number of Interrupt Thresholds in Digital Thermal Sensor: EBX Bits 31:4 = " << std::hex << "0x" << extractBits(cpuInfo[1], 7, 28) << endl;
@@ -1398,12 +1432,15 @@ int main(int argc, char* argv[]) {
 	std::cout << "EAX=0x7: [EBX] = " << ebxBits << endl;
 	std::cout << "EAX=0x7: [ECX] = " << ecxBits << endl;
 	std::cout << "EAX=0x7: [EDX] = " << edxBits << endl;
+	std::cout << endl;
+
 	std::cout << "EAX: " << std::hex << "0x" << ZeroPadNumber(eaxBits.to_ulong(), 8) << endl;
 	std::cout << "EBX: " << std::hex << "0x" << ZeroPadNumber(ebxBits.to_ulong(), 8) << endl;
 	std::cout << "ECX: " << std::hex << "0x" << ZeroPadNumber(ecxBits.to_ulong(), 8) << endl;
 	std::cout << "EDX: " << std::hex << "0x" << ZeroPadNumber(edxBits.to_ulong(), 8) << endl;
 	std::cout << "EAX=0x7: Maximum ECX Value = " << std::hex << "0x" << ZeroPadNumber(eaxBits.to_ulong(), 8) << endl;
 	std::cout << endl;
+
 	(ebxBits[0]) ? std::cout << "EBX bit 0: " << ebxBits[0] << ": [SUPPORTED] Access to base of %fs and %gs - (fsgsbase)" << endl : std::cout << "EBX bit 0: " << ebxBits[0] << ": [UNSUPPORTED] Access to base of %fs and %gs - (fsgsbase)" << endl;
 	(ebxBits[1]) ? std::cout << "EBX bit 1: " << ebxBits[1] << ": [SUPPORTED] IA32_TSC_ADJUST MSR - (tsc_adjust)" << endl : std::cout << "EBX bit 1: " << ebxBits[1] << ": [UNSUPPORTED] IA32_TSC_ADJUST MSR - (tsc_adjust)" << endl;
 	(ebxBits[2]) ? std::cout << "EBX bit 2: " << ebxBits[2] << ": [SUPPORTED] Software Guard Extensions - (sgx)" << endl : std::cout << "EBX bit 2: " << ebxBits[2] << ": [UNSUPPORTED] Software Guard Extensions - (sgx)" << endl;
@@ -1738,14 +1775,20 @@ int main(int argc, char* argv[]) {
 	ecxBits = bitset<32>(cpuInfo[2]);
 	edxBits = bitset<32>(cpuInfo[3]);
 	std::cout << "EAX=0x15: [TSC and Core Crystal frequency information]:" << endl;
+	std::cout << "EAX=0x15: [EAX] = " << eaxBits << endl;
+	std::cout << "EAX=0x15: [EBX] = " << ebxBits << endl;
+	std::cout << "EAX=0x15: [ECX] = " << ecxBits << endl;
+	std::cout << "EAX=0x15: [EDX] = " << edxBits << endl;
+	std::cout << endl;
+
 	std::cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator (EAX) = " << std::hex << "0x" << ZeroPadNumber(cpuInfo[0], 8) << endl;
-	std::cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator (EAX) = " << eaxBits << endl;
+	//std::cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, denominator (EAX) = " << eaxBits << endl;
 	std::cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator (EBX) = " << std::hex << "0x" << ZeroPadNumber(cpuInfo[1], 8) << endl;
-	std::cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator (EBX) = " << ebxBits << endl;
+	//std::cout << "EAX=0x15: Ratio of TSC frequency to Core Crystal Clock frequency, numerator (EBX) = " << ebxBits << endl;
 	std::cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz (ECX) = " << std::hex << "0x" << ZeroPadNumber(cpuInfo[2], 8) << endl;
-	std::cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz (ECX) = " << ecxBits << endl;
+	//std::cout << "EAX=0x15: Core Crystal Clock frequency, in units of Hz (ECX) = " << ecxBits << endl;
 	std::cout << "EAX=0x15: TSC frequency, in units of Hz (EDX) = " << std::hex << "0x" << ZeroPadNumber(cpuInfo[3], 8) << endl;
-	std::cout << "EAX=0x15: TSC frequency, in units of Hz (EDX) = " << edxBits << endl;
+	//std::cout << "EAX=0x15: TSC frequency, in units of Hz (EDX) = " << edxBits << endl;
 	std::cout << endl;
 
 	__cpuidex(cpuInfo, 0x16, 0);
@@ -1754,14 +1797,30 @@ int main(int argc, char* argv[]) {
 	ecxBits = bitset<32>(cpuInfo[2]);
 	edxBits = bitset<32>(cpuInfo[3]);
 	std::cout << "EAX=0x16: [Processor and Bus specification frequencies]:" << endl;
-	std::cout << "EAX=0x16: Processor Base Frequency (in MHz): EAX Bits 15:0 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 15, 0), 8) << endl;
-	std::cout << "EAX=0x16: Processor Base Frequency (in MHz): EAX Bits 15:0 = " << extractBits(cpuInfo[0], 15, 0) << endl;
-	std::cout << "EAX=0x16: Processor Maximum Frequency (in MHz): EBX Bits 15:0 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[1], 15, 0), 8) << endl;
-	std::cout << "EAX=0x16: Processor Maximum Frequency (in MHz): EBX Bits 15:0 = " << extractBits(cpuInfo[1], 15, 0) << endl;
-	std::cout << "EAX=0x16: Bus/Reference frequency (in MHz): ECX Bits 15:0 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[2], 15, 0), 8) << endl;
-	std::cout << "EAX=0x16: Bus/Reference frequency (in MHz): ECX Bits 15:0 = " << extractBits(cpuInfo[2], 15, 0) << endl;
+	std::cout << "EAX=0x16: [EAX] = " << eaxBits << endl;
+	std::cout << "EAX=0x16: [EBX] = " << ebxBits << endl;
+	std::cout << "EAX=0x16: [ECX] = " << ecxBits << endl;
+	std::cout << "EAX=0x16: [EDX] = " << edxBits << endl;
+	std::cout << endl;
+
+	
+	std::cout << "EAX=0x16: Processor Base Frequency (in MHz): EAX Bits 15:0 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 0, 16), 8) << endl;
+	//std::cout << "EAX=0x16: Processor Base Frequency (in MHz): EAX Bits 15:0 = " << extractBits(eaxBits[0], 0, 16) << endl;
+	std::cout << "EAX=0x16: Reserved: EAX Bits 31:16 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 16, 16), 8) << endl;
+	//std::cout << "EAX=0x16: Reserved: EAX Bits 31:16 = " << extractBits(eaxBits[0], 16, 16) << endl;
+
+	std::cout << "EAX=0x16: Processor Maximum Frequency (in MHz): EBX Bits 15:0 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[1], 0, 16), 8) << endl;
+	//std::cout << "EAX=0x16: Processor Maximum Frequency (in MHz): EBX Bits 15:0 = " << extractBits(ebxBits[0], 0, 16) << endl;
+	std::cout << "EAX=0x16: Reserved: EBX Bits 31:16 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[1], 16, 16), 8) << endl;
+	//std::cout << "EAX=0x16: Reserved: EBX Bits 31:16 = " << extractBits(ebxBits[0], 16, 16) << endl;
+
+	std::cout << "EAX=0x16: Bus/Reference frequency (in MHz): ECX Bits 15:0 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[2], 0, 16), 8) << endl;
+	//std::cout << "EAX=0x16: Bus/Reference frequency (in MHz): ECX Bits 15:0 = " << extractBits(ecxBits[0], 0, 16) << endl;
+	std::cout << "EAX=0x16: Reserved: ECX Bits 31:16 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[2], 16, 16), 8) << endl;
+	//std::cout << "EAX=0x16: Reserved: ECX Bits 31:16 = " << extractBits(ecxBits[0], 16, 16) << endl;
+
 	std::cout << "EAX=0x16: Reserved: EDX = " << std::hex << "0x" << ZeroPadNumber(cpuInfo[3], 8) << endl;
-	std::cout << "EAX=0x16: Reserved: EDX = " << edxBits << endl;
+	//std::cout << "EAX=0x16: Reserved: EDX = " << edxBits << endl;
 	std::cout << endl;
 
 
@@ -2058,6 +2117,62 @@ int main(int argc, char* argv[]) {
 	std::cout << "EAX=0x80000008: [EDX] = " << edxBits << endl;
 	std::cout << endl;
 	
+	std::cout << "EAX=0x80000008: [Size and range fields in EAX]:" << endl;
+	std::cout << "EAX=0x80000008: EAX Bits 7:0: Number of Physical Address Bits = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 0, 8), 8) << endl;
+	//std::cout << "EAX=0x80000008: EAX Bits 7:0: Number of Physical Address Bits = " << extractBits(cpuInfo[0], 0, 8) << endl;
+	std::cout << "EAX=0x80000008: EAX Bits 15:8: Number of Linear Address Bits = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 8, 8), 8) << endl;
+	//std::cout << "EAX=0x80000008: EAX Bits 15:8: Number of Linear Address Bits = " << extractBits(cpuInfo[0], 8, 8) << endl;
+	std::cout << "EAX=0x80000008: EAX Bits 23:16: Guest Physical Address Size = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 16, 8), 8) << endl;
+	//std::cout << "EAX=0x80000008: EAX Bits 23:16: Guest Physical Address Size = " << extractBits(cpuInfo[0], 16, 8) << endl;
+	std::cout << "EAX=0x80000008: EAX Bits 31:24:Reserved = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 24, 8), 8) << endl;
+	//std::cout << "EAX=0x80000008: EAX Bits 31:24:Reserved = " << extractBits(cpuInfo[0], 24, 8) << endl;
+	std::cout << endl;
+
+	std::cout << "EAX=0x80000008: [Feature bits in EBX ]:" << endl;
+	(ebxBits[0]) ? std::cout << "EBX bit 0: " << ebxBits[0] << ": [SUPPORTED] CLZERO instruction - (clzero)" << endl : std::cout << "EBX bit 0: " << ebxBits[0] << ": [UNSUPPORTED] CLZERO instruction - (clzero)" << endl;
+	(ebxBits[1]) ? std::cout << "EBX bit 1: " << ebxBits[1] << ": [SUPPORTED] Retired instruction count MSR (C000_00E9h) supported - (retired_instr)" << endl : std::cout << "EBX bit 1: " << ebxBits[1] << ": [UNSUPPORTED] Retired instruction count MSR (C000_00E9h) supported - (retired_instr)" << endl;
+	(ebxBits[2]) ? std::cout << "EBX bit 2: " << ebxBits[2] << ": [SUPPORTED] XRSTOR restores FP errors - (xrstor_fp_err)" << endl : std::cout << "EBX bit 2: " << ebxBits[2] << ": [UNSUPPORTED] XRSTOR restores FP errors - (xrstor_fp_err)" << endl;
+	(ebxBits[3]) ? std::cout << "EBX bit 3: " << ebxBits[3] << ": [SUPPORTED] INVLPGB and TLBSYNC instructions - (invlpgb)" << endl : std::cout << "EBX bit 3: " << ebxBits[3] << ": [UNSUPPORTED] INVLPGB and TLBSYNC instructions - (invlpgb)" << endl;
+	(ebxBits[4]) ? std::cout << "EBX bit 4: " << ebxBits[4] << ": [SUPPORTED] RDPRU instruction - (rdpru)" << endl : std::cout << "EBX bit 4: " << ebxBits[4] << ": [UNSUPPORTED] RDPRU instruction - (rdpru)" << endl;
+	(ebxBits[5]) ? std::cout << "EBX bit 5: " << ebxBits[5] << ": [SUPPORTED] (PlayStation 5: Execute-Only Memory) - (xotext)" << endl : std::cout << "EBX bit 5: " << ebxBits[5] << ": [UNSUPPORTED] (PlayStation 5: Execute-Only Memory) - (xotext)" << endl;
+	(ebxBits[6]) ? std::cout << "EBX bit 6: " << ebxBits[6] << ": [SUPPORTED] Memory Bandwidth Enforcement - (mbe)" << endl : std::cout << "EBX bit 6: " << ebxBits[6] << ": [UNSUPPORTED] Memory Bandwidth Enforcement - (mbe)" << endl;
+	(ebxBits[7]) ? std::cout << "EBX bit 7: " << ebxBits[7] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 7: " << ebxBits[7] << ": [UNSUPPORTED] Reserved" << endl;
+	(ebxBits[8]) ? std::cout << "EBX bit 8: " << ebxBits[8] << ": [SUPPORTED] MCOMMIT instruction - (mcommit)" << endl : std::cout << "EBX bit 8: " << ebxBits[8] << ": [UNSUPPORTED] MCOMMIT instruction - (mcommit)" << endl;
+	(ebxBits[9]) ? std::cout << "EBX bit 9: " << ebxBits[9] << ": [SUPPORTED] WBNOINVD instruction - (wbnoinvd)" << endl : std::cout << "EBX bit 9: " << ebxBits[9] << ": [UNSUPPORTED] WBNOINVD instruction - (wbnoinvd)" << endl;
+	(ebxBits[10]) ? std::cout << "EBX bit 10: " << ebxBits[10] << ": [SUPPORTED] LBR extensions v1 - (LBR_EXT_V1)" << endl : std::cout << "EBX bit 10: " << ebxBits[10] << ": [UNSUPPORTED] LBR extensions v1 - (LBR_EXT_V1)" << endl;
+	(ebxBits[11]) ? std::cout << "EBX bit 11: " << ebxBits[11] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 11: " << ebxBits[11] << ": [UNSUPPORTED] Reserved" << endl;
+	(ebxBits[12]) ? std::cout << "EBX bit 12: " << ebxBits[12] << ": [SUPPORTED] Indirect Branch Prediction Barrier (performed by writing 1 to bit 0 of PRED_CMD (MSR 049h)) - (IBPB)" << endl : std::cout << "EBX bit 12: " << ebxBits[12] << ": [UNSUPPORTED] Indirect Branch Prediction Barrier (performed by writing 1 to bit 0 of PRED_CMD (MSR 049h)) - (IBPB)" << endl;
+	(ebxBits[13]) ? std::cout << "EBX bit 13: " << ebxBits[13] << ": [SUPPORTED] WBINVD and WBNOINVD are interruptible - (wbinvd_int)" << endl : std::cout << "EBX bit 13: " << ebxBits[13] << ": [UNSUPPORTED] WBINVD and WBNOINVD are interruptible - (wbinvd_int)" << endl;
+	(ebxBits[14]) ? std::cout << "EBX bit 14: " << ebxBits[14] << ": [SUPPORTED] Indirect Branch Restricted Speculation - (IBRS)" << endl : std::cout << "EBX bit 14: " << ebxBits[14] << ": [UNSUPPORTED] Indirect Branch Restricted Speculation - (IBRS)" << endl;
+	(ebxBits[15]) ? std::cout << "EBX bit 15: " << ebxBits[15] << ": [SUPPORTED] Single Thread Indirect Branch Prediction mode - (STIBP)" << endl : std::cout << "EBX bit 15: " << ebxBits[15] << ": [UNSUPPORTED] Single Thread Indirect Branch Prediction mode - (STIBP)" << endl;
+	(ebxBits[16]) ? std::cout << "EBX bit 16: " << ebxBits[16] << ": [SUPPORTED] IBRS mode has enhanced performance and should be left always on - (IbrsAlwaysOn)" << endl : std::cout << "EBX bit 16: " << ebxBits[16] << ": [UNSUPPORTED] IBRS mode has enhanced performance and should be left always on - (IbrsAlwaysOn)" << endl;
+	(ebxBits[17]) ? std::cout << "EBX bit 17: " << ebxBits[17] << ": [SUPPORTED] STIBP mode has enhanced performance and should be left always on - (STIBPAlwaysOn)" << endl : std::cout << "EBX bit 17: " << ebxBits[17] << ": [UNSUPPORTED] STIBP mode has enhanced performance and should be left always on - (STIBPAlwaysOn)" << endl;
+	(ebxBits[18]) ? std::cout << "EBX bit 18: " << ebxBits[18] << ": [SUPPORTED] IBRS preferred over software - (ibrs_preferred)" << endl : std::cout << "EBX bit 18: " << ebxBits[18] << ": [UNSUPPORTED] IBRS preferred over software - (ibrs_preferred)" << endl;
+	(ebxBits[19]) ? std::cout << "EBX bit 19: " << ebxBits[19] << ": [SUPPORTED] IBRS provides Same Mode Protection - (ibrs_same_mode_protection)" << endl : std::cout << "EBX bit 19: " << ebxBits[19] << ": [UNSUPPORTED] IBRS provides Same Mode Protection - (ibrs_same_mode_protection)" << endl;
+	(ebxBits[20]) ? std::cout << "EBX bit 20: " << ebxBits[20] << ": [SUPPORTED] EFER.LMSLE is unsupported - (no_efer_lmsle)" << endl : std::cout << "EBX bit 20: " << ebxBits[20] << ": [UNSUPPORTED] EFER.LMSLE is unsupported - (no_efer_lmsle)" << endl;
+	(ebxBits[21]) ? std::cout << "EBX bit 21: " << ebxBits[21] << ": [SUPPORTED] INVLPGB support for nested pages - (invlpgb_nested)" << endl : std::cout << "EBX bit 21: " << ebxBits[21] << ": [UNSUPPORTED] INVLPGB support for nested pages - (invlpgb_nested)" << endl;
+	(ebxBits[22]) ? std::cout << "EBX bit 22: " << ebxBits[22] << ": [SUPPORTED] (LBR TSX info) - (LBR_TSX)" << endl : std::cout << "EBX bit 22: " << ebxBits[22] << ": [UNSUPPORTED] (LBR TSX info) - (LBR_TSX)" << endl;
+	(ebxBits[23]) ? std::cout << "EBX bit 23: " << ebxBits[23] << ": [SUPPORTED] Protected Processor Inventory Number - PPIN_CTL(C001_02F0) and PPIN(C001_02F1) MSRs are present - (ppin)" << endl : std::cout << "EBX bit 23: " << ebxBits[23] << ": [UNSUPPORTED] Protected Processor Inventory Number - PPIN_CTL(C001_02F0) and PPIN(C001_02F1) MSRs are present - (ppin)" << endl;
+	(ebxBits[24]) ? std::cout << "EBX bit 24: " << ebxBits[24] << ": [SUPPORTED] Speculative Store Bypass Disable - (ssbd)" << endl : std::cout << "EBX bit 24: " << ebxBits[24] << ": [UNSUPPORTED] Speculative Store Bypass Disable - (ssbd)" << endl;
+	(ebxBits[25]) ? std::cout << "EBX bit 25: " << ebxBits[25] << ": [SUPPORTED] Speculative Store Bypass Disable Legacy - (ssbd_legacy)" << endl : std::cout << "EBX bit 25: " << ebxBits[25] << ": [UNSUPPORTED] Speculative Store Bypass Disable Legacy - (ssbd_legacy)" << endl;
+	(ebxBits[26]) ? std::cout << "EBX bit 26: " << ebxBits[26] << ": [SUPPORTED] Speculative Store Bypass Disable Not Required - (ssbd_no)" << endl : std::cout << "EBX bit 26: " << ebxBits[26] << ": [UNSUPPORTED] Speculative Store Bypass Disable Not Required - (ssbd_no)" << endl;
+	(ebxBits[27]) ? std::cout << "EBX bit 27: " << ebxBits[27] << ": [SUPPORTED] Collaborative Processor Performance Control - (cppc)" << endl : std::cout << "EBX bit 27: " << ebxBits[27] << ": [UNSUPPORTED] Collaborative Processor Performance Control - (cppc)" << endl;
+	(ebxBits[28]) ? std::cout << "EBX bit 28: " << ebxBits[28] << ": [SUPPORTED] Predictive Store Forward Disable - (psfd)" << endl : std::cout << "EBX bit 28: " << ebxBits[28] << ": [UNSUPPORTED] Predictive Store Forward Disable - (psfd)" << endl;
+	(ebxBits[29]) ? std::cout << "EBX bit 29: " << ebxBits[29] << ": [SUPPORTED] Branch Type Confusion: Processor not affected - (btc_no)" << endl : std::cout << "EBX bit 29: " << ebxBits[29] << ": [UNSUPPORTED] Branch Type Confusion: Processor not affected - (btc_no)" << endl;
+	(ebxBits[30]) ? std::cout << "EBX bit 30: " << ebxBits[30] << ": [SUPPORTED] IBPB (see bit 12) also clears return address predictor - (IBPB_RET)" << endl : std::cout << "EBX bit 30: " << ebxBits[30] << ": [UNSUPPORTED] IBPB (see bit 12) also clears return address predictor - (IBPB_RET)" << endl;
+	(ebxBits[31]) ? std::cout << "EBX bit 31: " << ebxBits[31] << ": [SUPPORTED] Branch Sampling Support - (branch_sampling)" << endl : std::cout << "EBX bit 31: " << ebxBits[31] << ": [UNSUPPORTED] Branch Sampling Support - (branch_sampling)" << endl;
+	std::cout << endl;
+
+
+
+
+
+
+
+
+
+
+
 	// EAX=8000'000Ah: SVM features
 	__cpuidex(cpuInfo, 0x8000000A, 0);
 	eaxBits = bitset<32>(cpuInfo[0]);
