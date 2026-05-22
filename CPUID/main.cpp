@@ -2375,7 +2375,7 @@ int main(int argc, char* argv[]) {
 	//std::cout << "EAX=0x80000008: EAX Bits 15:8: Number of Linear Address Bits = " << extractBits(cpuInfo[0], 8, 8) << endl;
 	std::cout << "EAX=0x80000008: EAX Bits 23:16: Guest Physical Address Size = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 16, 8), 8) << endl;
 	//std::cout << "EAX=0x80000008: EAX Bits 23:16: Guest Physical Address Size = " << extractBits(cpuInfo[0], 16, 8) << endl;
-	std::cout << "EAX=0x80000008: EAX Bits 31:24:Reserved = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 24, 8), 8) << endl;
+	std::cout << "EAX=0x80000008: EAX Bits 31:24: Reserved = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 24, 8), 8) << endl;
 	//std::cout << "EAX=0x80000008: EAX Bits 31:24:Reserved = " << extractBits(cpuInfo[0], 24, 8) << endl;
 	std::cout << endl;
 
@@ -2414,7 +2414,18 @@ int main(int argc, char* argv[]) {
 	(ebxBits[31]) ? std::cout << "EBX bit 31: " << ebxBits[31] << ": [SUPPORTED] Branch Sampling Support - (branch_sampling)" << endl : std::cout << "EBX bit 31: " << ebxBits[31] << ": [UNSUPPORTED] Branch Sampling Support - (branch_sampling)" << endl;
 	std::cout << endl;
 
+	std::cout << "EAX=0x80000008: [Size and range fields in ECX]:" << endl;
+	std::cout << "EAX=0x80000008: ECX Bits 7:0: Number of Physical Threads in processor (minus 1) = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[2], 0, 8), 8) << endl;
+	std::cout << "EAX=0x80000008: ECX Bits 11:8: Reserved = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[2], 8, 4), 4) << endl;
+	std::cout << "EAX=0x80000008: ECX Bits 15:12: APIC ID Size = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[2], 12, 4), 4) << endl;
+	std::cout << "EAX=0x80000008: ECX Bits 17:16: Performance Timestamp Counter size = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[2], 16, 2), 2) << endl;
+	std::cout << "EAX=0x80000008: ECX Bits 18:31: Reserved = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[2], 18, 14), 14) << endl;
+	std::cout << endl;
 
+	std::cout << "EAX=0x80000008: [Size and range fields in EDX]:" << endl;
+	std::cout << "EAX=0x80000008: EDX Bits 15:0: Maximum page count for INVLPGB instruction = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[3], 0, 16), 16) << endl;
+	std::cout << "EAX=0x80000008: EDX Bits 31:16: Maximum ECX value recognized by RDPRU instruction = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[3], 16, 16), 16) << endl;
+	std::cout << endl;
 
 
 
@@ -2511,11 +2522,11 @@ int main(int argc, char* argv[]) {
 	memcpy(strEaster, regsEaster, sizeof(regsEaster));
 	strEaster[sizeof(regsEaster)] = '\0';
 
-	std::cout << "Easter Egg String 0x8FFFFFFE: " << strEaster << endl;
-	std::cout << "Easter Egg String 0x8FFFFFFE EAX: " << regsEaster[0] << " " << strEaster[0] << endl;
-	std::cout << "Easter Egg String 0x8FFFFFFE EBX: " << regsEaster[1] << " " << strEaster[1] << endl;
-	std::cout << "Easter Egg String 0x8FFFFFFE ECX: " << regsEaster[2] << " " << strEaster[2] << endl;
-	std::cout << "Easter Egg String 0x8FFFFFFE EDX: " << regsEaster[3] << " " << strEaster[3] << endl;
+	std::cout << "Easter Egg String value (0x8FFFFFFE): " << strEaster << endl;
+	std::cout << "Easter Egg 0x8FFFFFFE EAX: " << std::hex << "0x" << ZeroPadNumber(regsEaster[0], 8) << " String value: " << strEaster[0] << endl;
+	std::cout << "Easter Egg 0x8FFFFFFE EBX: " << std::hex << "0x" << ZeroPadNumber(regsEaster[1], 8) << " String value:  " << strEaster[1] << endl;
+	std::cout << "Easter Egg 0x8FFFFFFE ECX: " << std::hex << "0x" << ZeroPadNumber(regsEaster[2], 8) << " String value:  " << strEaster[2] << endl;
+	std::cout << "Easter Egg 0x8FFFFFFE EDX: " << std::hex << "0x" << ZeroPadNumber(regsEaster[3], 8) << " String value:  " << strEaster[3] << endl;
 	std::cout << endl;
 
 	__cpuidex(cpuInfo, 0x8FFFFFFF, 0);
@@ -2539,11 +2550,11 @@ int main(int argc, char* argv[]) {
 	memcpy(strEaster2, regsEaster2, sizeof(regsEaster2));
 	strEaster2[sizeof(regsEaster2)] = '\0';
 
-	std::cout << "Easter Egg String 0x8FFFFFFF: " << strEaster2 << endl;
-	std::cout << "Easter Egg String 0x8FFFFFFF EAX: " << regsEaster2[0] << " " << strEaster2[0] << endl;
-	std::cout << "Easter Egg String 0x8FFFFFFF EBX: " << regsEaster2[1] << " " << strEaster2[1] << endl;
-	std::cout << "Easter Egg String 0x8FFFFFFF ECX: " << regsEaster2[2] << " " << strEaster2[2] << endl;
-	std::cout << "Easter Egg String 0x8FFFFFFF EDX: " << regsEaster2[3] << " " << strEaster2[3] << endl;
+	std::cout << "Easter Egg String value (0x8FFFFFFF): " << strEaster2 << endl;
+	std::cout << "Easter Egg 0x8FFFFFFF EAX: " << std::hex << "0x" << ZeroPadNumber(regsEaster2[0], 8) << " String value: " << strEaster2[0] << endl;
+	std::cout << "Easter Egg 0x8FFFFFFF EBX: " << std::hex << "0x" << ZeroPadNumber(regsEaster2[1], 8) << " String value: " << strEaster2[1] << endl;
+	std::cout << "Easter Egg 0x8FFFFFFF ECX: " << std::hex << "0x" << ZeroPadNumber(regsEaster2[2], 8) << " String value: " << strEaster2[2] << endl;
+	std::cout << "Easter Egg 0x8FFFFFFF EDX: " << std::hex << "0x" << ZeroPadNumber(regsEaster2[3], 8) << " String value: " << strEaster2[3] << endl;
 	std::cout << endl;
 	
 	// EAX=C000'0000h: Highest Centaur Extended Function
