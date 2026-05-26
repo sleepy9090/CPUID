@@ -2111,13 +2111,20 @@ int main(int argc, char* argv[]) {
 	edxBits = bitset<32>(cpuInfo[3]);
 	std::cout << "EAX=0xC0000006: [Zhaoxin Feature Information]:" << endl;
 	std::cout << "EAX=0xC0000006: [EAX] = " << eaxBits << endl;
-	std::cout << "EAX=0xC0000006: [EBX] = " << ebxBits << endl;
-	std::cout << "EAX=0xC0000006: [ECX] = " << ecxBits << endl;
-	std::cout << "EAX=0xC0000006: [EDX] = " << edxBits << endl;
+	std::cout << "EAX=0xC0000006: Reserved [EBX] = " << ebxBits << endl;
+	std::cout << "EAX=0xC0000006: Reserved [ECX] = " << ecxBits << endl;
+	std::cout << "EAX=0xC0000006: Reserved [EDX] = " << edxBits << endl;
 	std::cout << endl;
 
 
-
+	std::cout << "EAX=0x16: EAX = " << std::hex << "0x" << ZeroPadNumber(cpuInfo[0], 1) << endl;
+	(eaxBits[0]) ? std::cout << "EAX bit 0: " << eaxBits[0] << ": [SUPPORTED] Reserved" << endl : std::cout << "EAX bit 0: " << eaxBits[0] << ": [UNSUPPORTED] Reserved" << endl;
+	(eaxBits[1]) ? std::cout << "EAX bit 1: " << eaxBits[1] << ": [SUPPORTED] Reserved" << endl : std::cout << "EAX bit 1: " << eaxBits[1] << ": [UNSUPPORTED] Reserved" << endl;
+	(eaxBits[2]) ? std::cout << "EAX bit 2: " << eaxBits[2] << ": [SUPPORTED] Reserved" << endl : std::cout << "EAX bit 2: " << eaxBits[2] << ": [UNSUPPORTED] Reserved" << endl;
+	(eaxBits[3]) ? std::cout << "EAX bit 3: " << eaxBits[3] << ": [SUPPORTED] Reserved" << endl : std::cout << "EAX bit 3: " << eaxBits[3] << ": [UNSUPPORTED] Reserved" << endl;
+	(eaxBits[4]) ? std::cout << "EAX bit 4: " << eaxBits[4] << ": [SUPPORTED] Reserved" << endl : std::cout << "EAX bit 4: " << eaxBits[4] << ": [UNSUPPORTED] Reserved" << endl;
+	(eaxBits[5]) ? std::cout << "EAX bit 5: " << eaxBits[5] << ": [SUPPORTED] Reserved" << endl : std::cout << "EAX bit 5: " << eaxBits[5] << ": [UNSUPPORTED] Reserved" << endl;
+	//pauseopt 	PAUSEOPT instruction
 
 
 
