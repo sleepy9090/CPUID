@@ -1593,10 +1593,10 @@ int main(int argc, char* argv[]) {
 	(eaxBits[31]) ? std::cout << "EAX bit 31: " << eaxBits[31] << ": [SUPPORTED] MOVRS and PREFETCHRST2 instructions supported (memory read/prefetch with read-shared hint) - (MOVRS)" << endl : std::cout << "EAX bit 31: " << eaxBits[31] << ": [UNSUPPORTED] MOVRS and PREFETCHRST2 instructions supported (memory read/prefetch with read-shared hint) - (MOVRS)" << endl;
 	std::cout << endl;
 
-	(ebxBits[0]) ? std::cout << "EBX bit 0: " << ebxBits[0] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 0: " << ebxBits[0] << ": [UNSUPPORTED] Reserved" << endl;
-	(ebxBits[1]) ? std::cout << "EBX bit 1: " << ebxBits[1] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 1: " << ebxBits[1] << ": [UNSUPPORTED] Reserved" << endl;
+	(ebxBits[0]) ? std::cout << "EBX bit 0: " << ebxBits[0] << ": [SUPPORTED] Intel PPIN (Protected Processor Inventory Number): IA32_PPIN_CTL (04Eh) and IA32_PPIN (04Fh) MSRs. - (ppin)" << endl : std::cout << "EBX bit 0: " << ebxBits[0] << ": [UNSUPPORTED] Intel PPIN (Protected Processor Inventory Number): IA32_PPIN_CTL (04Eh) and IA32_PPIN (04Fh) MSRs. - (ppin)" << endl;
+	(ebxBits[1]) ? std::cout << "EBX bit 1: " << ebxBits[1] << ": [SUPPORTED] Total Storage Encryption: PBNDKB instruction and TSE_CAPABILITY (9F1h) MSR. - (pbndkb)" << endl : std::cout << "EBX bit 1: " << ebxBits[1] << ": [UNSUPPORTED] Total Storage Encryption: PBNDKB instruction and TSE_CAPABILITY (9F1h) MSR. - (pbndkb)" << endl;
 	(ebxBits[2]) ? std::cout << "EBX bit 2: " << ebxBits[2] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 2: " << ebxBits[2] << ": [UNSUPPORTED] Reserved" << endl;
-	(ebxBits[3]) ? std::cout << "EBX bit 3: " << ebxBits[3] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 3: " << ebxBits[3] << ": [UNSUPPORTED] Reserved" << endl;
+	(ebxBits[3]) ? std::cout << "EBX bit 3: " << ebxBits[3] << ": [SUPPORTED] If 1, then bit 22 of IA32_MISC_ENABLE cannot be set to 1 to limit the value returned by CPUID.(EAX=0):EAX[7:0]. - (CPUID­MAXVAL_­LIM_RMV)" << endl : std::cout << "EBX bit 3: " << ebxBits[3] << ": [UNSUPPORTED] If 1, then bit 22 of IA32_MISC_ENABLE cannot be set to 1 to limit the value returned by CPUID.(EAX=0):EAX[7:0]. - (CPUID­MAXVAL_­LIM_RMV)" << endl;
 	(ebxBits[4]) ? std::cout << "EBX bit 4: " << ebxBits[4] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 4: " << ebxBits[4] << ": [UNSUPPORTED] Reserved" << endl;
 	(ebxBits[5]) ? std::cout << "EBX bit 5: " << ebxBits[5] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 5: " << ebxBits[5] << ": [UNSUPPORTED] Reserved" << endl;
 	(ebxBits[6]) ? std::cout << "EBX bit 6: " << ebxBits[6] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 6: " << ebxBits[6] << ": [UNSUPPORTED] Reserved" << endl;
@@ -1621,18 +1621,18 @@ int main(int argc, char* argv[]) {
 	(ebxBits[25]) ? std::cout << "EBX bit 25: " << ebxBits[25] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 25: " << ebxBits[25] << ": [UNSUPPORTED] Reserved" << endl;
 	(ebxBits[26]) ? std::cout << "EBX bit 26: " << ebxBits[26] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 26: " << ebxBits[26] << ": [UNSUPPORTED] Reserved" << endl;
 	(ebxBits[27]) ? std::cout << "EBX bit 27: " << ebxBits[27] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 27: " << ebxBits[27] << ": [UNSUPPORTED] Reserved" << endl;
-	(ebxBits[28]) ? std::cout << "EBX bit 28: " << ebxBits[28] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 28: " << ebxBits[28] << ": [UNSUPPORTED] Reserved" << endl;
+	(ebxBits[28]) ? std::cout << "EBX bit 28: " << ebxBits[28] << ": [SUPPORTED] Reserved / ? - (mpsadbw_512)" << endl : std::cout << "EBX bit 28: " << ebxBits[28] << ": [UNSUPPORTED] Reserved / ? - (mpsadbw_512)" << endl;
 	(ebxBits[29]) ? std::cout << "EBX bit 29: " << ebxBits[29] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 29: " << ebxBits[29] << ": [UNSUPPORTED] Reserved" << endl;
-	(ebxBits[30]) ? std::cout << "EBX bit 30: " << ebxBits[30] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 30: " << ebxBits[30] << ": [UNSUPPORTED] Reserved" << endl;
-	(ebxBits[31]) ? std::cout << "EBX bit 31: " << ebxBits[31] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 31: " << ebxBits[31] << ": [UNSUPPORTED] Reserved" << endl;
+	(ebxBits[30]) ? std::cout << "EBX bit 30: " << ebxBits[30] << ": [SUPPORTED] Reserved / ? - (avx512-rao-fp)" << endl : std::cout << "EBX bit 30: " << ebxBits[30] << ": [UNSUPPORTED] Reserved / ? - (avx512-rao-fp)" << endl;
+	(ebxBits[31]) ? std::cout << "EBX bit 31: " << ebxBits[31] << ": [SUPPORTED] Reserved / ? - (avx512-rao-fp)" << endl : std::cout << "EBX bit 31: " << ebxBits[31] << ": [UNSUPPORTED] Reserved / ? - (avx512-rao-fp)" << endl;
 	std::cout << endl;
 
-	(ecxBits[0]) ? std::cout << "ECX bit 0: " << ecxBits[0] << ": [SUPPORTED] Reserved" << endl : std::cout << "ECX bit 0: " << ecxBits[0] << ": [UNSUPPORTED] Reserved" << endl;
-	(ecxBits[1]) ? std::cout << "ECX bit 1: " << ecxBits[1] << ": [SUPPORTED] Reserved" << endl : std::cout << "ECX bit 1: " << ecxBits[1] << ": [UNSUPPORTED] Reserved" << endl;
-	(ecxBits[2]) ? std::cout << "ECX bit 2: " << ecxBits[2] << ": [SUPPORTED] Reserved" << endl : std::cout << "ECX bit 2: " << ecxBits[2] << ": [UNSUPPORTED] Reserved" << endl;
+	(ecxBits[0]) ? std::cout << "ECX bit 0: " << ecxBits[0] << ": [SUPPORTED] Asymmetric RDT Monitoring capability - (RDT_M_­ASYM)" << endl : std::cout << "ECX bit 0: " << ecxBits[0] << ": [UNSUPPORTED] Asymmetric RDT Monitoring capability - (RDT_M_­ASYM)" << endl;
+	(ecxBits[1]) ? std::cout << "ECX bit 1: " << ecxBits[1] << ": [SUPPORTED] Asymmetric RDT Allocation capability - (RDT_A_­ASYM)" << endl : std::cout << "ECX bit 1: " << ecxBits[1] << ": [UNSUPPORTED] Asymmetric RDT Allocation capability - (RDT_A_­ASYM)" << endl;
+	(ecxBits[2]) ? std::cout << "ECX bit 2: " << ecxBits[2] << ": [SUPPORTED] Reserved / (X86S, cancelled) - (legacy_­reduced_­isa)" << endl : std::cout << "ECX bit 2: " << ecxBits[2] << ": [UNSUPPORTED] Reserved / (X86S, cancelled) - (legacy_­reduced_­isa)" << endl;
 	(ecxBits[3]) ? std::cout << "ECX bit 3: " << ecxBits[3] << ": [SUPPORTED] Reserved" << endl : std::cout << "ECX bit 3: " << ecxBits[3] << ": [UNSUPPORTED] Reserved" << endl;
-	(ecxBits[4]) ? std::cout << "ECX bit 4: " << ecxBits[4] << ": [SUPPORTED] Reserved" << endl : std::cout << "ECX bit 4: " << ecxBits[4] << ": [UNSUPPORTED] Reserved" << endl;
-	(ecxBits[5]) ? std::cout << "ECX bit 5: " << ecxBits[5] << ": [SUPPORTED] Reserved" << endl : std::cout << "ECX bit 5: " << ecxBits[5] << ": [UNSUPPORTED] Reserved" << endl;
+	(ecxBits[4]) ? std::cout << "ECX bit 4: " << ecxBits[4] << ": [SUPPORTED] 64-bit SIPI (Startup InterProcessor Interrupt) (part of cancelled X86S) - (sipi64)" << endl : std::cout << "ECX bit 4: " << ecxBits[4] << ": [UNSUPPORTED] 64-bit SIPI (Startup InterProcessor Interrupt) (part of cancelled X86S) - (sipi64)" << endl;
+	(ecxBits[5]) ? std::cout << "ECX bit 5: " << ecxBits[5] << ": [SUPPORTED] Immediate forms of the RDMSR and WRMSRNS instructions - (MSR_IMM)" << endl : std::cout << "ECX bit 5: " << ecxBits[5] << ": [UNSUPPORTED] Immediate forms of the RDMSR and WRMSRNS instructions - (MSR_IMM)" << endl;
 	(ecxBits[6]) ? std::cout << "ECX bit 6: " << ecxBits[6] << ": [SUPPORTED] Reserved" << endl : std::cout << "ECX bit 6: " << ecxBits[6] << ": [UNSUPPORTED] Reserved" << endl;
 	(ecxBits[7]) ? std::cout << "ECX bit 7: " << ecxBits[7] << ": [SUPPORTED] Reserved" << endl : std::cout << "ECX bit 7: " << ecxBits[7] << ": [UNSUPPORTED] Reserved" << endl;
 	(ecxBits[8]) ? std::cout << "ECX bit 8: " << ecxBits[8] << ": [SUPPORTED] Reserved" << endl : std::cout << "ECX bit 8: " << ecxBits[8] << ": [UNSUPPORTED] Reserved" << endl;
@@ -1662,30 +1662,30 @@ int main(int argc, char* argv[]) {
 	std::cout << endl;
 
 	(edxBits[0]) ? std::cout << "EDX bit 0: " << edxBits[0] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 0: " << edxBits[0] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[1]) ? std::cout << "EDX bit 1: " << edxBits[1] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 1: " << edxBits[1] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[2]) ? std::cout << "EDX bit 2: " << edxBits[2] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 2: " << edxBits[2] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[3]) ? std::cout << "EDX bit 3: " << edxBits[3] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 3: " << edxBits[3] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[4]) ? std::cout << "EDX bit 4: " << edxBits[4] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 4: " << edxBits[4] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[5]) ? std::cout << "EDX bit 5: " << edxBits[5] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 5: " << edxBits[5] << ": [UNSUPPORTED] Reserved" << endl;
+	(edxBits[1]) ? std::cout << "EDX bit 1: " << edxBits[1] << ": [SUPPORTED] Reserved / ? - (avx512-vnni-fp16)" << endl : std::cout << "EDX bit 1: " << edxBits[1] << ": [UNSUPPORTED] Reserved / ? - (avx512-vnni-fp16)" << endl;
+	(edxBits[2]) ? std::cout << "EDX bit 2: " << edxBits[2] << ": [SUPPORTED] Reserved / ? - (avx512-vnni-int8)" << endl : std::cout << "EDX bit 2: " << edxBits[2] << ": [UNSUPPORTED] Reserved / ? - (avx512-vnni-int8)" << endl;
+	(edxBits[3]) ? std::cout << "EDX bit 3: " << edxBits[3] << ": [SUPPORTED] Reserved / ? - (avx512-ne-convert)" << endl : std::cout << "EDX bit 3: " << edxBits[3] << ": [UNSUPPORTED] Reserved / ? - (avx512-ne-convert)" << endl;
+	(edxBits[4]) ? std::cout << "EDX bit 4: " << edxBits[4] << ": [SUPPORTED] AVX VNNI INT8 instructions - (avx-vnni-int8)" << endl : std::cout << "EDX bit 4: " << edxBits[4] << ": [UNSUPPORTED] AVX VNNI INT8 instructions - (avx-vnni-int8)" << endl;
+	(edxBits[5]) ? std::cout << "EDX bit 5: " << edxBits[5] << ": [SUPPORTED] AVX no-exception FP conversion instructions (bfloat16↔FP32 and FP16→FP32) - (avx-ne-convert)" << endl : std::cout << "EDX bit 5: " << edxBits[5] << ": [UNSUPPORTED] AVX no-exception FP conversion instructions (bfloat16↔FP32 and FP16→FP32) - (avx-ne-convert)" << endl;
 	(edxBits[6]) ? std::cout << "EDX bit 6: " << edxBits[6] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 6: " << edxBits[6] << ": [UNSUPPORTED] Reserved" << endl;
 	(edxBits[7]) ? std::cout << "EDX bit 7: " << edxBits[7] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 7: " << edxBits[7] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[8]) ? std::cout << "EDX bit 8: " << edxBits[8] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 8: " << edxBits[8] << ": [UNSUPPORTED] Reserved" << endl;
+	(edxBits[8]) ? std::cout << "EDX bit 8: " << edxBits[8] << ": [SUPPORTED] AMX support for \"complex\" tiles (TCMMIMFP16PS and TCMMRLFP16PS) - (amx-complex)" << endl : std::cout << "EDX bit 8: " << edxBits[8] << ": [UNSUPPORTED] AMX support for \"complex\" tiles (TCMMIMFP16PS and TCMMRLFP16PS) - (amx-complex)" << endl;
 	(edxBits[9]) ? std::cout << "EDX bit 9: " << edxBits[9] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 9: " << edxBits[9] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[10]) ? std::cout << "EDX bit 10: " << edxBits[10] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 10: " << edxBits[10] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[11]) ? std::cout << "EDX bit 11: " << edxBits[11] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 11: " << edxBits[11] << ": [UNSUPPORTED] Reserved" << endl;
+	(edxBits[10]) ? std::cout << "EDX bit 10: " << edxBits[10] << ": [SUPPORTED] AVX VNNI INT16 instructions - (avx-vnni-int16)" << endl : std::cout << "EDX bit 10: " << edxBits[10] << ": [UNSUPPORTED] AVX VNNI INT16 instructions - (avx-vnni-int16)" << endl;
+	(edxBits[11]) ? std::cout << "EDX bit 11: " << edxBits[11] << ": [SUPPORTED] Reserved / ? - (avx512-vnni-int16)" << endl : std::cout << "EDX bit 11: " << edxBits[11] << ": [UNSUPPORTED] Reserved / ? - (avx512-vnni-int16)" << endl;
 	(edxBits[12]) ? std::cout << "EDX bit 12: " << edxBits[12] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 12: " << edxBits[12] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[13]) ? std::cout << "EDX bit 13: " << edxBits[13] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 13: " << edxBits[13] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[14]) ? std::cout << "EDX bit 14: " << edxBits[14] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 14: " << edxBits[14] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[15]) ? std::cout << "EDX bit 15: " << edxBits[15] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 15: " << edxBits[15] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[16]) ? std::cout << "EDX bit 16: " << edxBits[16] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 16: " << edxBits[16] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[17]) ? std::cout << "EDX bit 17: " << edxBits[17] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 17: " << edxBits[17] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[18]) ? std::cout << "EDX bit 18: " << edxBits[18] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 18: " << edxBits[18] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[19]) ? std::cout << "EDX bit 19: " << edxBits[19] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 19: " << edxBits[19] << ": [UNSUPPORTED] Reserved" << endl;
+	(edxBits[13]) ? std::cout << "EDX bit 13: " << edxBits[13] << ": [SUPPORTED] User-timer events: IA32_UINTR_TIMER (1B00h) MSR - (utmr)" << endl : std::cout << "EDX bit 13: " << edxBits[13] << ": [UNSUPPORTED] User-timer events: IA32_UINTR_TIMER (1B00h) MSR - (utmr)" << endl;
+	(edxBits[14]) ? std::cout << "EDX bit 14: " << edxBits[14] << ": [SUPPORTED] Instruction-cache prefetch instructions (PREFETCHIT0 and PREFETCHIT1) - (prefetchi)" << endl : std::cout << "EDX bit 14: " << edxBits[14] << ": [UNSUPPORTED] Instruction-cache prefetch instructions (PREFETCHIT0 and PREFETCHIT1) - (prefetchi)" << endl;
+	(edxBits[15]) ? std::cout << "EDX bit 15: " << edxBits[15] << ": [SUPPORTED] User-mode MSR access instructions (URDMSR and UWRMSR) - (user_msr)" << endl : std::cout << "EDX bit 15: " << edxBits[15] << ": [UNSUPPORTED] User-mode MSR access instructions (URDMSR and UWRMSR) - (user_msr)" << endl;
+	(edxBits[16]) ? std::cout << "EDX bit 16: " << edxBits[16] << ": [SUPPORTED] Reserved / ? - (avx512-bf16-ne)" << endl : std::cout << "EDX bit 16: " << edxBits[16] << ": [UNSUPPORTED] Reserved / ? - (avx512-bf16-ne)" << endl;
+	(edxBits[17]) ? std::cout << "EDX bit 17: " << edxBits[17] << ": [SUPPORTED] If 1, the UIRET (User Interrupt Return) instruction will set UIF (User Interrupt Flag) to the value of bit 1 of the RFLAGS image popped off the stack. - (uiret-uif-from-rflags)" << endl : std::cout << "EDX bit 17: " << edxBits[17] << ": [UNSUPPORTED] If 1, the UIRET (User Interrupt Return) instruction will set UIF (User Interrupt Flag) to the value of bit 1 of the RFLAGS image popped off the stack. - (uiret-uif-from-rflags)" << endl;
+	(edxBits[18]) ? std::cout << "EDX bit 18: " << edxBits[18] << ": [SUPPORTED] If 1, then Control-Flow Enforcement (CET) Supervisor Shadow Stacks (SSS) are guaranteed not to become prematurely busy as long as shadow stack switching does not cause page faults on the stack being switched to. - (cet-sss)" << endl : std::cout << "EDX bit 18: " << edxBits[18] << ": [UNSUPPORTED] If 1, then Control-Flow Enforcement (CET) Supervisor Shadow Stacks (SSS) are guaranteed not to become prematurely busy as long as shadow stack switching does not cause page faults on the stack being switched to. - (cet-sss)" << endl;
+	(edxBits[19]) ? std::cout << "EDX bit 19: " << edxBits[19] << ": [SUPPORTED] AVX10 Converged Vector ISA (see also leaf 24h) - (avx10)" << endl : std::cout << "EDX bit 19: " << edxBits[19] << ": [UNSUPPORTED] AVX10 Converged Vector ISA (see also leaf 24h) - (avx10)" << endl;
 	(edxBits[20]) ? std::cout << "EDX bit 20: " << edxBits[20] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 20: " << edxBits[20] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[21]) ? std::cout << "EDX bit 21: " << edxBits[21] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 21: " << edxBits[21] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[22]) ? std::cout << "EDX bit 22: " << edxBits[22] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 22: " << edxBits[22] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[23]) ? std::cout << "EDX bit 23: " << edxBits[23] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 23: " << edxBits[23] << ": [UNSUPPORTED] Reserved" << endl;
-	(edxBits[24]) ? std::cout << "EDX bit 24: " << edxBits[24] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 24: " << edxBits[24] << ": [UNSUPPORTED] Reserved" << endl;
+	(edxBits[21]) ? std::cout << "EDX bit 21: " << edxBits[21] << ": [SUPPORTED] Advanced Performance Extensions, Foundation (adds REX2 and extended EVEX prefix encodings to support 32 GPRs, as well as some new instructions) - (APX_F)" << endl : std::cout << "EDX bit 21: " << edxBits[21] << ": [UNSUPPORTED] Advanced Performance Extensions, Foundation (adds REX2 and extended EVEX prefix encodings to support 32 GPRs, as well as some new instructions) - (APX_F)" << endl;
+	(edxBits[22]) ? std::cout << "EDX bit 22: " << edxBits[22] << ": [SUPPORTED] If 1, then trusted execution environment technologies (Intel TDX and Intel SGX) support attestation rooted in the on-chip Security Engine. - (SEC_TEE_­ATTESTATION)" << endl : std::cout << "EDX bit 22: " << edxBits[22] << ": [UNSUPPORTED] If 1, then trusted execution environment technologies (Intel TDX and Intel SGX) support attestation rooted in the on-chip Security Engine. - (SEC_TEE_­ATTESTATION)" << endl;
+	(edxBits[23]) ? std::cout << "EDX bit 23: " << edxBits[23] << ": [SUPPORTED] MWAIT instruction - (mwait)" << endl : std::cout << "EDX bit 23: " << edxBits[23] << ": [UNSUPPORTED] MWAIT instruction - (mwait)" << endl;
+	(edxBits[24]) ? std::cout << "EDX bit 24: " << edxBits[24] << ": [SUPPORTED] Static Lockstep Mode (bit 0 of IA32_INTEGRITY_STATUS MSR is available) - (slsm)" << endl : std::cout << "EDX bit 24: " << edxBits[24] << ": [UNSUPPORTED] Static Lockstep Mode (bit 0 of IA32_INTEGRITY_STATUS MSR is available) - (slsm)" << endl;
 	(edxBits[25]) ? std::cout << "EDX bit 25: " << edxBits[25] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 25: " << edxBits[25] << ": [UNSUPPORTED] Reserved" << endl;
 	(edxBits[26]) ? std::cout << "EDX bit 26: " << edxBits[26] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 26: " << edxBits[26] << ": [UNSUPPORTED] Reserved" << endl;
 	(edxBits[27]) ? std::cout << "EDX bit 27: " << edxBits[27] << ": [SUPPORTED] Reserved" << endl : std::cout << "EDX bit 27: " << edxBits[27] << ": [UNSUPPORTED] Reserved" << endl;
@@ -2408,12 +2408,12 @@ int main(int argc, char* argv[]) {
 	std::cout << "EAX=0x80000007: [EDX] = " << edxBits << endl;
 	std::cout << endl;
 	
-	std::cout << "EAX=0x80000008: [Processor Feedback info in EAX]:" << endl;
-	std::cout << "EAX=0x80000008: EAX Bits 7:0: Number of Processor Feedback MSR pairs available, starting from MSR C001_0080 onwards - (NumberOfMonitors) = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 0, 8), 8) << endl;
-	std::cout << "EAX=0x80000008: EAX Bits 15:8: Processor Feedback Capabilities version - (Version) = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 8, 8), 8) << endl;
-	std::cout << "EAX=0x80000008: EAX Bits 31:16: Maximum time between reads (in milliseconds) that software should use to avoid two wraps. - (MaxWrapTime) = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 16, 16), 16) << endl;
+	std::cout << "EAX=0x80000007: [Processor Feedback info in EAX]:" << endl;
+	std::cout << "EAX=0x80000007: EAX Bits 7:0: Number of Processor Feedback MSR pairs available, starting from MSR C001_0080 onwards - (NumberOfMonitors) = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 0, 8), 8) << endl;
+	std::cout << "EAX=0x80000007: EAX Bits 15:8: Processor Feedback Capabilities version - (Version) = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 8, 8), 8) << endl;
+	std::cout << "EAX=0x80000007: EAX Bits 31:16: Maximum time between reads (in milliseconds) that software should use to avoid two wraps. - (MaxWrapTime) = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 16, 16), 16) << endl;
 
-	std::cout << "EAX=0xC0000006: Feature bits in EBX:" << endl;
+	std::cout << "EAX=0x80000007: Feature bits in EBX:" << endl;
 	(ebxBits[0]) ? std::cout << "EBX bit 0: " << ebxBits[0] << ": [SUPPORTED] MCA (Machine Check Architecture) overflow recovery support - (MCAOverflowRecov)" << endl : std::cout << "EBX bit 0: " << ebxBits[0] << ": [UNSUPPORTED] MCA (Machine Check Architecture) overflow recovery support - (MCAOverflowRecov)" << endl;
 	(ebxBits[1]) ? std::cout << "EBX bit 1: " << ebxBits[1] << ": [SUPPORTED] Software uncorrectable error containment and recovery capability - (SUCCOR)" << endl : std::cout << "EBX bit 1: " << ebxBits[1] << ": [UNSUPPORTED] Software uncorrectable error containment and recovery capability - (SUCCOR)" << endl;
 	(ebxBits[2]) ? std::cout << "EBX bit 2: " << ebxBits[2] << ": [SUPPORTED] Hardware assert support (MSRs C001_10C0 to C001_10DF) - (HWA)" << endl : std::cout << "EBX bit 2: " << ebxBits[2] << ": [UNSUPPORTED] Hardware assert support (MSRs C001_10C0 to C001_10DF) - (HWA)" << endl;
@@ -2448,11 +2448,11 @@ int main(int argc, char* argv[]) {
 	(ebxBits[31]) ? std::cout << "EBX bit 31: " << ebxBits[31] << ": [SUPPORTED] Reserved" << endl : std::cout << "EBX bit 31: " << ebxBits[31] << ": [UNSUPPORTED] Reserved" << endl;
 	std::cout << endl;
 
-	std::cout << "EAX=0x80000008: [Power monitoring interface info in ECX]:" << endl;
-	std::cout << "EAX=0x80000008: EAX Bits 31:0: Ratio of compute unit power accumulator sample period to TSC counter period. - (CpuPwrSample­TimeRatio) = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 0, 32), 32) << endl;
+	std::cout << "EAX=0x80000007: [Power monitoring interface info in ECX]:" << endl;
+	std::cout << "EAX=0x80000007: EAX Bits 31:0: Ratio of compute unit power accumulator sample period to TSC counter period. - (CpuPwrSampleTimeRatio) = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 0, 32), 32) << endl;
 	std::cout << endl;
 
-	std::cout << "EAX=0xC0000008: Feature bits in EDX:" << endl;
+	std::cout << "EAX=0x80000007: Feature bits in EDX:" << endl;
 	(edxBits[0]) ? std::cout << "EDX bit 0: " << edxBits[0] << ": [SUPPORTED] Temperature Sensor - (TS)" << endl : std::cout << "EDX bit 0: " << edxBits[0] << ": [UNSUPPORTED] Temperature Sensor - (TS)" << endl;
 	(edxBits[1]) ? std::cout << "EDX bit 1: " << edxBits[1] << ": [SUPPORTED] Frequency ID Control - (FID)" << endl : std::cout << "EDX bit 1: " << edxBits[1] << ": [UNSUPPORTED] Frequency ID Control - (FID)" << endl;
 	(edxBits[2]) ? std::cout << "EDX bit 2: " << edxBits[2] << ": [SUPPORTED] Voltage ID Control - (VID)" << endl : std::cout << "EDX bit 2: " << edxBits[2] << ": [UNSUPPORTED] Voltage ID Control - (VID)" << endl;
