@@ -1915,7 +1915,7 @@ int main(int argc, char* argv[]) {
 	ebxBits = bitset<32>(cpuInfo[1]);
 	ecxBits = bitset<32>(cpuInfo[2]);
 	edxBits = bitset<32>(cpuInfo[3]);
-	std::cout << "EAX=0x14: [Processor Trace]:" << endl;
+	std::cout << "EAX=0x14: ECX=0x0 [Processor Trace]:" << endl;
 	std::cout << "EAX=0x14: [EAX] = " << eaxBits << endl;
 	std::cout << "EAX=0x14: [EBX] = " << ebxBits << endl;
 	std::cout << "EAX=0x14: [ECX] = " << ecxBits << endl;
@@ -1990,22 +1990,42 @@ int main(int argc, char* argv[]) {
 	(ecxBits[31]) ? std::cout << "ECX bit 31: IP (Instruction Pointer) format for trace packets that contain IP payloads: " << ecxBits[31] << ": 0=RIP (effective-address IP)" << endl : std::cout << "ECX bit 31: " << ecxBits[31] << ": 1=LIP (linear-address IP, with CS base address added)" << endl;
 	std::cout << endl;
 
-	// TODO
 	// CPUID EAX=14h,ECX=1: Processor Trace packet generation information in EAX, EBX and ECX 
 	__cpuidex(cpuInfo, 0x14, 1);
 	eaxBits = bitset<32>(cpuInfo[0]);
 	ebxBits = bitset<32>(cpuInfo[1]);
 	ecxBits = bitset<32>(cpuInfo[2]);
 	edxBits = bitset<32>(cpuInfo[3]);
-	std::cout << "EAX=0x14: [Processor Trace]:" << endl;
+	std::cout << "EAX=0x14: ECX=0x1 [Processor Trace]:" << endl;
 	std::cout << "EAX=0x14: [EAX] = " << eaxBits << endl;
 	std::cout << "EAX=0x14: [EBX] = " << ebxBits << endl;
 	std::cout << "EAX=0x14: [ECX] = " << ecxBits << endl;
 	std::cout << "EAX=0x14: [EDX] = " << edxBits << endl;
 	std::cout << endl;
 
+	std::cout << "EAX=0x14: Number of configurable address ranges for filtering = (rangecnt): EAX Bits 2:0 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 0, 3), 3) << endl;
+	std::cout << "EAX=0x14: Reserved: EAX Bits 7:3 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 3, 5), 5) << endl;
+	std::cout << "EAX=0x14: Number of IA32_RTIT_TRIGGERx_CFG MSRs. (Number of triggers supported is 4x this value) - (TRIGGER_CFG_CNT): EAX Bits 10:8 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 10, 3), 3) << endl;
+	std::cout << "EAX=0x14: Reserved: EAX Bits 14:11 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 14, 4), 4) << endl;
+	std::cout << "EAX=0x14: Reserved: EAX Bits 15 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 15, 1), 1) << endl;
+	std::cout << "EAX=0x14: Bitmap of supported MTC period encodings - (mtc_rate): EAX Bits 31:16 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 16, 16), 16) << endl;
+	std::cout << endl;
 
+	//EBX
+	std::cout << "EBX=0x14: Bitmap of supported cycle threshold value encodings - (cyc_thresholds): EBX Bits 15:0 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[1], 0, 16), 16) << endl;
+	std::cout << "EBX=0x14: Bitmap of supported Configurable PSB frequency encodings - (psb_rate): EBX Bits 31:16 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[1], 16, 16), 16) << endl;
+	std::cout << endl;
 
+	//ECX
+	std::cout << "EAX=0x14: Trigger Action EN_ICNT supported = (ICNT): ECX Bits 0 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 0, 1), 1) << endl;
+	std::cout << "EAX=0x14: Trigger actions TRACE_PAUSE and TRACE_RESUME supported  = (TRIGGER_­PAUSE): ECX Bits 1 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 1, 1), 1) << endl;
+	std::cout << "EAX=0x14: Reserved: ECX Bits 2 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 2, 1), 1) << endl;
+	std::cout << "EAX=0x14: Reserved: ECX Bits 7:3 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 3, 5), 5) << endl;
+	std::cout << "EAX=0x14: Reserved: ECX Bits 10:8 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 10, 3), 3) << endl;
+	std::cout << "EAX=0x14: Reserved: ECX Bits 14:11 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 14, 4), 4) << endl;
+	std::cout << "EAX=0x14: Trigger input DR match supported - (TRIGGER_­DR_MATCH): ECX Bits 15 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 15, 1), 1) << endl;
+	std::cout << "EAX=0x14: Bitmap of supported Configurable PSB frequency encodings - (psb_rate): ECX Bits 31:16 = " << std::hex << "0x" << ZeroPadNumber(extractBits(cpuInfo[0], 16, 16), 16) << endl;
+	std::cout << endl;
 
 
 
